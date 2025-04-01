@@ -22,6 +22,7 @@ gem 'nanoid'
 gem 'rqrcode'
 
 gem 'slim-rails'
+gem 'dartsass-rails'
 
 group :development, :test do
   gem 'pry-rails'
