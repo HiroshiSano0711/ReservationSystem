@@ -1,0 +1,2 @@
+class TeamBusinessSetting < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class ServiceMenuUser < ApplicationRecord
+end
