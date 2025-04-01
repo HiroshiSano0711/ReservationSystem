@@ -82,8 +82,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   create_table "team_business_settings", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.jsonb "working_wday", null: false
-    t.time "start_time", null: false
-    t.time "end_time", null: false
+    t.time "opening_time", null: false
+    t.time "closing_time", null: false
     t.integer "max_reservation_month", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
