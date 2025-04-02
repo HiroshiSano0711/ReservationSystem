@@ -9,4 +9,6 @@ h1 チームスタッフ
     dd = user.role
     dd = user.status
     dd = user.accepts_direct_booking
+    - user.service_menus.each do |service_menu|
+      dd = service_menu.menu_name
     = link_to '編集', edit_admin_user_path(user)

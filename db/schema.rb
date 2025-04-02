@@ -101,7 +101,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.bigint "team_id", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.integer "role", null: false
+    t.integer "role", default: 1, null: false
     t.string "nick_name", null: false
     t.string "profile_image"
     t.integer "status", null: false

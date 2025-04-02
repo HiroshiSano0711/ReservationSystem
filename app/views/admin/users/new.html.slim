@@ -13,6 +13,15 @@ h1 スタッフの新規登録
   = f.label :status, '勤務状況'
   = f.select :status, User.statuses.keys.to_a, {}
 
+  br
+  = label_tag '担当するサービスメニュー'
+  = hidden_field_tag 'service_menus[ids][]', ''
+  - @service_menus.each do |service_menu|
+    = label_tag "service_menus_ids_#{service_menu.id}" do
+      = service_menu.menu_name
+      = check_box_tag 'service_menus[ids][]', service_menu.id, { checked: @user.service_menus.ids.include?(service_menu.id), id: "service_menus_ids_#{service_menu.id}" }
+  br
+
   = f.label :accepts_direct_booking, '指名受付'
   = f.select :accepts_direct_booking, { '受付しない': 0, '受付する': 1 }, { selected: 0 }
 
