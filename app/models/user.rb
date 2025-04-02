@@ -3,5 +3,4 @@ class User < ApplicationRecord
   belongs_to :team
   enum :role, { admin_staff: 0, staff: 1 }
   enum :status, { active: 0, retire: 1, leave_on: 2 }
-
 end

@@ -16,17 +16,17 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 
-gem 'devise'
-gem 'devise-two-factor'
-gem 'devise-i18n'
-gem 'nanoid'
-gem 'rqrcode'
+gem "devise"
+gem "devise-two-factor"
+gem "devise-i18n"
+gem "nanoid"
+gem "rqrcode"
 
-gem 'slim-rails'
-gem 'dartsass-rails'
+gem "slim-rails"
+gem "dartsass-rails"
 
 group :development, :test do
-  gem 'pry-rails'
+  gem "pry-rails"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
@@ -39,5 +39,5 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'rspec-rails'
+  gem "rspec-rails"
 end
