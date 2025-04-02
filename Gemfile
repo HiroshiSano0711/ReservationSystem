@@ -26,8 +26,8 @@ gem "slim-rails"
 gem "dartsass-rails"
 
 group :development, :test do
-  gem "pry-rails"
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem 'pry-rails'
+  gem 'awesome_print'
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
 end

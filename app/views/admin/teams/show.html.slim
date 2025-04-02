@@ -1,0 +1,9 @@
+h1 Admin::Teams#show
+
+dl
+  dt = @team.name
+  dd = @team.permalink
+  dd = @team.description
+  dd = @team.phone_number
+
+= link_to 'チームの編集', edit_admin_team_path

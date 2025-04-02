@@ -1,0 +1,8 @@
+h1 営業設定
+
+= link_to '営業設定の編集', edit_admin_team_business_setting_path(@team)
+
+- @team_business_setting.business_hours_for_day_of_week.each do |key, value|
+  = key
+  = value['open'] + '~' + value['close']
+  br
