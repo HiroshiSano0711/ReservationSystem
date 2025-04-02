@@ -1,0 +1,12 @@
+h1 サービスメニュー
+
+= link_to '新規サービスメニュー追加', new_admin_service_menu_path
+
+- @service_menus.each do |service_menu|
+  dl
+    dt = service_menu.menu_name 
+    dd = service_menu.duration
+    dd = service_menu.price
+    dd = service_menu.required_staff_count
+
+    = link_to '編集', edit_admin_service_menu_path(service_menu)

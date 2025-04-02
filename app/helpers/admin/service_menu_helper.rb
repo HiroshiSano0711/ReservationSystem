@@ -1,0 +1,2 @@
+module Admin::ServiceMenuHelper
+end

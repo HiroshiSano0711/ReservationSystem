@@ -1,2 +1,24 @@
-h1 Admin::Users#new
-p Find me in app/views/admin/users/new.html.slim
+h1 スタッフの新規登録
+
+= form_with model: @user, url: admin_users_path, method: :post, local: true do |f|
+  = f.label :nick_name, 'ニックネーム'
+  = f.text_field :nick_name
+
+  = f.label :email, 'メールアドレス'
+  = f.email_field :email
+
+  = f.label :password, 'パスワード'
+  = f.password_field :password
+
+  = f.label :status, '勤務状況'
+  = f.select :status, User.statuses.keys.to_a, {}
+
+  = f.label :accepts_direct_booking, '指名受付'
+  = f.select :accepts_direct_booking, { '受付しない': 0, '受付する': 1 }, { selected: 0 }
+
+  = f.label :bio, '自己PR/経歴など'
+  = f.text_field :bio
+
+  = f.submit '登録'
+
+= link_to '戻る', admin_users_path

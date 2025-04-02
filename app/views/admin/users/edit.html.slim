@@ -1,2 +1,24 @@
-h1 Admin::Users#edit
-p Find me in app/views/admin/users/edit.html.slim
+h1 スタッフの編集
+
+= form_with model: @user, url: admin_user_path(@user), method: :patch, local: true do |f|
+  = f.label :nick_name, 'ニックネーム'
+  = f.text_field :nick_name
+
+  = f.label :email, 'メールアドレス'
+  = f.email_field :email
+
+  = f.label :password, 'パスワード'
+  = f.password_field :password
+
+  = f.label :status, '勤務状況'
+  = f.select :status, User.statuses.keys.to_a, {}
+
+  = f.label :accepts_direct_booking, '指名受付'
+  = f.check_box :accepts_direct_booking
+
+  = f.label :bio, '自己PR/経歴など'
+  = f.text_field :bio
+
+  = f.submit "更新する"
+
+  = link_to "戻る", admin_users_path

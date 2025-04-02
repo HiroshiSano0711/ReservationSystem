@@ -1,5 +1,7 @@
 h1 チームスタッフ
 
+= link_to '新規スタッフ追加', new_admin_user_path
+
 - @team.users.each do |user|
   dl
     dt = user.nick_name 
@@ -7,3 +9,4 @@ h1 チームスタッフ
     dd = user.role
     dd = user.status
     dd = user.accepts_direct_booking
+    = link_to '編集', edit_admin_user_path(user)

@@ -21,6 +21,5 @@ Rails.application.routes.draw do
     resources :reservations, except: %i[destroy]
   end
 
-  # 未ログインユーザー用のルート。
   root to: 'home#index'
 end
