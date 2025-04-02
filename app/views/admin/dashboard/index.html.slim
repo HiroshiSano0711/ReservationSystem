@@ -1,2 +1,10 @@
 h1 Admin::Dashboard#index
 p Find me in app/views/admin/dashboard/index.html.slim
+
+ul
+  li
+    = link_to 'チーム', admin_team_path(@team)
+  li
+    = link_to 'スタッフ', admin_users_path
+  li
+    = link_to '営業設定', admin_team_bussines_setting_path(@team)

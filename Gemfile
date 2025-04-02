@@ -18,6 +18,7 @@ gem "thruster", require: false
 
 gem 'devise'
 gem 'devise-two-factor'
+gem 'devise-i18n'
 gem 'nanoid'
 gem 'rqrcode'
 
