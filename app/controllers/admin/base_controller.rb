@@ -9,7 +9,7 @@ class Admin::BaseController < ApplicationController
 
   def check_admin
     unless current_user.admin_staff?
-      redirect_to customer_root_path, alert: "管理者権限がありません。"
+      redirect_to root_path, alert: "管理者権限がありません。"
     end
   end
 

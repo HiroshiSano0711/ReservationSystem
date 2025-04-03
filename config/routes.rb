@@ -1,19 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
-
-  namespace :customer do
-    root to: 'mypage#index'
-    resources :reservations, param: :public_id, only: %i[new update] do
-      member do
-        post 'temporary'
-        get 'confirm'
-        get 'complete'
-      end
-    end
-  end
-
   namespace :admin do
-    root to: 'dashboard#index'
+    get '/', to: 'dashboard#index'
     resources :teams, only: %i[show edit update]
     resources :team_business_settings, only: %i[show edit update]
     resources :users
@@ -21,5 +8,15 @@ Rails.application.routes.draw do
     resources :reservations, except: %i[destroy]
   end
 
+  scope ':permalink', as: 'reservations' do
+    root to: 'reservations#new', via: :get
+    post '/', to: 'reservations#temporary'
+    get '/:public_id', to: 'reservations#confirm', as: 'confirm'
+    patch '/:public_id', to: 'reservations#complete', as: 'complete'
+  end
+
   root to: 'home#index'
+  get 'mypage', to: 'mypage#index'
+
+  devise_for :users
 end
