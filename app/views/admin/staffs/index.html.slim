@@ -13,4 +13,4 @@ h1 チームスタッフ
       dd = staff.staff_profile.accepts_direct_booking
       dd = staff.staff_profile.bio
     dd = staff.service_menus.map {|menu| menu.menu_name }.join(',')
-    = link_to '編集', edit_admin_staff_path(staff)
+    = link_to '編集', edit_admin_staff_profile_path(staff)

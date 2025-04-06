@@ -11,53 +11,17 @@ class Admin::StaffsController < Admin::BaseController
   def create
     @staff = @team.staffs.build(staff_params)
     if @staff.invite!
+      @staff.create_staff_profile!
       redirect_to admin_staffs_path, notice: 'スタッフを招待しました。'
     else
-      flash.now[:alert] = '登録に失敗しました。入力内容を確認してください。'
+      flash.now[:alert] = '招待に失敗しました。システム管理者へご連絡ください。'
       render :new, status: :unprocessable_entity
-    end
-  end
-
-  def edit
-    @staff = Staff.find(params[:id])
-    @service_menus = @team.service_menus
-  end
-
-  def update
-    @staff = Staff.find(params[:id])
-    @staff.assign_attributes(staff_params)
-    @staff.build_staff_profile if @staff.staff_profile.blank?
-    @staff.build_staff_profile.assign_attributes(staff_profile_params)
-    @service_menus = @team.service_menus.where(id: service_menus_params[:ids])
-    @staff.service_menus = @service_menus
-
-    if @staff.staff_profile.save && @staff.save
-      redirect_to admin_staffs_path, notice: 'スタッフ情報を更新しました。'
-    else
-      flash.now[:alert] = '更新に失敗しました。入力内容を確認してください。'
-      render :edit, status: :unprocessable_entity
     end
   end
 
   private
 
   def staff_params
-    params.require(:staff).permit(
-      :email,
-      :password,
-      :working_status
-    )
-  end
-
-  def staff_profile_params
-    params.require(:staff_profile).permit(
-      :nick_name,
-      :accepts_direct_booking,
-      :bio
-    )
-  end
-
-  def service_menus_params
-    params.require(:service_menus).permit(ids: [])
+    params.require(:staff).permit(:email)
   end
 end

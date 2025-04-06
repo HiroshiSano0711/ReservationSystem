@@ -1,13 +1,9 @@
 h1 スタッフの編集
 
-= form_with model: @staff, url: admin_staff_path(@staff), method: :patch, local: true do |f|
+= form_with model: @staff, url: admin_staff_profile_path(@staff), method: :patch, local: true do |f|
   .p-form
-    = f.label :email, 'メールアドレス'
-    = f.email_field :email
-
-  .p-form
-    = f.label :password, 'パスワード'
-    = f.password_field :password
+    label メールアドレス
+    = @staff.email
 
   = fields_for :staff_profile, @staff.staff_profile do |ff|
     .p-form

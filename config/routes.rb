@@ -3,7 +3,8 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#index'
     resources :teams, only: %i[show edit update]
     resources :team_business_settings, only: %i[show edit update]
-    resources :staffs
+    resources :staffs, only: %i[index new create]
+    resources :staff_profiles, only: %i[edit update], param: :staff_id
     resources :service_menus
     resources :reservations, except: %i[destroy]
   end
