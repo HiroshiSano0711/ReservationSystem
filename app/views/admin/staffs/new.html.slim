@@ -1,0 +1,10 @@
+h1 スタッフの招待
+
+= form_with model: @staff, url: admin_staffs_path, method: :post, local: true do |f|
+  .p-form
+    = f.label :email, 'メールアドレス'
+    = f.email_field :email
+
+  .p-form
+    = link_to '戻る', admin_staffs_path
+    = f.submit '招待する'

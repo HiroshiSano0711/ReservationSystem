@@ -1,19 +1,19 @@
-class Admin::UsersController < Admin::BaseController
+class Admin::StaffProfilesController < Admin::BaseController
   def index
   end
 
   def new
-    @user = User.new
+    @staff = Staff.new
     @service_menus = @team.service_menus
   end
 
   def create
-    @user = @team.users.build(user_params)
+    @staff = @team.staffs.build(staff_params)
     @service_menus = @team.service_menus.find(service_menus_params[:ids].compact_blank)
-    @user.service_menus << @service_menus
+    @staff.service_menus << @service_menus
 
-    if @user.save
-      redirect_to admin_users_path, notice: 'スタッフを作成しました。'
+    if @staff.save
+      redirect_to admin_staffs_path, notice: 'スタッフを作成しました。'
     else
       flash.now[:alert] = '登録に失敗しました。入力内容を確認してください。'
       render :new, status: :unprocessable_entity
@@ -21,17 +21,17 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def edit
-    @user = User.find(params[:id])
+    @staff = Staff.find(params[:id])
     @service_menus = @team.service_menus
   end
 
   def update
-    @user = User.find(params[:id])
+    @staff = Staff.find(params[:id])
     @service_menus = @team.service_menus.where(id: service_menus_params[:ids])
-    @user.service_menus = @service_menus
+    @staff.service_menus = @service_menus
 
-    if @user.update(user_params)
-      redirect_to admin_users_path, notice: 'スタッフ情報を更新しました。'
+    if @staff.update(staff_params)
+      redirect_to admin_staffs_path, notice: 'スタッフ情報を更新しました。'
     else
       flash.now[:alert] = '更新に失敗しました。入力内容を確認してください。'
       render :edit, status: :unprocessable_entity
@@ -40,12 +40,9 @@ class Admin::UsersController < Admin::BaseController
 
   private
 
-  def user_params
-    params.require(:user).permit(
+  def staff_params
+    params.require(:staff).permit(
       :nick_name,
-      :email,
-      :password,
-      :status,
       :accepts_direct_booking,
       :bio
     )

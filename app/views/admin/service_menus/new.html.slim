@@ -1,18 +1,22 @@
 h1 サービスメニューの新規登録
 
 = form_with model: @service_menu, url: admin_service_menus_path, method: :post, local: true do |f|
-  = f.label :menu_name, 'メニュー名'
-  = f.text_field :menu_name
+  .p-form
+    = f.label :menu_name, 'メニュー名'
+    = f.text_field :menu_name
 
-  = f.label :duration, '所要時間'
-  = f.number_field :duration
+  .p-form
+    = f.label :duration, '所要時間'
+    = f.number_field :duration
 
-  = f.label :price, '価格'
-  = f.number_field :price
+  .p-form
+    = f.label :price, '価格'
+    = f.number_field :price
 
-  = f.label :required_staff_count, '所要人数'
-  = f.number_field :required_staff_count
+  .p-form
+    = f.label :required_staff_count, '所要人数'
+    = f.number_field :required_staff_count
 
-  = f.submit '登録'
-
-= link_to '戻る', admin_service_menus_path
+  .p-form
+    = link_to '戻る', admin_service_menus_path
+    = f.submit '登録'

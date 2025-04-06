@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.admin_staff?
-      admin_root_path
+      admin_path
     else
-      customer_root_path
+      root_path
     end
   end
 end

@@ -19,6 +19,7 @@ gem "thruster", require: false
 gem "devise"
 gem "devise-two-factor"
 gem "devise-i18n"
+gem 'devise_invitable'
 gem "nanoid"
 gem "rqrcode"
 
@@ -34,6 +35,9 @@ end
 
 group :development do
   gem "web-console"
+  gem "rails-erd"
+  gem 'bullet'
+  gem 'letter_opener_web'
 end
 
 group :test do

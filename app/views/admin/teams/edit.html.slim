@@ -1,18 +1,22 @@
 h1 チーム情報の編集
 
 = form_with model: @team, url: admin_team_path(@team), method: :patch, local: true do |f|
-  = f.label :name, "チーム名"
-  = f.text_field :name
+  .p-form
+    = f.label :name, "チーム名"
+    = f.text_field :name
 
-  = f.label :description, "チームの概要"
-  = f.text_area :description, rows: 4
+  .p-form
+    = f.label :description, "チームの概要"
+    = f.text_area :description, rows: 4
 
-  = f.label :permalink, "パーマリンク"
-  = f.text_field :permalink
+  .p-form
+    = f.label :permalink, "パーマリンク"
+    = f.text_field :permalink
 
-  = f.label :phone_number, "連絡先電話番号"
-  = f.text_field :phone_number
+  .p-form
+    = f.label :phone_number, "連絡先電話番号"
+    = f.text_field :phone_number
 
-  = f.submit "更新する"
-
-  = link_to "戻る", admin_team_path(@team)
+  .p-form
+    = link_to "戻る", admin_team_path(@team)
+    = f.submit "更新する"

@@ -3,10 +3,14 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#index'
     resources :teams, only: %i[show edit update]
     resources :team_business_settings, only: %i[show edit update]
-    resources :users
+    resources :staffs
     resources :service_menus
     resources :reservations, except: %i[destroy]
   end
+
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+
+  devise_for :staffs
 
   scope ':permalink', as: 'reservations' do
     root to: 'reservations#new', via: :get
@@ -17,6 +21,4 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
   get 'mypage', to: 'mypage#index'
-
-  devise_for :users
 end

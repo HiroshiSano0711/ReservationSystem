@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ReservatoinDetailUserTest < ActiveSupport::TestCase
+class StaffProfileTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

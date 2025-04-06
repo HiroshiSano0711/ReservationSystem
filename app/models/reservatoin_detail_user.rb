@@ -1,2 +1,0 @@
-class ReservatoinDetailUser < ApplicationRecord
-end

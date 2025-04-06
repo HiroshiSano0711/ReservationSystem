@@ -1,3 +1,11 @@
+body {
+  font-family: 'Noto Sans Jp';
+}
+
+input[type="number"] {
+  text-align: right;
+}
+
 .wrapper {
   inline-size: 768px;
   margin: auto;
