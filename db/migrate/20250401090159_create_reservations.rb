@@ -5,8 +5,9 @@ class CreateReservations < ActiveRecord::Migration[8.0]
       t.belongs_to :customer
 
       t.string :public_id, null: false
-      t.datetime :start_time, null: false
-      t.datetime :end_time, null: false
+      t.date :date, null: false
+      t.time :start_time, null: false
+      t.time :end_time, null: false
       t.string :customer_name, null: false, default: ''
       t.string :customer_phone_number, null: false, default: ''
       t.integer :total_price, null: false

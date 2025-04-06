@@ -2,7 +2,7 @@ h1 Admin::Teams#show
 
 dl
   dt = @team.name
-  dd = @team.permalink
+  dd = request.protocol + request.host_with_port + '/' + @team.permalink
   dd = @team.description
   dd = @team.phone_number
 

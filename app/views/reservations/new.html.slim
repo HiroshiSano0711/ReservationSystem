@@ -1,0 +1,14 @@
+h1 = "#{@team.name}の予約ページ"
+h2 メニューを選択してください
+
+= form_with url: reservations_slots_path(permalink: @team.permalink), method: :get, data: { turbo_frame: 'available_slots' } do |f|
+  ul
+    - @menus.each do |menu|
+      li
+        = check_box_tag 'menu_ids[]', menu.id
+        = label_tag "menu_ids_#{menu.id}", "#{menu.menu_name}（#{menu.duration}分 / ¥#{menu.price}）"
+
+  = f.submit 'この内容で予約可能時間を表示', name: nil
+
+turbo-frame#available_slots
+  p メニューを選択すると、ここに予約可能な時間が表示されます

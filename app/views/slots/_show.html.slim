@@ -1,0 +1,11 @@
+turbo-frame#available_slots
+  h2 予約可能な時間帯
+
+  - if @slots.any?
+    - @slots.each do |week_slots|
+      dl
+        dt = week_slots[:date]
+      - week_slots[:slots].each do |slot|
+        dd = "#{slot[:start_time].strftime('%H:%M')} 〜 #{slot[:end_time].strftime('%H:%M')}"
+  - else
+    p 予約可能な時間はありません

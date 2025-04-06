@@ -6,6 +6,8 @@ h1 営業設定の編集
 
     .field
       = label_tag '月曜'
+    .field
+      = select_tag "team_business_setting[business_hours_for_day_of_week][mon][working_day]", options_for_select({'営業日': '1', '定休日': '0' }, selected: @team_business_setting.mon&.dig("working_day"))
 
       | 開店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][mon][open]", @team_business_setting.mon&.dig("open")
@@ -15,6 +17,8 @@ h1 営業設定の編集
 
     .field
       = label_tag '火曜'
+    .field
+      = select_tag "team_business_setting[business_hours_for_day_of_week][tue][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.tue&.dig("working_day"))
 
       | 開店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][tue][open]", @team_business_setting.tue&.dig("open")
@@ -24,6 +28,8 @@ h1 営業設定の編集
 
     .field
       = label_tag '水曜'
+    .field
+      = select_tag "team_business_setting[business_hours_for_day_of_week][wed][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.wed&.dig("working_day"))
 
       | 開店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][wed][open]", @team_business_setting.wed&.dig("open")
@@ -33,6 +39,8 @@ h1 営業設定の編集
 
     .field
       = label_tag '木曜'
+    .field
+      = select_tag "team_business_setting[business_hours_for_day_of_week][thu][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.thu&.dig("working_day"))
 
       | 開店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][thu][open]", @team_business_setting.thu&.dig("open")
@@ -42,6 +50,8 @@ h1 営業設定の編集
 
     .field
       = label_tag '金曜'
+    .field
+      = select_tag "team_business_setting[business_hours_for_day_of_week][fri][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.fri&.dig("working_day"))
 
       | 開店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][fri][open]", @team_business_setting.fri&.dig("open")
@@ -51,6 +61,8 @@ h1 営業設定の編集
 
     .field
       = label_tag '土曜'
+    .field
+      = select_tag "team_business_setting[business_hours_for_day_of_week][sat][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.sat&.dig("working_day"))
 
       | 開店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][sat][open]", @team_business_setting.sat&.dig("open")
@@ -60,6 +72,8 @@ h1 営業設定の編集
 
     .field
       = label_tag '日曜'
+    .field
+      = select_tag "team_business_setting[business_hours_for_day_of_week][sun][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.sun&.dig("working_day"))
 
       | 開店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][sun][open]", @team_business_setting.sun&.dig("open")

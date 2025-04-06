@@ -4,6 +4,7 @@ h1 営業設定
 
 - @team_business_setting.business_hours_for_day_of_week.each do |key, value|
   = key
+  = value[:working_day]
   = value['open'] + '~' + value['close']
   br
 

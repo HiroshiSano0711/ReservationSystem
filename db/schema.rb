@@ -70,8 +70,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.bigint "team_id", null: false
     t.bigint "customer_id"
     t.string "public_id", null: false
-    t.datetime "start_time", null: false
-    t.datetime "end_time", null: false
+    t.date "date", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
     t.string "customer_name", default: "", null: false
     t.string "customer_phone_number", default: "", null: false
     t.integer "total_price", null: false
