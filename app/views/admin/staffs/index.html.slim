@@ -6,7 +6,7 @@ h1 チームスタッフ
   dl
     dd = staff.email
     dd = staff.role
-    dd = staff.invitation_accepted_at.present? ? '招待中' : '招待承認済み'
+    dd = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
     - if staff.staff_profile.present?
       dd = staff.staff_profile.working_status
       dd = staff.staff_profile.nick_name

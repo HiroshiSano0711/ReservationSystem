@@ -26,7 +26,8 @@ class Admin::StaffsController < Admin::BaseController
   def update
     @staff = Staff.find(params[:id])
     @staff.assign_attributes(staff_params)
-    @staff.staff_profile.assign_attributes(staff_profile_params)
+    @staff.build_staff_profile if @staff.staff_profile.blank?
+    @staff.build_staff_profile.assign_attributes(staff_profile_params)
     @service_menus = @team.service_menus.where(id: service_menus_params[:ids])
     @staff.service_menus = @service_menus
 

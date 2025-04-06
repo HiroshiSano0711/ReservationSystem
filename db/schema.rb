@@ -111,7 +111,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   create_table "staff_profiles", force: :cascade do |t|
     t.bigint "staff_id", null: false
-    t.integer "working_status", null: false
+    t.integer "working_status", default: 0, null: false
     t.string "nick_name", default: "", null: false
     t.string "profile_image", default: "", null: false
     t.boolean "accepts_direct_booking", default: false, null: false
