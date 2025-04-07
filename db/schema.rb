@@ -15,10 +15,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   enable_extension "pg_catalog.plpgsql"
 
   create_table "customer_profiles", force: :cascade do |t|
+    t.bigint "customer_id", null: false
     t.string "name", default: "", null: false
     t.string "phone_number", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_customer_profiles_on_customer_id"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -173,6 +175,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.index ["permalink"], name: "index_teams_on_permalink", unique: true
   end
 
+  add_foreign_key "customer_profiles", "customers"
   add_foreign_key "reservation_details", "reservations"
   add_foreign_key "reservation_details", "staffs"
   add_foreign_key "reservations", "teams"

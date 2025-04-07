@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   scope ':permalink', as: 'reservations' do
     root to: 'reservations#new', via: :get
-    get '/slots', to: 'slots#show', as: :slots
+    get '/time_slot', to: 'reservations#time_slot'
     post '/', to: 'reservations#temporary'
     get '/:public_id', to: 'reservations#confirm', as: 'confirm'
     patch '/:public_id', to: 'reservations#complete', as: 'complete'

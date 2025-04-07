@@ -27,7 +27,7 @@ gem "slim-rails"
 gem "dartsass-rails"
 
 group :development, :test do
-  gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'awesome_print'
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
