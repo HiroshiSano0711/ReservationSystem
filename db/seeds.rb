@@ -99,7 +99,12 @@ reservation = Reservation.create!(
   end_time: '11:20',
   public_id: 'yoyaku-id',
   total_price: 9000,
-  total_duration: 70
+  total_duration: 70,
+  customer_name: '顧客1',
+  customer_phone_number: '09011112222',
+  assigned_staff_names: staff.staff_profile.nick_name,
+  menu_summary: 'カット, カラー',
+  status: 'finalize'
 )
 
 menu = ServiceMenu.find_by(menu_name: 'カット')

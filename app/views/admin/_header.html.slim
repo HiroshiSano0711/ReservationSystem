@@ -1,11 +1,14 @@
-ul
-  li
-    = link_to '予約一覧', admin_reservations_path
-  li
-    = link_to 'スタッフ', admin_staffs_path
-  li
-    = link_to 'サービスメニュー', admin_service_menus_path
-  li
-    = link_to '営業設定', admin_team_business_setting_path(@team)
-  li
-    = link_to 'チーム', admin_team_path(@team)
+nav.l-flex-col.l-nav
+  ul.l-flex-col
+    li.l-flex__item
+      = link_to 'ダッシュボード', admin_path
+    li.l-flex__item
+      = link_to '予約', admin_reservations_path
+    li.l-flex__item
+      = link_to 'スタッフ', admin_staffs_path
+    li.l-flex__item
+      = link_to 'サービスメニュー', admin_service_menus_path
+    li.l-flex__item
+      = link_to '営業設定', admin_team_business_setting_path(@team)
+    li.l-flex__item
+      = link_to 'チーム設定', admin_team_path(@team)

@@ -1,8 +1,8 @@
-h1 Admin::Teams#show
+h1 チーム設定
 
 dl
   dt = @team.name
-  dd = request.protocol + request.host_with_port + '/' + @team.permalink
+  dd = link_to request.protocol + request.host_with_port + '/' + @team.permalink, request.protocol + request.host_with_port + '/' + @team.permalink
   dd = @team.description
   dd = @team.phone_number
 

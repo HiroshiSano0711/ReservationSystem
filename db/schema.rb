@@ -16,8 +16,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   create_table "customer_profiles", force: :cascade do |t|
     t.bigint "customer_id", null: false
-    t.string "name", default: "", null: false
-    t.string "phone_number", default: "", null: false
+    t.string "name", default: "", null: false, comment: "名前"
+    t.string "phone_number", default: "", null: false, comment: "電話番号"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_customer_profiles_on_customer_id"
@@ -42,10 +42,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   create_table "notifications", force: :cascade do |t|
     t.bigint "sender_id", null: false
     t.bigint "receiver_id", null: false
-    t.integer "status", null: false
-    t.integer "notification_type", null: false
-    t.text "message", null: false
-    t.string "action_url", null: false
+    t.integer "status", null: false, comment: "ステータス"
+    t.integer "notification_type", null: false, comment: "タイプ"
+    t.text "message", null: false, comment: "通知内容"
+    t.string "action_url", null: false, comment: "アクションURL"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
@@ -56,12 +56,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.bigint "reservation_id", null: false
     t.bigint "staff_id"
     t.bigint "service_menu_id", null: false
-    t.string "menu_name", default: "", null: false
-    t.integer "price", null: false
-    t.integer "duration", null: false
-    t.integer "required_staff_count"
-    t.string "customer_name", default: "", null: false
-    t.string "customer_phone_number", default: "", null: false
+    t.string "menu_name", default: "", null: false, comment: "メニュー名"
+    t.integer "price", null: false, comment: "価格"
+    t.integer "duration", null: false, comment: "所要時間"
+    t.integer "required_staff_count", comment: "所要人数"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["reservation_id"], name: "index_reservation_details_on_reservation_id"
@@ -72,18 +70,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   create_table "reservations", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.bigint "customer_id"
-    t.string "public_id", null: false
-    t.date "date", null: false
-    t.time "start_time", null: false
-    t.time "end_time", null: false
-    t.string "customer_name", default: "", null: false
-    t.string "customer_phone_number", default: "", null: false
-    t.integer "total_price", null: false
-    t.integer "total_duration", null: false
-    t.text "menu_summary", default: "", null: false
-    t.text "assigned_staff_names", default: "", null: false
-    t.text "memo", default: "", null: false
-    t.integer "status", default: 0, null: false
+    t.string "public_id", null: false, comment: "予約ID（公開用）"
+    t.date "date", null: false, comment: "予約日"
+    t.time "start_time", null: false, comment: "開始時間"
+    t.time "end_time", null: false, comment: "終了時間"
+    t.string "customer_name", default: "", null: false, comment: "顧客名"
+    t.string "customer_phone_number", default: "", null: false, comment: "顧客連絡先"
+    t.integer "total_price", null: false, comment: "合計価格"
+    t.integer "total_duration", null: false, comment: "合計所要時間"
+    t.text "menu_summary", default: "", null: false, comment: "メニュー"
+    t.string "assigned_staff_names", default: "", null: false, comment: "担当者名"
+    t.text "memo", default: "", null: false, comment: "希望・要望など"
+    t.integer "status", default: 0, null: false, comment: "ステータス"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_reservations_on_customer_id"
@@ -94,7 +92,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   create_table "service_menu_staffs", force: :cascade do |t|
     t.bigint "service_menu_id", null: false
     t.bigint "staff_id", null: false
-    t.integer "priority", default: 0, null: false
+    t.integer "priority", default: 0, null: false, comment: "優先度"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["service_menu_id"], name: "index_service_menu_staffs_on_service_menu_id"
@@ -104,12 +102,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   create_table "service_menus", force: :cascade do |t|
     t.bigint "team_id", null: false
-    t.string "menu_name", default: "", null: false
-    t.integer "duration", default: 0, null: false
-    t.integer "price", default: 0, null: false
-    t.integer "required_staff_count", default: 1, null: false
-    t.date "available_from", null: false
-    t.date "available_until"
+    t.string "menu_name", default: "", null: false, comment: "メニュー名"
+    t.integer "duration", default: 0, null: false, comment: "所要時間"
+    t.integer "price", default: 0, null: false, comment: "価格（税込）"
+    t.integer "required_staff_count", default: 1, null: false, comment: "所要人数"
+    t.date "available_from", null: false, comment: "提供開始日"
+    t.date "available_until", comment: "提供終了日"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id", "menu_name"], name: "index_service_menus_on_team_id_and_menu_name", unique: true
@@ -118,11 +116,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   create_table "staff_profiles", force: :cascade do |t|
     t.bigint "staff_id", null: false
-    t.integer "working_status", default: 0, null: false
-    t.string "nick_name", default: "", null: false
-    t.string "profile_image", default: "", null: false
-    t.boolean "accepts_direct_booking", default: false, null: false
-    t.text "bio", default: "", null: false
+    t.integer "working_status", default: 0, null: false, comment: "勤務状況"
+    t.string "nick_name", default: "", null: false, comment: "ニックネーム"
+    t.string "profile_image", default: "", null: false, comment: "プロフィール画像"
+    t.boolean "accepts_direct_booking", default: false, null: false, comment: "指名受付"
+    t.text "bio", default: "", null: false, comment: "自己紹介"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["staff_id"], name: "index_staff_profiles_on_staff_id"
@@ -130,7 +128,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   create_table "staffs", force: :cascade do |t|
     t.bigint "team_id", null: false
-    t.integer "role", default: 1, null: false
+    t.integer "role", default: 1, null: false, comment: "ロール"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -161,18 +159,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   create_table "team_business_settings", force: :cascade do |t|
     t.bigint "team_id", null: false
-    t.jsonb "business_hours_for_day_of_week", null: false
-    t.integer "max_reservation_month", null: false
+    t.jsonb "business_hours_for_day_of_week", null: false, comment: "営業時間／曜日"
+    t.integer "max_reservation_month", null: false, comment: "最大受付月数"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_team_business_settings_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "permalink", null: false
-    t.text "description"
-    t.string "phone_number"
+    t.string "name", null: false, comment: "チーム名"
+    t.string "permalink", null: false, comment: "予約URL"
+    t.text "description", comment: "概要"
+    t.string "phone_number", comment: "連絡先電話番号"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_teams_on_name", unique: true

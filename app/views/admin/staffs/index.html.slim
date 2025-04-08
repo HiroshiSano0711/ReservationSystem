@@ -1,16 +1,28 @@
-h1 チームスタッフ
+.l-flex
+  .l-flex__item
+    h1.p-title スタッフ一覧
+  .l-flex__item
+    = link_to 'スタッフを招待する', new_admin_staff_path
 
-= link_to '新規スタッフ追加', new_admin_staff_path
-
-- @staffs.each do |staff|
-  dl
-    dd = staff.email
-    dd = staff.role
-    dd = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
-    - if staff.staff_profile.present?
-      dd = staff.staff_profile.working_status
-      dd = staff.staff_profile.nick_name
-      dd = staff.staff_profile.accepts_direct_booking
-      dd = staff.staff_profile.bio
-    dd = staff.service_menus.map {|menu| menu.menu_name }.join(',')
-    = link_to '編集', edit_admin_staff_profile_path(staff)
+table
+  thead
+    tr
+      th ロール
+      th ニックネーム
+      th メールアドレス
+      th 対応メニュー
+      th 指名受付
+      th 勤務状況
+      th 招待状況
+      th 操作
+  tbody
+    - @staffs.each do |staff|
+      tr
+        td = staff.role
+        td = staff.staff_profile&.nick_name
+        td = staff.email
+        td = staff.service_menus.map {|menu| menu.menu_name }.join(',')
+        td = staff.staff_profile&.accepts_direct_booking
+        td = staff.staff_profile.working_status
+        td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
+        td = link_to '編集', edit_admin_staff_profile_path(staff)
