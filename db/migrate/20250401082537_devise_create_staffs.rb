@@ -4,7 +4,7 @@ class DeviseCreateStaffs < ActiveRecord::Migration[8.0]
   def change
     create_table :staffs do |t|
       t.belongs_to :team, null: false, foreign_key: true
-      t.integer :role, null: false, default: 1
+      t.integer :role, null: false, default: 1, comment: 'ロール'
 
       ### devise 認証用 ###
       # data authenticate
