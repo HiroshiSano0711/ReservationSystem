@@ -1,13 +1,18 @@
 class SlotsGenerator
-  def initialize(team:, menus:, start_date:, end_date:)
+  def initialize(team:, service_menus:, start_date:, end_date:, selected_staff: nil)
     @team = team
     @business_setting = team.team_business_setting
     @start_date = start_date
     @end_date = end_date
-    @total_duration = menus.sum(&:duration).minutes
+    @service_menus = service_menus
 
-    @slot_calculator = SlotCalculator.new(@business_setting, team.staffs.count, @total_duration)
-    @slot_summarizer = SlotSummarizer.new(@total_duration)
+    @slot_calculator = SlotCalculator.new(
+      team: @team,
+      business_setting: @business_setting,
+      service_menus: @service_menus,
+      selected_staff: selected_staff
+    )
+    @slot_summarizer = SlotSummarizer.new(service_menus: service_menus)
   end
 
   def call

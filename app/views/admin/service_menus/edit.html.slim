@@ -18,5 +18,13 @@ h1 サービスメニューの編集
     = f.number_field :required_staff_count
 
   .p-form
+    = f.label :available_from, '提供開始'
+    = f.date_field :available_from
+
+  .p-form
+    = f.label :available_until, '提供終了'
+    = f.date_field :available_until
+
+  .p-form
     = link_to '戻る', admin_service_menus_path
     = f.submit '更新'

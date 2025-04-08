@@ -15,4 +15,7 @@ html
 
   body
     .wrapper
+      - if flash[:alert]
+        .alert = flash[:alert]
+
       = yield

@@ -19,28 +19,21 @@ team_business_setting = team.create_team_business_setting(
 )
 puts "Created TeamBusinessSetting: #{team_business_setting.business_hours_for_day_of_week}"
 
-ServiceMenu.create!(
-  team: team,
-  menu_name: 'カラー',
-  duration: 40,
-  price: 5000,
-  required_staff_count: 1
-)
-ServiceMenu.create!(
-  team: team,
-  menu_name: 'カット',
-  duration: 30,
-  price: 4000,
-  required_staff_count: 1
-)
-ServiceMenu.create!(
-  team: team,
-  menu_name: 'エクステ',
-  duration: 60,
-  price: 6000,
-  required_staff_count: 1
-)
-
+menus = [
+  { name: 'カラー', duration: 50, price: 5000, required_staff_count: 1 },
+  { name: 'カット', duration: 30, price: 4000, required_staff_count: 1 },
+  { name: 'エクステ', duration: 60, price: 6000, required_staff_count: 1 }
+]
+menus.each do |menu|
+  ServiceMenu.create!(
+    team: team,
+    menu_name: menu[:name],
+    duration: menu[:duration],
+    price: menu[:price],
+    required_staff_count: 1,
+    available_from: Time.zone.now
+  )
+end
 
 admin_staff = Staff.create!(
   team: team,
@@ -103,22 +96,29 @@ reservation = Reservation.create!(
   customer: customer,
   date: Date.current.tomorrow,
   start_time: '10:00',
-  end_time: '11:15',
+  end_time: '11:20',
   public_id: 'yoyaku-id',
   total_price: 9000,
   total_duration: 70
 )
+
+menu = ServiceMenu.find_by(menu_name: 'カット')
 ReservationDetail.create!(
   reservation: reservation,
   staff: staff,
-  menu_name: 'カット',
-  price: 4000,
-  duration: 30
+  service_menu: menu,
+  menu_name: menu.menu_name,
+  price: menu.price,
+  duration: menu.duration,
+  required_staff_count: menu.required_staff_count
 )
+menu = ServiceMenu.find_by(menu_name: 'カラー')
 ReservationDetail.create!(
   reservation: reservation,
   staff: staff,
-  menu_name: 'カラー',
-  price: 5000,
-  duration: 40
+  service_menu: menu,
+  menu_name: menu.menu_name,
+  price: menu.price,
+  duration: menu.duration,
+  required_staff_count: menu.required_staff_count
 )

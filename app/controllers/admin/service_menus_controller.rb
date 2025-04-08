@@ -38,7 +38,9 @@ class Admin::ServiceMenusController < Admin::BaseController
       :menu_name,
       :duration,
       :price,
-      :required_staff_count
+      :required_staff_count,
+      :available_from,
+      :available_until
     )
   end
 end

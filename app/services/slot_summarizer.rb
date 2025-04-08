@@ -1,6 +1,6 @@
 class SlotSummarizer
-  def initialize(duration)
-    @duration = duration
+  def initialize(service_menus:)
+    @duration = service_menus.sum(&:duration).minutes
   end
 
   def summarize(slots)

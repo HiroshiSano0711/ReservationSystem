@@ -15,10 +15,12 @@ Rails.application.routes.draw do
 
   scope ':permalink', as: 'reservations' do
     root to: 'reservations#new', via: :get
-    get '/time_slot', to: 'reservations#time_slot'
-    post '/', to: 'reservations#temporary'
-    get '/:public_id', to: 'reservations#confirm', as: 'confirm'
-    patch '/:public_id', to: 'reservations#complete', as: 'complete'
+    post '/menu_select', to: 'reservations#menu_select'
+    get '/select_slots', to: 'reservations#select_slots'
+    post '/temporary', to: 'reservations#temporary'
+    get '/:public_id/prior_confirmation', to: 'reservations#prior_confirmation', as: 'prior_confirmation'
+    patch '/:public_id', to: 'reservations#finalize', as: 'finalize'
+    get '/:public_id/complete', to: 'reservations#complete', as: 'complete'
   end
 
   root to: 'home#index'

@@ -2,7 +2,7 @@ class CreateReservations < ActiveRecord::Migration[8.0]
   def change
     create_table :reservations do |t|
       t.belongs_to :team, null: false, foreign_key: true
-      t.belongs_to :customer
+      t.belongs_to :customer, foreign_key: true
 
       t.string :public_id, null: false
       t.date :date, null: false

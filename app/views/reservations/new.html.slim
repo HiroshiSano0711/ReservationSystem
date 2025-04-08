@@ -1,16 +1,16 @@
 h1 = "#{@team.name}の予約ページ"
 h2 メニューを選択してください
 
-= form_with url: reservations_time_slot_path(permalink: @team.permalink), method: :get do |f|
+= form_with url: reservations_menu_select_path(permalink: @team.permalink), method: :post do |f|
   ul
     - @menus.each do |menu|
       li
-        = check_box_tag 'menu_ids[]', menu.id
-        = label_tag "menu_ids_#{menu.id}", "#{menu.menu_name}（#{menu.duration}分 / ¥#{menu.price}）"
+        = check_box_tag 'service_menus[]', menu.id
+        = label_tag "service_menus_#{menu.id}", "#{menu.menu_name}（#{menu.duration}分 / ¥#{menu.price}）"
 
   .form-field
     p 担当者を選択しますか？
-    = radio_button_tag 'selected_staff', 'omakase', checked: true
+    = radio_button_tag 'selected_staff', nil, checked: true
     label おまかせ
 
     - @staff_profiles.each do |staff_profile|

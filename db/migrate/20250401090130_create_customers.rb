@@ -14,7 +14,6 @@ class CreateCustomers < ActiveRecord::Migration[8.0]
       t.timestamps null: false
     end
 
-    add_index :customers, :email,                unique: true
     add_index :customers, :reset_password_token, unique: true
     add_index :customers, :confirmation_token,   unique: true
   end

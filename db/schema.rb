@@ -36,7 +36,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["confirmation_token"], name: "index_customers_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end
 
@@ -55,16 +54,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   create_table "reservation_details", force: :cascade do |t|
     t.bigint "reservation_id", null: false
-    t.bigint "staff_id", null: false
+    t.bigint "staff_id"
+    t.bigint "service_menu_id", null: false
     t.string "menu_name", default: "", null: false
     t.integer "price", null: false
     t.integer "duration", null: false
-    t.string "staff_name", default: "", null: false
+    t.integer "required_staff_count"
     t.string "customer_name", default: "", null: false
     t.string "customer_phone_number", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["reservation_id"], name: "index_reservation_details_on_reservation_id"
+    t.index ["service_menu_id"], name: "index_reservation_details_on_service_menu_id"
     t.index ["staff_id"], name: "index_reservation_details_on_staff_id"
   end
 
@@ -80,6 +81,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.integer "total_price", null: false
     t.integer "total_duration", null: false
     t.text "menu_summary", default: "", null: false
+    t.text "assigned_staff_names", default: "", null: false
     t.text "memo", default: "", null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
@@ -106,6 +108,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.integer "duration", default: 0, null: false
     t.integer "price", default: 0, null: false
     t.integer "required_staff_count", default: 1, null: false
+    t.date "available_from", null: false
+    t.date "available_until"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id", "menu_name"], name: "index_service_menus_on_team_id_and_menu_name", unique: true
@@ -177,7 +181,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
 
   add_foreign_key "customer_profiles", "customers"
   add_foreign_key "reservation_details", "reservations"
+  add_foreign_key "reservation_details", "service_menus"
   add_foreign_key "reservation_details", "staffs"
+  add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "teams"
   add_foreign_key "service_menu_staffs", "service_menus"
   add_foreign_key "service_menu_staffs", "staffs"
