@@ -3,8 +3,8 @@
     .l-flex__item
       h1.p-txt-primary サービスメニュー
     .l-flex__item
-      .p-action-link
-        = link_to new_admin_service_menu_path, class: 'p-link' do
+      = link_to new_admin_service_menu_path, class: 'p-link' do
+        .p-action-link
           .l-flex.l-colgap-8
             span.material-symbols-outlined
               | add
@@ -28,6 +28,6 @@
             td.p-table__td = service_menu.duration
             td.p-table__td = service_menu.required_staff_count
             td.p-table__td 
-              = link_to edit_admin_service_menu_path(service_menu) do
+              = link_to edit_admin_service_menu_path(service_menu), class: 'p-link' do
                 span.material-symbols-outlined
                   | edit_square

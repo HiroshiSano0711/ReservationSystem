@@ -1,47 +1,47 @@
 .l-flex-col.l-rowgap-8.u-pse-8.u-mbt-8
   .l-flex-col__item
-    .p-menu-link
-       = link_to admin_path, class: 'p-link' do
+    = link_to admin_path, class: 'p-link' do
+      .p-menu-link
         .l-flex.l-colgap-8
           span.material-symbols-outlined
             | team_dashboard
           | ダッシュボード
 
   .l-flex-col__item
-    .p-menu-link
-      = link_to admin_reservations_path, class: 'p-link' do
+    = link_to admin_reservations_path, class: 'p-link' do
+      .p-menu-link
         .l-flex.l-colgap-8
           span.material-symbols-outlined
             | date_range
           | 予約
 
   .l-flex-col__item
-    .p-menu-link
-      = link_to admin_staffs_path, class: 'p-link' do
+    = link_to admin_staffs_path, class: 'p-link' do
+      .p-menu-link
         .l-flex.l-colgap-8
           span.material-symbols-outlined
             | group
           | スタッフ
 
   .l-flex-col__item
-    .p-menu-link
-      = link_to admin_service_menus_path, class: 'p-link' do
+    = link_to admin_service_menus_path, class: 'p-link' do
+      .p-menu-link
         .l-flex.l-colgap-8
           span.material-symbols-outlined
             | menu
           | サービスメニュー
 
   .l-flex-col__item
-    .p-menu-link
-      = link_to admin_team_business_setting_path(@team), class: 'p-link' do
+    = link_to admin_team_business_setting_path(@team), class: 'p-link' do
+      .p-menu-link
         .l-flex.l-colgap-8
           span.material-symbols-outlined
             | tune
           | 営業設定
 
   .l-flex-col__item
-    .p-menu-link
-      = link_to admin_team_path(@team), class: 'p-link' do
+    = link_to admin_team_path(@team), class: 'p-link' do
+      .p-menu-link
         .l-flex.l-colgap-8
           span.material-symbols-outlined
             | settings

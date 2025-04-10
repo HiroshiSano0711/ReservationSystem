@@ -6,17 +6,19 @@
   &:visited {
     color: $txt-color-base;
   }
+  &:hover {
+    color: $light-accent;
+  }
 }
 
 .p-menu-link {
   padding: 8px 16px;
   border: 1px solid $dark-700;
-  text-decoration: none;
 
   &:hover {
     border-radius: 1em;
     background-color: $dark-400;
-    border: 1px solid $dark-400;
+    border: 1px solid $light-accent;
   }
 }
 
@@ -28,6 +30,6 @@
   &:hover {
     border-radius: 1em;
     background-color: $dark-400;
-    border: 1px solid $dark-400;
+    border: 1px solid $light-accent;
   }
 }

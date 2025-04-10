@@ -3,8 +3,8 @@
     .l-flex__item
       h1.p-txt-primary スタッフ一覧
     .l-flex__item
-      .p-action-link
-        = link_to new_admin_staff_path, class: 'p-link' do
+      = link_to new_admin_staff_path, class: 'p-link' do
+        .p-action-link
           .l-flex.l-colgap-8
             span.material-symbols-outlined
               | person_add
@@ -32,6 +32,6 @@
             td.p-table__td = staff.staff_profile.working_status
             td.p-table__td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
             td.p-table__td
-              = link_to edit_admin_staff_profile_path(staff) do
+              = link_to edit_admin_staff_profile_path(staff), class: 'p-link' do
                 span.material-symbols-outlined
                   | edit_square
