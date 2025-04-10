@@ -36,6 +36,10 @@ body {
   color: $txt-color-primary;
 }
 
+.p-txt-sub {
+  font-size: 18px;
+}
+
 .u-pse-8 {
   padding-inline-start: 8px;
   padding-inline-end: 8px;
@@ -56,6 +60,10 @@ body {
 
 .u-mbt-32 {
   margin-block-start: 32px;
+}
+
+.u-mbe-16 {
+  margin-block-end: 16px;
 }
 
 .p-link {
@@ -128,4 +136,16 @@ body {
 .md-table td {
   color: #e0e0e0;
   font-size: 14px;
+}
+
+.p-card {
+  background-color: $bg-color-light;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.p-card__title {
+  font-weight: 700;
+  font-size: 18px;
 }

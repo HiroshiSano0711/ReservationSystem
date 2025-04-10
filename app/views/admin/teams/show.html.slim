@@ -9,9 +9,20 @@
             span.material-symbols-outlined
               | edit_square
 
-.l-main-contents
-  dl
-    dt = @team.name
-    dd = link_to request.protocol + request.host_with_port + '/' + @team.permalink, request.protocol + request.host_with_port + '/' + @team.permalink, target: :_blank, rel: 'noopener'
-    dd = @team.description
-    dd = @team.phone_number
+.l-main-contents.u-mbt-32
+  h2.p-txt-sub 営業時間／曜日
+  .p-card.u-mbt-16
+    .p-card__title チーム名
+    .p-card__desc = @team.name
+
+  .p-card.u-mbt-16
+    .p-card__title 予約URL
+    .p-card__desc = link_to request.protocol + request.host_with_port + '/' + @team.permalink, request.protocol + request.host_with_port + '/' + @team.permalink, target: :_blank, rel: 'noopener'
+
+  .p-card.u-mbt-16
+    .p-card__title 連絡先
+    .p-card__desc = @team.phone_number.present? ? @team.phone_number : '未入力'
+
+  .p-card.u-mbt-16
+    .p-card__title 概要
+    .p-card__desc = @team.description.present? ? @team.description : '未入力'
