@@ -1,34 +1,42 @@
-h1 スタッフの編集
+.l-main-header
+  .l-flex.l-colgap-8.l-align-center.l-h-full
+    .l-flex__item
+      = link_to admin_staffs_path, class: 'p-link' do
+        .l-flex.l-colgap-8
+          span.material-symbols-outlined
+            | arrow_back
+    .l-flex__item
+      h1.p-txt-primary スタッフの編集
 
-= form_with model: @staff, url: admin_staff_profile_path(@staff), method: :patch, local: true do |f|
-  .p-form
-    label メールアドレス
-    = @staff.email
+.l-main-content.u-mbt-32
+  = form_with model: @staff, url: admin_staff_profile_path(@staff), method: :patch, local: true, class: 'p-form' do |f|
+    .p-form__fieldset
+      label メールアドレス
+      = @staff.email
 
-  = fields_for :staff_profile, @staff.staff_profile do |ff|
-    .p-form
-      = ff.label :nick_name
-      = ff.text_field :nick_name
+    = fields_for :staff_profile, @staff.staff_profile do |ff|
+      .p-form__fieldset
+        = ff.label :nick_name
+        = ff.text_field :nick_name
 
-    .p-form
-      = ff.label :accepts_direct_booking
-      = ff.check_box :accepts_direct_booking
+      .p-form__fieldset
+        = ff.label :accepts_direct_booking
+        = ff.check_box :accepts_direct_booking
 
-    .p-form
-      = ff.label :working_status, '勤務状況'
-      = ff.select :working_status, StaffProfile.working_statuses.keys.to_a, {}
+      .p-form__fieldset
+        = ff.label :working_status, '勤務状況'
+        = ff.select :working_status, StaffProfile.working_statuses.keys.to_a, {}
 
-    .p-form
-      = ff.label :bio
-      = ff.text_field :bio
+      .p-form__fieldset
+        = ff.label :bio
+        = ff.text_field :bio
 
-  .p-form
-    = label_tag '担当するサービスメニュー'
-    = hidden_field_tag 'service_menus[ids][]', ''
-    - @service_menus.each do |service_menu|
-      = label_tag 'service_menus_ids', service_menu.menu_name
-      = check_box_tag 'service_menus[ids][]', service_menu.id, { checked: @staff.service_menus.ids.include?(service_menu.id), id: "service_menus_ids_#{service_menu.id}" }
+    .p-form__fieldset
+      = label_tag '担当するサービスメニュー'
+      = hidden_field_tag 'service_menus[ids][]', ''
+      - @service_menus.each do |service_menu|
+        = label_tag 'service_menus_ids', service_menu.menu_name
+        = check_box_tag 'service_menus[ids][]', service_menu.id, { checked: @staff.service_menus.ids.include?(service_menu.id), id: "service_menus_ids_#{service_menu.id}" }
 
-  .p-form
-    = link_to "戻る", admin_staffs_path
-    = f.submit "更新する"
+    .p-form__fieldset
+      = f.submit "更新する"

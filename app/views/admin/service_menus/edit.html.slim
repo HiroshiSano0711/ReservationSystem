@@ -1,26 +1,38 @@
-= form_with model: @service_menu, url: admin_service_menu_path(@service_menu), method: :patch, local: true do |f|
-  .l-flex
+.l-main-header
+  .l-flex.l-colgap-8.l-align-center.l-h-full
     .l-flex__item
-      = link_to '戻る', admin_service_menus_path
+      = link_to admin_service_menus_path, class: 'p-link' do
+        .l-flex.l-colgap-8
+          span.material-symbols-outlined
+            | arrow_back
+    .l-flex__item
       h1.p-txt-primary サービスメニューの編集
-    .l-flex__item
+
+.l-main-content.u-mbt-32
+  = form_with model: @service_menu, url: admin_service_menu_path(@service_menu), method: :patch, local: true, class: 'p-form' do |f|
+    .p-form__fieldset
+      = f.label :menu_name, 'メニュー名'
+      = f.text_field :menu_name
+
+    .p-form__fieldset
+      = f.label :duration, '所要時間'
+      = f.number_field :duration
+
+    .p-form__fieldset
+      = f.label :price, '価格'
+      = f.number_field :price
+
+    .p-form__fieldset
+      = f.label :required_staff_count, '所要人数'
+      = f.number_field :required_staff_count
+
+    .p-form__fieldset
+      = f.label :available_from, '提供開始'
+      = f.date_field :available_from
+
+    .p-form__fieldset
+      = f.label :available_until, '提供終了'
+      = f.date_field :available_until
+
+    .p-form__fieldset
       = f.submit '更新'
-
-  .l-flex-col
-    = f.label :menu_name, 'メニュー名'
-    = f.text_field :menu_name
-
-    = f.label :duration, '所要時間'
-    = f.number_field :duration
-
-    = f.label :price, '価格'
-    = f.number_field :price
-
-    = f.label :required_staff_count, '所要人数'
-    = f.number_field :required_staff_count
-
-    = f.label :available_from, '提供開始'
-    = f.date_field :available_from
-
-    = f.label :available_until, '提供終了'
-    = f.date_field :available_until
