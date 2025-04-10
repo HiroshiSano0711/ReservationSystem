@@ -1,5 +1,5 @@
 .l-main-header
-  .l-flex.l-space-between.l-align-center.h-full
+  .l-flex.l-space-between.l-align-center.l-h-full
     .l-flex__item
       h1.p-txt-primary サービスメニュー
     .l-flex__item
@@ -12,22 +12,22 @@
 
 .l-main-contents
   .l-flex-col
-    table.md-table.u-mbt-32
-      thead
-        tr
-          th メニュー名
-          th 価格（税込）
-          th 所要時間（分）
-          th 所要人数
-          th 操作
-      tdoby
+    table.p-table.u-mbt-32
+      thead.p-table__thead
+        tr.p-table__tr
+          th.p-table__th メニュー名
+          th.p-table__th 価格（税込）
+          th.p-table__th 所要時間（分）
+          th.p-table__th 所要人数
+          th.p-table__th 操作
+      tbody.p-table__tbody
         - @service_menus.each do |service_menu|
-          tr
-            td = service_menu.menu_name
-            td = "#{service_menu.price}円"
-            td = service_menu.duration
-            td = service_menu.required_staff_count
-            td 
+          tr.p-table__tr
+            td.p-table__td = service_menu.menu_name
+            td.p-table__td = "#{service_menu.price}円"
+            td.p-table__td = service_menu.duration
+            td.p-table__td = service_menu.required_staff_count
+            td.p-table__td 
               = link_to edit_admin_service_menu_path(service_menu) do
                 span.material-symbols-outlined
                   | edit_square

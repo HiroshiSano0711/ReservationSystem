@@ -1,0 +1,35 @@
+@use 'global/color' as *;
+
+.p-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: $dark-700;
+  border-radius: 1em;
+
+  &__thead {
+    background-color: $dark-400;
+  }
+
+  &__th, &__td {
+    padding: 16px;
+    text-align: left;
+  }
+
+  &__th {
+    font-weight: bold;
+    border-bottom: 1px solid $dark-300;
+  }
+
+  &__tbody, &__tr {
+    border-bottom: 1px solid $dark-300;
+  }
+
+  &__tbody &__tr:hover {
+    background-color: $dark-400;
+  }
+
+  &__td {
+    color: $light-800;
+    font-size: 14px;
+  }
+}

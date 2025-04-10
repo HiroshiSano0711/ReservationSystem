@@ -1,10 +1,14 @@
-h1 スタッフの招待
+.l-main-header
+  .l-flex.l-space-between.l-align-center.l-h-full
+    .l-flex__item
+      h1.p-txt-primary スタッフの招待
 
-= form_with model: @staff, url: admin_staffs_path, method: :post, local: true do |f|
-  .p-form
-    = f.label :email, 'メールアドレス'
-    = f.email_field :email
+.l-main-content.u-mbt-32
+  = form_with model: @staff, url: admin_staffs_path, method: :post, local: true do |f|
+    .p-form
+      = f.label :email, 'メールアドレス', class: 'u-mbe-16'
+      = f.email_field :email
 
-  .p-form
-    = link_to '戻る', admin_staffs_path
-    = f.submit '招待する'
+    .p-form
+      = link_to '戻る', admin_staffs_path
+      = f.submit '招待する'

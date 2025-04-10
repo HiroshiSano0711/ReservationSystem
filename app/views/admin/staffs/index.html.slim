@@ -1,5 +1,5 @@
 .l-main-header
-  .l-flex.l-space-between.l-align-center.h-full
+  .l-flex.l-space-between.l-align-center.l-h-full
     .l-flex__item
       h1.p-txt-primary スタッフ一覧
     .l-flex__item
@@ -12,26 +12,26 @@
 
 .l-main-contents
   .l-flex-col
-    table.md-table.u-mbt-32
-      thead
-        tr
-          th ロール
-          th ニックネーム
-          th メールアドレス
-          th 指名受付
-          th 勤務状況
-          th 招待状況
-          th 操作
-      tbody
+    table.p-table.u-mbt-32
+      thead.p-table__thead
+        tr.p-table__tr
+          th.p-table__th ロール
+          th.p-table__th ニックネーム
+          th.p-table__th メールアドレス
+          th.p-table__th 指名受付
+          th.p-table__th 勤務状況
+          th.p-table__th 招待状況
+          th.p-table__th 操作
+      tbody.p-table__tbody
         - @staffs.each do |staff|
-          tr
-            td = staff.role
-            td = staff.staff_profile&.nick_name
-            td = staff.email
-            td = staff.staff_profile&.accepts_direct_booking
-            td = staff.staff_profile.working_status
-            td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
-            td
+          tr.p-table__tr
+            td.p-table__td = staff.role
+            td.p-table__td = staff.staff_profile&.nick_name
+            td.p-table__td = staff.email
+            td.p-table__td = staff.staff_profile&.accepts_direct_booking
+            td.p-table__td = staff.staff_profile.working_status
+            td.p-table__td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
+            td.p-table__td
               = link_to edit_admin_staff_profile_path(staff) do
                 span.material-symbols-outlined
                   | edit_square

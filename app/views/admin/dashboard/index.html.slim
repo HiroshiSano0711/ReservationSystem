@@ -1,24 +1,24 @@
 .l-main-header
-  .l-flex.l-space-between.l-align-center.h-full
+  .l-flex.l-space-between.l-align-center.l-h-full
     .l-flex__item
       h1.p-txt-primary 本日の予約
 
 .l-main-contents
-  table.md-table.u-mbt-32
-    thead
-      tr
-        th 予約ID
-        th 顧客名
-        th メニュー
-        th 担当者
-        th 予約時間
-        th 状態
-    tbody
+  table.p-table.u-mbt-32
+    thead.p-table__thead
+      tr.p-table__tr
+        th.p-table__th 予約ID
+        th.p-table__th 顧客名
+        th.p-table__th メニュー
+        th.p-table__th 担当者
+        th.p-table__th 予約時間
+        th.p-table__th 状態
+    tbody.p-table__tbody
       - @reservations.each do |reservation|
-        tr
-          td = reservation.public_id
-          td = reservation.customer_name
-          td = reservation.menu_summary
-          td = reservation.assigned_staff_names
-          td = "#{reservation.date.strftime('%Y年%m月%d日') } #{reservation.start_time.strftime("%H:%M")}~#{reservation.end_time.strftime("%H:%M")}"
-          td = reservation.status
+        tr.p-table__tr
+          td.p-table__td = reservation.public_id
+          td.p-table__td = reservation.customer_name
+          td.p-table__td = reservation.menu_summary
+          td.p-table__td = reservation.assigned_staff_names
+          td.p-table__td = "#{reservation.date.strftime('%Y年%m月%d日') } #{reservation.start_time.strftime("%H:%M")}~#{reservation.end_time.strftime("%H:%M")}"
+          td.p-table__td = reservation.status

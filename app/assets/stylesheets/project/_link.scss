@@ -1,0 +1,33 @@
+@use '../global/color' as *;
+
+.p-link {
+  text-decoration: inherit;
+
+  &:visited {
+    color: $txt-color-base;
+  }
+}
+
+.p-menu-link {
+  padding: 8px 16px;
+  border: 1px solid $dark-700;
+  text-decoration: none;
+
+  &:hover {
+    border-radius: 1em;
+    background-color: $dark-400;
+    border: 1px solid $dark-400;
+  }
+}
+
+.p-action-link {
+  padding: 8px 16px;
+  border: 1px solid $dark-500;
+  text-decoration: none;
+
+  &:hover {
+    border-radius: 1em;
+    background-color: $dark-400;
+    border: 1px solid $dark-400;
+  }
+}

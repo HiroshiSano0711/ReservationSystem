@@ -1,0 +1,13 @@
+@use '../global/color' as *;
+
+.p-card {
+  background-color: $dark-300;
+  color: $light-900;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.p-card__title {
+  font-weight: 700;
+  font-size: 18px;
+}

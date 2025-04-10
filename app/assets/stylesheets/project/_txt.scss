@@ -1,0 +1,10 @@
+@use '../global/color' as *;
+
+.p-txt-primary {
+  font-size: 24px;
+  color: $txt-color-primary;
+}
+
+.p-txt-sub {
+  font-size: 18px;
+}

@@ -12,4 +12,8 @@ class Team < ApplicationRecord
       message: "はハイフンを含めてください"
     },
     length: { minimum: 5, maximum: 32 }
+
+  def reservation_url(req)
+    "#{req.protocol}#{req.host_with_port}/#{permalink}"
+  end
 end

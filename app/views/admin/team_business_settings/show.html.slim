@@ -1,5 +1,5 @@
 .l-main-header
-  .l-flex.l-space-between.l-align-center.h-full
+  .l-flex.l-space-between.l-align-center.l-h-full
     .l-flex__item
       h1.p-txt-primary 営業設定
     .l-flex__item
@@ -18,12 +18,14 @@
         = "営業日: #{@team_business_setting.mon.dig('open')}~#{@team_business_setting.mon.dig('close')}"
       - elsif @team_business_setting.mon['working_day'] === '0'
         | 定休日
+
     .p-card__title 火曜
     .p-card__desc.u-mbe-16
       - if @team_business_setting.tue['working_day'] === '1'
         = "営業日: #{@team_business_setting.tue.dig('open')}~#{@team_business_setting.tue.dig('close')}"
       - elsif @team_business_setting.tue['working_day'] === '0'
         | 定休日
+
     .p-card__title 水曜
     .p-card__desc.u-mbe-16
       - if @team_business_setting.wed['working_day'] === '1'

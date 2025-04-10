@@ -1,0 +1,14 @@
+@use '../global/color' as *;
+@use 'txt';
+@use 'link';
+@use 'card';
+@use 'table';
+@use 'form';
+
+.p-bg-color {
+  background-color: $dark-600;
+}
+
+.p-bg-color-sub {
+  background-color: $dark-700;
+}

@@ -1,5 +1,5 @@
 .l-main-header
-  .l-flex.l-space-between.l-align-center.h-full
+  .l-flex.l-space-between.l-align-center.l-h-full
     .l-flex__item
       h1.p-txt-primary チーム設定
     .l-flex__item
@@ -10,14 +10,13 @@
               | edit_square
 
 .l-main-contents.u-mbt-32
-  h2.p-txt-sub 営業時間／曜日
   .p-card.u-mbt-16
     .p-card__title チーム名
     .p-card__desc = @team.name
 
   .p-card.u-mbt-16
     .p-card__title 予約URL
-    .p-card__desc = link_to request.protocol + request.host_with_port + '/' + @team.permalink, request.protocol + request.host_with_port + '/' + @team.permalink, target: :_blank, rel: 'noopener'
+    .p-card__desc = link_to @team.reservation_url(request), @team.reservation_url(request), target: :_blank, rel: 'noopener'
 
   .p-card.u-mbt-16
     .p-card__title 連絡先
