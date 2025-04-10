@@ -11,51 +11,57 @@
 
 .l-flex-col.u-mbt-32
   h2.p-txt-sub 営業時間／曜日
-  .p-card.u-mbt-16
+  .p-card.u-mbt-16.u-mbe-8
     .p-card__title 月曜
-    .p-card__desc.u-mbe-16
+    .p-card__desc
       - if @team_business_setting.mon['working_day'] === '1'
         = "営業日: #{@team_business_setting.mon.dig('open')}~#{@team_business_setting.mon.dig('close')}"
       - elsif @team_business_setting.mon['working_day'] === '0'
         | 定休日
 
+  .p-card.u-mbe-8
     .p-card__title 火曜
-    .p-card__desc.u-mbe-16
+    .p-card__desc
       - if @team_business_setting.tue['working_day'] === '1'
         = "営業日: #{@team_business_setting.tue.dig('open')}~#{@team_business_setting.tue.dig('close')}"
       - elsif @team_business_setting.tue['working_day'] === '0'
         | 定休日
 
+  .p-card.u-mbe-8
     .p-card__title 水曜
-    .p-card__desc.u-mbe-16
+    .p-card__desc
       - if @team_business_setting.wed['working_day'] === '1'
         = "営業日: #{@team_business_setting.wed.dig('open')}~#{@team_business_setting.wed.dig('close')}"
       - elsif @team_business_setting.wed['working_day'] === '0'
         | 定休日
 
+  .p-card.u-mbe-8
     .p-card__title 木曜
-    .p-card__desc.u-mbe-16
+    .p-card__desc
       - if @team_business_setting.thu['working_day'] === '1'
         = "営業日: #{@team_business_setting.thu.dig('open')}~#{@team_business_setting.thu.dig('close')}"
       - elsif @team_business_setting.thu['working_day'] === '0'
         | 定休日
 
+  .p-card.u-mbe-8
     .p-card__title 金曜
-    .p-card__desc.u-mbe-16
+    .p-card__desc
       - if @team_business_setting.fri['working_day'] === '1'
         = "営業日: #{@team_business_setting.fri.dig('open')}~#{@team_business_setting.fri.dig('close')}"
       - elsif @team_business_setting.fri['working_day'] === '0'
         | 定休日
 
+  .p-card.u-mbe-8
     .p-card__title 土曜
-    .p-card__desc.u-mbe-16
+    .p-card__desc
       - if @team_business_setting.sat['working_day'] === '1'
         = "営業日: #{@team_business_setting.sat.dig('open')}~#{@team_business_setting.sat.dig('close')}"
       - elsif @team_business_setting.sat['working_day'] === '0'
         | 定休日
 
+  .p-card.u-mbe-8
     .p-card__title 日曜
-    .p-card__desc.u-mbe-16
+    .p-card__desc
       - if @team_business_setting.sun['working_day'] === '1'
         = "営業日: #{@team_business_setting.sun.dig('open')}~#{@team_business_setting.sun.dig('close')}"
       - elsif @team_business_setting.sun['working_day'] === '0'
