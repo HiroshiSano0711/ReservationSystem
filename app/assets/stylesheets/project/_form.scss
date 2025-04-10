@@ -11,7 +11,8 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="number"],
-input[type="time"] {
+input[type="time"],
+input[type="date"] {
   background-color: $dark-300;
   color: $light-900;
   border: none;
@@ -32,6 +33,17 @@ input::placeholder {
   color: $light-600;
 }
 
+input[type="submit"] {
+  cursor: pointer;
+  background-color: $dark-500;
+  color: $light-900;
+  border: 1px solid $light-900;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  inline-size: 100%;
+  block-size: 48px;
+}
+
 textarea {
   background-color: $dark-300;
   color: $light-900;
@@ -41,6 +53,18 @@ textarea {
   inline-size: 100%;
   outline: none;
   transition: background-color 0.2s, border 0.2s;
+}
+
+select {
+  background-color: $dark-300;
+  color: $light-900;
+  border: none;
+  border-radius: 6px;
+  padding: .75rem 1rem;
+  inline-size: 100%;
+  block-size: 48px;
+  outline: none;
+  transition: background-color .2s, border .2s;
 }
 
 .p-form__fieldset {

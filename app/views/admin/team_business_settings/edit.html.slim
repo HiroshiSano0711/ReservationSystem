@@ -117,9 +117,9 @@
         .l-flex__item
           = time_field_tag "team_business_setting[business_hours_for_day_of_week][sun][close]", @team_business_setting.sun&.dig("close")
 
-    .p-form
+    .p-form__fieldset
       = f.label :max_reservation_month, "最大受付期間（何ヶ月先まで）"
       = f.number_field :max_reservation_month, max: 6
 
-    .p-form
+    .p-form__fieldset
       = f.submit "更新する"

@@ -28,11 +28,11 @@
 
     .p-form__fieldset
       = f.label :available_from, '提供開始'
-      = f.datetime_field :available_from
+      = f.date_field :available_from
 
     .p-form__fieldset
       = f.label :available_until, '提供終了'
-      = f.datetime_field :available_until
+      = f.date_field :available_until
 
     .p-form__fieldset
       = f.submit '登録'
