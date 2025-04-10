@@ -11,13 +11,14 @@ html
 
     = yield :head
     link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet"
+    link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"
     = stylesheet_link_tag :admin, "data-turbo-track": "reload"
 
   body.p-bg-color
     .l-grid
       .l-grid__item-nav.p-bg-color-sub
         = render 'admin/header'
-      main.l-grid__item-main
+      main.l-grid__item-main.u-pse-16
         = yield
       footer.l-grid__item-footer
         | コピーライトとか入るよ

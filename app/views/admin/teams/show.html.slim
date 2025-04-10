@@ -1,9 +1,17 @@
-h1 チーム設定
+.l-main-header
+  .l-flex.l-space-between.l-align-center.h-full
+    .l-flex__item
+      h1.p-txt-primary チーム設定
+    .l-flex__item
+      .p-action-link
+        = link_to edit_admin_team_path, class: 'p-link' do
+          .l-flex.l-colgap-8
+            span.material-symbols-outlined
+              | edit_square
 
-dl
-  dt = @team.name
-  dd = link_to request.protocol + request.host_with_port + '/' + @team.permalink, request.protocol + request.host_with_port + '/' + @team.permalink
-  dd = @team.description
-  dd = @team.phone_number
-
-= link_to 'チームの編集', edit_admin_team_path
+.l-main-contents
+  dl
+    dt = @team.name
+    dd = link_to request.protocol + request.host_with_port + '/' + @team.permalink, request.protocol + request.host_with_port + '/' + @team.permalink, target: :_blank, rel: 'noopener'
+    dd = @team.description
+    dd = @team.phone_number

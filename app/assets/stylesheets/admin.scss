@@ -1,10 +1,27 @@
 @use 'foundation';
-@use 'project';
+@use 'layout';
 
 $bg-color-base: #202020;
 $bg-color-sub: #171717;
+$bg-color-hover: #212121;
+$bg-color-light: #2c2c2c;
 $txt-color-base: #e5e5e5;
-$txt-color-high: #ffffff;
+$txt-color-primary: #ffffff;
+$txt-color-accent: #9d9178;
+
+body {
+  font-family: 'Noto Sans Jp', 'Hiragino Gothic Pro';
+  background-color: $bg-color-base;
+  color: $txt-color-base;
+}
+
+.l-main-header {
+  height: 56px;
+}
+
+.h-full {
+  height: 100%;
+}
 
 .p-bg-color {
   background-color: $bg-color-base;
@@ -14,230 +31,101 @@ $txt-color-high: #ffffff;
   background-color: $bg-color-sub;
 }
 
-.p-title {
-  font-size: 32px;
-  margin-block-start: 0;
+.p-txt-primary {
+  font-size: 24px;
+  color: $txt-color-primary;
 }
 
-body {
-  font-family: 'Noto Sans Jp', 'Hiragino Gothic Pro';
-  background-color: $bg-color-base;
-  color: $txt-color-base;
+.u-pse-8 {
+  padding-inline-start: 8px;
+  padding-inline-end: 8px;
 }
 
-a {
-  color: #1d9bf0;
+.u-pse-16 {
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
 }
 
-a:hover {
-  color: #1676c4;
+.u-mbt-8 {
+  margin-block-start: 8px;
 }
 
-button {
-  background-color: #1d9bf0;
-  color: $txt-color-high;
-  border: 1px solid #4f4f4f;
+.u-mbt-16 {
+  margin-block-start: 16px;
 }
 
-button:hover {
-  background-color: #1676c4;
+.u-mbt-32 {
+  margin-block-start: 32px;
 }
 
-input, textarea {
-  background-color: #2a2a2a;
-  color: $txt-color-base;
-  border: 1px solid #4f4f4f;
+.p-link {
+  text-decoration: inherit;
 }
 
-input:focus, textarea:focus {
-  border-color: #1d9bf0;
-}
+.p-menu-link {
+  padding: 8px 16px;
+  border: 1px solid $bg-color-sub;
+  text-decoration: none;
 
-input[type="number"] {
-  text-align: right;
-}
-
-.wrapper {
-  inline-size: 768px;
-  margin: auto;
-}
-
-
-/* ダークモード */
-@media (prefers-color-scheme: dark) {
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #2c2f38; /* ダーク背景 */
-    color: #f1f1f1; /* 明るい文字色 */
+  &:hover {
+    border-radius: 1em;
+    background-color: $bg-color-light;
+    border: 1px solid $bg-color-light;
   }
 
-  th, td {
-    padding: 16px;
-    text-align: left;
-    border-bottom: 1px solid #444; /* 軽いグレーのボーダー */
-  }
-
-  th {
-    background-color: #1d9bf0; /* 青色背景（明るい色を維持） */
-    color: white;
-    font-weight: bold;
-  }
-
-  tr:hover {
-    background-color: #3a414c; /* 行にカーソルが乗った時のハイライト */
-  }
-
-  td {
-    color: #f1f1f1; /* 明るい文字色 */
-  }
-
-  /* ボタンやリンクのカラーも調整 */
-  button {
-    background-color: #1d9bf0; /* 青色ボタン */
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #1a89c8; /* ホバー時に少し濃く */
+  a:visited {
+    color: $txt-color-base;
   }
 }
 
-/* ライトモード */
-@media (prefers-color-scheme: light) {
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    color: #333;
+.p-action-link {
+  padding: 8px 16px;
+  border: 1px solid $bg-color-hover;
+  text-decoration: none;
+
+  &:hover {
+    border-radius: 1em;
+    background-color: $bg-color-light;
+    border: 1px solid $bg-color-light;
   }
 
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-
-  th {
-    background-color: #1d9bf0;
-    color: white;
-    font-weight: bold;
-  }
-
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-
-  td {
-    color: #333;
-  }
-
-  button {
-    background-color: #1d9bf0;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background-color: #1a89c8;
+  a:visited {
+    color: $txt-color-base;
   }
 }
 
-/* ベースのフォームスタイル（共通） */
-input,
-textarea,
-select {
+.md-table {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid;
-  font-size: 16px;
-  box-sizing: border-box;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+  border-radius: 1em;
 }
 
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
+.md-table thead {
+  background-color: #2c2c2c;
 }
 
-button {
-  padding: 10px 16px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.md-table th,
+.md-table td {
+  padding: 16px;
+  text-align: left;
 }
 
-/* ライトモード */
-@media (prefers-color-scheme: light) {
-  body {
-    background-color: #ffffff;
-    color: #333333;
-  }
-
-  input,
-  textarea,
-  select {
-    background-color: #ffffff;
-    color: #333333;
-    border-color: #ccc;
-  }
-
-  input:focus,
-  textarea:focus,
-  select:focus {
-    border-color: #1d9bf0;
-    outline: none;
-  }
-
-  button {
-    background-color: #1d9bf0;
-    color: white;
-  }
-
-  button:hover {
-    background-color: #1a89c8;
-  }
+.md-table th {
+  font-weight: 500;
+  font-size: 14px;
+  border-bottom: 1px solid #333;
 }
 
-/* ダークモード */
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #1e1e2f;
-    color: #f0f0f0;
-  }
+.md-table tbody tr {
+  border-bottom: 1px solid #333;
+}
 
-  input,
-  textarea,
-  select {
-    background-color: #2c2f38;
-    color: #f0f0f0;
-    border-color: #444;
-  }
+.md-table tbody tr:hover {
+  background-color: #2a2a2a;
+}
 
-  input:focus,
-  textarea:focus,
-  select:focus {
-    border-color: #1d9bf0;
-    outline: none;
-  }
-
-  button {
-    background-color: #1d9bf0;
-    color: white;
-  }
-
-  button:hover {
-    background-color: #187abf;
-  }
+.md-table td {
+  color: #e0e0e0;
+  font-size: 14px;
 }

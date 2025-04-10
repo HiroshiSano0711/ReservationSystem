@@ -1,28 +1,37 @@
-.l-flex
-  .l-flex__item
-    h1.p-title スタッフ一覧
-  .l-flex__item
-    = link_to 'スタッフを招待する', new_admin_staff_path
+.l-main-header
+  .l-flex.l-space-between.l-align-center.h-full
+    .l-flex__item
+      h1.p-txt-primary スタッフ一覧
+    .l-flex__item
+      .p-action-link
+        = link_to new_admin_staff_path, class: 'p-link' do
+          .l-flex.l-colgap-8
+            span.material-symbols-outlined
+              | person_add
+            | スタッフ招待
 
-table
-  thead
-    tr
-      th ロール
-      th ニックネーム
-      th メールアドレス
-      th 対応メニュー
-      th 指名受付
-      th 勤務状況
-      th 招待状況
-      th 操作
-  tbody
-    - @staffs.each do |staff|
-      tr
-        td = staff.role
-        td = staff.staff_profile&.nick_name
-        td = staff.email
-        td = staff.service_menus.map {|menu| menu.menu_name }.join(',')
-        td = staff.staff_profile&.accepts_direct_booking
-        td = staff.staff_profile.working_status
-        td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
-        td = link_to '編集', edit_admin_staff_profile_path(staff)
+.l-main-contents
+  .l-flex-col
+    table.md-table.u-mbt-32
+      thead
+        tr
+          th ロール
+          th ニックネーム
+          th メールアドレス
+          th 指名受付
+          th 勤務状況
+          th 招待状況
+          th 操作
+      tbody
+        - @staffs.each do |staff|
+          tr
+            td = staff.role
+            td = staff.staff_profile&.nick_name
+            td = staff.email
+            td = staff.staff_profile&.accepts_direct_booking
+            td = staff.staff_profile.working_status
+            td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
+            td
+              = link_to edit_admin_staff_profile_path(staff) do
+                span.material-symbols-outlined
+                  | edit_square

@@ -1,11 +1,28 @@
-h1 営業設定
+.l-main-header
+  .l-flex.l-space-between.l-align-center.h-full
+    .l-flex__item
+      h1.p-txt-primary 営業設定
+    .l-flex__item
+      .p-action-link
+        = link_to edit_admin_team_business_setting_path(@team), class: 'p-link' do
+          .l-flex.l-colgap-8
+            span.material-symbols-outlined
+              | edit_square
 
-= link_to '営業設定の編集', edit_admin_team_business_setting_path(@team)
+.l-flex-col
+  = @team_business_setting.mon['working_day']
+  = "#{@team_business_setting.mon.dig('open')}~#{@team_business_setting.mon.dig('close')}"
+  = @team_business_setting.tue['working_day']
+  = "#{@team_business_setting.tue.dig('open')}~#{@team_business_setting.tue.dig('close')}"
+  = @team_business_setting.wed['working_day']
+  = "#{@team_business_setting.wed.dig('open')}~#{@team_business_setting.wed.dig('close')}"
+  = @team_business_setting.thu['working_day']
+  = "#{@team_business_setting.thu.dig('open')}~#{@team_business_setting.thu.dig('close')}"
+  = @team_business_setting.fri['working_day']
+  = "#{@team_business_setting.fri.dig('open')}~#{@team_business_setting.fri.dig('close')}"
+  = @team_business_setting.sat['working_day']
+  = "#{@team_business_setting.sat.dig('open')}~#{@team_business_setting.sat.dig('close')}"
+  = @team_business_setting.sun['working_day']
+  = "#{@team_business_setting.sun.dig('open')}~#{@team_business_setting.sun.dig('close')}"
 
-- @team_business_setting.business_hours_for_day_of_week.each do |key, value|
-  = key
-  = value[:working_day]
-  = value['open'] + '~' + value['close']
-  br
-
-= @team_business_setting.max_reservation_month
+  = @team_business_setting.max_reservation_month

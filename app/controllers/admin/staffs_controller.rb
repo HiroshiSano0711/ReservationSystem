@@ -1,6 +1,6 @@
 class Admin::StaffsController < Admin::BaseController
   def index
-    @staffs = @team.staffs.includes(:service_menus, :staff_profile)
+    @staffs = @team.staffs.includes(:staff_profile)
   end
 
   def new

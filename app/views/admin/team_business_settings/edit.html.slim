@@ -1,23 +1,26 @@
-h1 営業設定の編集
+.l-main-header
+  .l-flex.l-space-between.l-align-center.h-full
+    .l-flex__item
+      = link_to "<戻る", admin_team_path(@team)
+      h1.p-txt-primary 営業設定の編集
 
 = form_with model: @team_business_setting, url: admin_team_business_setting_path(@team), method: :patch, local: true do |f|
-  fieldset
-    legend 営業日と営業時間
+  .l-flex-col
+    h2 営業日と営業時間
 
-    .field
-      = label_tag '月曜'
-    .field
-      = select_tag "team_business_setting[business_hours_for_day_of_week][mon][working_day]", options_for_select({'営業日': '1', '定休日': '0' }, selected: @team_business_setting.mon&.dig("working_day"))
+    .l-flex
+      .l-flex__item
+        = label_tag '月曜'
+        = select_tag "team_business_setting[business_hours_for_day_of_week][mon][working_day]", options_for_select({'営業日': '1', '定休日': '0' }, selected: @team_business_setting.mon&.dig("working_day"))
+      .l-flex__item
+        | 開店:
+        = time_field_tag "team_business_setting[business_hours_for_day_of_week][mon][open]", @team_business_setting.mon&.dig("open")
+      .l-flex__item
+        | 閉店:
+        = time_field_tag "team_business_setting[business_hours_for_day_of_week][mon][close]", @team_business_setting.mon&.dig("close")
 
-      | 開店:
-      = time_field_tag "team_business_setting[business_hours_for_day_of_week][mon][open]", @team_business_setting.mon&.dig("open")
-
-      | 閉店:
-      = time_field_tag "team_business_setting[business_hours_for_day_of_week][mon][close]", @team_business_setting.mon&.dig("close")
-
-    .field
+    .l-flex
       = label_tag '火曜'
-    .field
       = select_tag "team_business_setting[business_hours_for_day_of_week][tue][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.tue&.dig("working_day"))
 
       | 開店:
@@ -26,9 +29,8 @@ h1 営業設定の編集
       | 閉店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][tue][close]", @team_business_setting.tue&.dig("close")
 
-    .field
+    .l-flex
       = label_tag '水曜'
-    .field
       = select_tag "team_business_setting[business_hours_for_day_of_week][wed][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.wed&.dig("working_day"))
 
       | 開店:
@@ -37,9 +39,8 @@ h1 営業設定の編集
       | 閉店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][wed][close]", @team_business_setting.wed&.dig("close")
 
-    .field
+    .l-flex
       = label_tag '木曜'
-    .field
       = select_tag "team_business_setting[business_hours_for_day_of_week][thu][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.thu&.dig("working_day"))
 
       | 開店:
@@ -48,9 +49,8 @@ h1 営業設定の編集
       | 閉店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][thu][close]", @team_business_setting.thu&.dig("close")
 
-    .field
+    .l-flex
       = label_tag '金曜'
-    .field
       = select_tag "team_business_setting[business_hours_for_day_of_week][fri][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.fri&.dig("working_day"))
 
       | 開店:
@@ -59,9 +59,8 @@ h1 営業設定の編集
       | 閉店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][fri][close]", @team_business_setting.fri&.dig("close")
 
-    .field
+    .l-flex
       = label_tag '土曜'
-    .field
       = select_tag "team_business_setting[business_hours_for_day_of_week][sat][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.sat&.dig("working_day"))
 
       | 開店:
@@ -70,9 +69,8 @@ h1 営業設定の編集
       | 閉店:
       = time_field_tag "team_business_setting[business_hours_for_day_of_week][sat][close]", @team_business_setting.sat&.dig("close")
 
-    .field
+    .l-flex
       = label_tag '日曜'
-    .field
       = select_tag "team_business_setting[business_hours_for_day_of_week][sun][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.sun&.dig("working_day"))
 
       | 開店:
@@ -86,5 +84,4 @@ h1 営業設定の編集
     = f.number_field :max_reservation_month, max: 6
 
   .p-form
-    = link_to "戻る", admin_team_path(@team)
     = f.submit "更新する"

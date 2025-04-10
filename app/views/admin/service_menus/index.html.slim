@@ -1,21 +1,33 @@
-.l-flex
-  .l-flex__item
-    h1.p-title サービスメニュー
-  .l-flex__item
-    = link_to 'サービスメニューを追加する', new_admin_service_menu_path
+.l-main-header
+  .l-flex.l-space-between.l-align-center.h-full
+    .l-flex__item
+      h1.p-txt-primary サービスメニュー
+    .l-flex__item
+      .p-action-link
+        = link_to new_admin_service_menu_path, class: 'p-link' do
+          .l-flex.l-colgap-8
+            span.material-symbols-outlined
+              | add
+            | 追加する
 
-table
-  thead
-    tr
-      th メニュー名
-      th 価格（税込）
-      th 所要時間（分）
-      th 所要人数
-      th 操作
-    - @service_menus.each do |service_menu|
-      tr
-        td = service_menu.menu_name
-        td = "#{service_menu.price}円"
-        td = service_menu.duration
-        td = service_menu.required_staff_count
-        td = link_to '編集', edit_admin_service_menu_path(service_menu)
+.l-main-contents
+  .l-flex-col
+    table.md-table.u-mbt-32
+      thead
+        tr
+          th メニュー名
+          th 価格（税込）
+          th 所要時間（分）
+          th 所要人数
+          th 操作
+      tdoby
+        - @service_menus.each do |service_menu|
+          tr
+            td = service_menu.menu_name
+            td = "#{service_menu.price}円"
+            td = service_menu.duration
+            td = service_menu.required_staff_count
+            td 
+              = link_to edit_admin_service_menu_path(service_menu) do
+                span.material-symbols-outlined
+                  | edit_square
