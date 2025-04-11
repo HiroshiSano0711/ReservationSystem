@@ -1,7 +1,8 @@
 @use '../../global' as *;
 
 .p-link {
-  text-decoration: inherit;
+  color: $txt-color-base;
+  text-decoration: none;
 
   &:visited {
     color: $txt-color-base;

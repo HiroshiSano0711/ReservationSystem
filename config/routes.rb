@@ -7,11 +7,23 @@ Rails.application.routes.draw do
     resources :staff_profiles, only: %i[edit update], param: :staff_id
     resources :service_menus
     resources :reservations, except: %i[destroy]
+    get 'account', to: 'accounts#show'
   end
 
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
-  devise_for :staffs
+  devise_for :staffs, controllers: {
+    invitable: 'staffs/invitations',
+    sessions: 'staffs/sessions',
+    passwords: 'staffs/passwords'
+  }
+
+  devise_for :customers, controllers: {
+    sessions: 'customers/sessions',
+    registrations: 'customers/registrations',
+    confirmable: 'customers/confirmations',
+    passwords: 'customers/passwords'
+  }
 
   scope ':permalink', as: 'reservations' do
     root to: 'reservations#new', via: :get

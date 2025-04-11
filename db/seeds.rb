@@ -102,7 +102,7 @@ reservation = Reservation.create!(
   total_duration: 70,
   customer_name: '顧客1',
   customer_phone_number: '09011112222',
-  assigned_staff_names: staff.staff_profile.nick_name,
+  assigned_staff_name: staff.staff_profile.nick_name,
   menu_summary: 'カット, カラー',
   status: 'finalize'
 )

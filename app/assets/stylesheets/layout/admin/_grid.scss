@@ -1,6 +1,7 @@
 .l-grid {
 	display: grid;
   grid-template-rows: 100vh 64px;
+  grid-template-columns: 240px 1fr;
 }
 
 .l-grid__item-nav {
@@ -10,7 +11,7 @@
 
 .l-grid__item-main {
   grid-row: 1 / 2;
-	grid-column: 1 / 2;
+	grid-column: 2 / 3;
 }
 
 .l-grid__item-footer {

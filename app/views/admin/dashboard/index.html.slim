@@ -19,6 +19,6 @@
           td.p-table__td = reservation.public_id
           td.p-table__td = reservation.customer_name
           td.p-table__td = reservation.menu_summary
-          td.p-table__td = reservation.assigned_staff_names
+          td.p-table__td = reservation.assigned_staff_name
           td.p-table__td = "#{reservation.date.strftime('%Y年%m月%d日') } #{reservation.start_time.strftime("%H:%M")}~#{reservation.end_time.strftime("%H:%M")}"
           td.p-table__td = reservation.status

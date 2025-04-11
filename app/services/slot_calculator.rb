@@ -55,7 +55,8 @@ class SlotCalculator
       )
     end
 
-    overlap_count < @available_staff_list.size
+    overlap_count < @available_staff_list.size &&
+      overlap_count < @required_staff_count
   end
 
   def time_overlap?(reservation_start, reservation_end, slot_start, slot_end)

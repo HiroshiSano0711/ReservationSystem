@@ -1,5 +1,5 @@
 class Staff < ApplicationRecord
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :invitable
+  devise :database_authenticatable, :recoverable, :validatable, :invitable
 
   belongs_to :team
   has_one :staff_profile, dependent: :destroy
