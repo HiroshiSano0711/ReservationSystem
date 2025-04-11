@@ -1,10 +1,8 @@
 ja:
-  activerecord:
-    models:
-      staff_profile: スタッフプロフィール
-    attributes:
-      staff_profile:
-        nick_name: ニックネーム
-        accepts_direct_booking: 指名受付
-        bio: 自己紹介/PR
-        working_status: 勤務状況
+  number:
+    currency:
+      format:
+        unit: "円"
+        format: "%n%u"
+        negative_format: "-%n%u"
+        precision: 0

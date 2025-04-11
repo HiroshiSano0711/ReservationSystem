@@ -1,0 +1,23 @@
+h2 お客様情報の登録
+
+p 続けてアカウント登録をお願いします。
+
+= form_with url: reservations_reservation_signup_create_path(@reservation.public_id), method: :post, scope: :customer, local: true do |f|
+  .field
+    = f.label :phone_number, '電話番号（認証用）'
+    = f.telephone_field :phone_number, value: nil, required: true
+
+  .field
+    = f.label :email, 'メールアドレス'
+    = f.email_field :email, value: nil, required: true
+
+  .field
+    = f.label :password, 'パスワード'
+    = f.password_field :password, required: true
+
+  .field
+    = f.label :password_confirmation, 'パスワード（確認）'
+    = f.password_field :password_confirmation, required: true
+
+  .actions
+    = f.submit '登録する'

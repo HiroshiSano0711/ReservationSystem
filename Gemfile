@@ -17,14 +17,13 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 gem "devise"
-gem "devise-two-factor"
-gem "devise-i18n"
 gem 'devise_invitable'
 gem "nanoid"
-gem "rqrcode"
 
 gem "slim-rails"
 gem "dartsass-rails"
+
+gem 'rails-i18n'
 
 group :development, :test do
   gem 'pry-byebug'

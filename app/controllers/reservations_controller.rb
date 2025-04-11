@@ -43,12 +43,12 @@ class ReservationsController < ApplicationController
     selected_start = Time.zone.parse(params[:selected_slot])
     service_menus = ServiceMenu.find(session[:selected_service_menus])
     team = Team.find_by!(permalink: params[:permalink])
-    assigned_staff_id = session[:assigned_staff_id] || []
+    staff_id = session[:selected_staff] || []
 
     reservation = Reservations::TemporaryReservationCreator.new(
       team: team,
       service_menus: service_menus,
-      staff_id: assigned_staff_id,
+      staff_id: staff_id,
       start_time: selected_start
     ).call
 
@@ -70,6 +70,8 @@ class ReservationsController < ApplicationController
       phone_number: reservation_params[:customer_phone_number],
     )
     if @reservation.update(reservation_params.merge(status: :finalize, customer: customer))
+      session.delete(:selected_service_menus)
+      session.delete(:selected_staff)
       redirect_to reservations_complete_path(@team.permalink, @reservation.public_id)
     else
       flash.now[:alert] = "入力内容に誤りがあります。"

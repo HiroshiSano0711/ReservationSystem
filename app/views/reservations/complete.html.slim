@@ -1,3 +1,7 @@
-h1 = "#{@team.name}へのご予約が完了しました"
-p = "予約ID: #{@reservation.public_id}"
-p 当日お会いできることをスタッフ一同楽しみにしております。
+.l-main
+  h1.p-txt-primary = "#{@team.name}へのご予約が完了しました"
+  p.p-txt-sub = "予約ID: #{@reservation.public_id}"
+  p ご予約ありがとうございます。当日お会いできることをスタッフ一同楽しみにしております。
+
+  p 登録しておくと次回からの予約が簡単になり、今回の予約履歴も確認できるようになります。(24時間以内)
+  = link_to  "新規登録へ", reservations_reservation_signup_path(@reservation)

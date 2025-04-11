@@ -33,6 +33,8 @@ Rails.application.routes.draw do
     get '/:public_id/prior_confirmation', to: 'reservations#prior_confirmation', as: 'prior_confirmation'
     patch '/:public_id', to: 'reservations#finalize', as: 'finalize'
     get '/:public_id/complete', to: 'reservations#complete', as: 'complete'
+    get  '/:public_id/reservation_signup', to: 'reservations/registrations#new', as: :reservation_signup
+    post '/:public_id/reservation_signup', to: 'reservations/registrations#create', as: :reservation_signup_create
   end
 
   root to: 'home#index'
