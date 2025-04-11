@@ -1,0 +1,26 @@
+.l-wrapper {
+	max-inline-size: 768px;
+	margin: 0 auto;
+}
+
+.l-main {
+  padding: 16px;
+}
+
+.l-main-contents {
+  margin-block-start: 32px;
+}
+
+.l-main-form {
+  overflow: hidden;
+  max-inline-size: 768px;
+}
+
+.l-slot-radio {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin: 8px 0;
+  block-size: 32px;
+  // display: flex;
+  // align-items: center;
+}

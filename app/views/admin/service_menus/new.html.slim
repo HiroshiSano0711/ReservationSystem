@@ -11,27 +11,27 @@
 .l-main-content.u-mbt-32
   = form_with model: @service_menu, url: admin_service_menus_path, method: :post, local: true, class: 'p-form' do |f|
     .p-form__fieldset
-      = f.label :menu_name, 'メニュー名'
+      = f.label :menu_name, 'メニュー名', class: 'p-label'
       = f.text_field :menu_name
 
     .p-form__fieldset
-      = f.label :duration, '所要時間'
+      = f.label :duration, '所要時間', class: 'p-label'
       = f.number_field :duration
 
     .p-form__fieldset
-      = f.label :price, '価格'
+      = f.label :price, '価格', class: 'p-label'
       = f.number_field :price
 
     .p-form__fieldset
-      = f.label :required_staff_count, '所要人数'
+      = f.label :required_staff_count, '所要人数', class: 'p-label'
       = f.number_field :required_staff_count
 
     .p-form__fieldset
-      = f.label :available_from, '提供開始'
+      = f.label :available_from, '提供開始', class: 'p-label'
       = f.date_field :available_from
 
     .p-form__fieldset
-      = f.label :available_until, '提供終了'
+      = f.label :available_until, '提供終了', class: 'p-label'
       = f.date_field :available_until
 
     .p-form__fieldset

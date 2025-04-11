@@ -11,7 +11,7 @@
 .l-main-content.u-mbt-32
   = form_with model: @staff, url: admin_staffs_path, method: :post, local: true, class: 'p-form' do |f|
     .p-form__fieldset
-      = f.label :email, 'メールアドレス', class: 'u-mbe-16'
+      = f.label :email, 'メールアドレス', class: 'p-label'
       = f.email_field :email
 
     .p-form__fieldset

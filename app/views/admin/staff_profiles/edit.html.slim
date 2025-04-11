@@ -11,32 +11,33 @@
 .l-main-content.u-mbt-32
   = form_with model: @staff, url: admin_staff_profile_path(@staff), method: :patch, local: true, class: 'p-form' do |f|
     .p-form__fieldset
-      label メールアドレス
+      label.p-label メールアドレス
       = @staff.email
 
     = fields_for :staff_profile, @staff.staff_profile do |ff|
       .p-form__fieldset
-        = ff.label :nick_name
+        = ff.label :nick_name, class: 'p-label'
         = ff.text_field :nick_name
 
       .p-form__fieldset
-        = ff.label :accepts_direct_booking
-        = ff.check_box :accepts_direct_booking
+        = ff.label :accepts_direct_booking, class: 'p-label'
+        = ff.select :accepts_direct_booking,  options_for_select({ '受け付ける': '1', '受け付けない': '0' }) 
 
       .p-form__fieldset
-        = ff.label :working_status, '勤務状況'
+        = ff.label :working_status, '勤務状況', class: 'p-label'
         = ff.select :working_status, StaffProfile.working_statuses.keys.to_a, {}
 
       .p-form__fieldset
-        = ff.label :bio
+        = ff.label :bio, class: 'p-label'
         = ff.textarea :bio
 
     .p-form__fieldset
-      = label_tag '担当するサービスメニュー'
+      label.p-label 担当するサービスメニュー
       = hidden_field_tag 'service_menus[ids][]', ''
       - @service_menus.each do |service_menu|
-        = label_tag 'service_menus_ids', service_menu.menu_name
-        = check_box_tag 'service_menus[ids][]', service_menu.id, { checked: @staff.service_menus.ids.include?(service_menu.id), id: "service_menus_ids_#{service_menu.id}" }
+        .l-flex-col
+          = label_tag 'service_menus_ids_', service_menu.menu_name
+          = check_box_tag 'service_menus[ids][]', service_menu.id, { checked: @staff.service_menus.ids.include?(service_menu.id), id: "service_menus_ids_#{service_menu.id}" }
 
     .p-form__fieldset
       = f.submit "更新する"

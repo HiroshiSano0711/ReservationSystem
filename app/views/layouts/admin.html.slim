@@ -14,11 +14,11 @@ html
     link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"
     = stylesheet_link_tag :admin, "data-turbo-track": "reload"
 
-  body.p-bg-color
+  body
     .l-grid
-      .l-grid__item-nav.p-bg-color-sub
+      .l-grid__item-nav.l-sidebar
         = render 'admin/header'
-      main.l-grid__item-main.u-pse-16
+      main.l-grid__item-main.l-main
         = yield
       footer.l-grid__item-footer
         | コピーライトとか入るよ

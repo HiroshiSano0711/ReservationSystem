@@ -1,0 +1,33 @@
+.l-flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.l-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.l-rowgap-8 {
+  row-gap: 8px;
+}
+
+.l-colgap-8 {
+  column-gap: 8px;
+}
+
+.l-space-between {
+  justify-content: space-between;
+}
+
+.l-align-center {
+  align-items: center;
+}
+
+.l-h-full {
+  block-size: 100%;
+}
+
+.l-w-full {
+  inline-size: 100%;
+}

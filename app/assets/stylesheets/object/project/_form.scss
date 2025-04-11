@@ -1,10 +1,18 @@
-@use '../global/color' as *;
+@use '../../global' as *;
 
-label {
+.p-label {
   display: block flow;
   font-size: 0.95rem;
   color: $light-600;
   margin-block-end: 8px;
+}
+
+.p-input {
+  inline-size: 100%;
+  block-size: 48px;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
 }
 
 input[type="text"],
@@ -68,5 +76,5 @@ select {
 }
 
 .p-form__fieldset {
-  margin-block-end: 24px;
+  margin-block-start: 32px;
 }

@@ -10,12 +10,17 @@ html
     = csp_meta_tag
 
     = yield :head
-
+    link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet"
+    link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"
     = stylesheet_link_tag :application, "data-turbo-track": "reload"
 
   body
-    .wrapper
-      - if flash[:alert]
-        .alert = flash[:alert]
+    .l-wrapper
+      .l-grid
+        main.l-grid__item-main
+          - flash.each do |type, msg|
+            div class="p-notice p-notice--#{type}" = msg
+          = yield
 
-      = yield
+        footer.l-grid__item-footer
+          | コピーライトとか入るよ

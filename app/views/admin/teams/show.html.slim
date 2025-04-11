@@ -9,19 +9,19 @@
             span.material-symbols-outlined
               | edit_square
 
-.l-main-contents.u-mbt-32
-  .p-card.u-mbt-16
+.l-main-contents
+  .p-card
     .p-card__title チーム名
     .p-card__desc = @team.name
 
-  .p-card.u-mbt-16
+  .p-card
     .p-card__title 予約URL
     .p-card__desc = link_to @team.reservation_url(request), @team.reservation_url(request), target: :_blank, rel: 'noopener', class: 'p-link'
 
-  .p-card.u-mbt-16
+  .p-card
     .p-card__title 連絡先
     .p-card__desc = @team.phone_number.present? ? @team.phone_number : '未入力'
 
-  .p-card.u-mbt-16
+  .p-card
     .p-card__title 概要
     .p-card__desc = @team.description.present? ? @team.description : '未入力'

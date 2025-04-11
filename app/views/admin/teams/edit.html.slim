@@ -11,19 +11,19 @@
 .l-main-content.u-mbt-32
   = form_with model: @team, url: admin_team_path(@team), method: :patch, local: true, class: 'p-form' do |f|
     .p-form__fieldset
-      = f.label :name, "チーム名"
+      = f.label :name, "チーム名", class: 'p-label'
       = f.text_field :name
 
     .p-form__fieldset
-      = f.label :permalink, "パーマリンク"
+      = f.label :permalink, "パーマリンク", class: 'p-label'
       = f.text_field :permalink
 
     .p-form__fieldset
-      = f.label :phone_number, "連絡先電話番号"
+      = f.label :phone_number, "連絡先電話番号", class: 'p-label'
       = f.text_field :phone_number
 
     .p-form__fieldset
-      = f.label :description, "チームの概要"
+      = f.label :description, "チームの概要", class: 'p-label'
       = f.text_area :description, rows: 4
 
     .p-form__fieldset

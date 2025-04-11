@@ -1,14 +1,22 @@
-h1 = "#{@team.name}の予約ページ"
-h2 空き時間を選択してください
+.l-main
+  .l-main-header
+    h1.p-txt-primary = "#{@team.name}の予約ページ"
+    p.p-txt-sub 空き時間を選択してください。
 
-= form_with url: reservations_temporary_path(permalink: @team.permalink), method: :post do |f|
-  .slot-form
-    - @slots.each_with_index do |slot, date_index|
-      .slot-date
-        = slot[:date].strftime('%m月%d日')
-        - slot[:slots].each_with_index do |slot, index|
-          .slot-option
-            = f.radio_button :selected_slot, slot[:start].to_s, id: "slot_#{date_index}_#{index}"
-            = label_tag "slot_#{date_index}_#{index}", "#{slot[:start].strftime('%H:%M')} ~ #{slot[:end].strftime('%H:%M')}"
 
-  = f.submit '予約確認画面へ'
+  .l-main-content
+    = form_with url: reservations_temporary_path(permalink: @team.permalink), method: :post, class: 'p-form' do |f|
+      .l-main-form
+        .l-flex-slot
+          - @slots.each_with_index do |slot, date_index|
+            = next if slot[:slots].blank?
+
+            .l-flex-slot__item
+              = slot[:date].strftime('%m月%d日')
+              - slot[:slots].each_with_index do |slot, index|
+                .l-slot-radio
+                  = f.radio_button :selected_slot, slot[:start].to_s, id: "slot_#{date_index}_#{index}"
+                  = label_tag "slot_#{date_index}_#{index}", "#{slot[:start].strftime('%H:%M')} ~ #{slot[:end].strftime('%H:%M')}"
+
+      .l-main-form
+        = f.submit '予約確認画面へ'
