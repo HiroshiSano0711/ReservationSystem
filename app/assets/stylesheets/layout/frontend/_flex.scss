@@ -26,6 +26,14 @@
   inline-size: 160px;
 }
 
+.l-flex-align-center {
+  align-items: center;
+}
+
+.l-flex-justify-end {
+  justify-content: end;
+}
+
 .l-rowgap-8 {
   row-gap: 8px;
 }

@@ -15,12 +15,34 @@ html
     = stylesheet_link_tag :application, "data-turbo-track": "reload"
 
   body
-    .l-wrapper
-      .l-grid
-        main.l-grid__item-main
+    .l-grid
+      headerl.l-grid__item-header
+        .l-header
+          .l-flex.l-flex-align-center.l-flex-justify-end.l-colgap-8
+            - if current_customer.present?
+              .l-flex__item
+                = button_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'p-button'
+            - else
+              .l-flex__item
+                = link_to customers_new_path, class: 'p-link' do
+                  .p-menu-link
+                    .l-flex.l-colgap-8
+                      span.material-symbols-outlined
+                        | team_dashboard
+                      | サインアップ
+              .l-flex__item
+                = link_to new_customer_session_path, class: 'p-link' do
+                  .p-menu-link
+                    .l-flex.l-colgap-8
+                      span.material-symbols-outlined
+                        | team_dashboard
+                      | ログイン
+
+      main.l-grid__item-main
+        .l-wrapper
           - flash.each do |type, msg|
             div class="p-notice p-notice--#{type}" = msg
           = yield
 
-        footer.l-grid__item-footer
-          | コピーライトとか入るよ
+      footer.l-grid__item-footer.l-footer
+        | © 2025 Hiro

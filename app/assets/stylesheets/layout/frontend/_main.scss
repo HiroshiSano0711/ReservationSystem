@@ -1,6 +1,18 @@
+@use '../../global/color' as *;
+
 .l-wrapper {
 	max-inline-size: 768px;
 	margin: 0 auto;
+}
+
+.l-header {
+  padding: 16px;
+}
+
+.l-footer {
+  padding: 16px;
+  text-align: center;
+  background-color: $dark-700;
 }
 
 .l-main {

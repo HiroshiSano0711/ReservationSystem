@@ -24,6 +24,9 @@ Rails.application.routes.draw do
     passwords: 'customers/passwords'
   }
 
+  get 'customers/new', to: 'customers#new'
+  post 'customers', to: 'customers#invite'
+
   scope ':permalink', as: 'reservations' do
     root to: 'reservations#new', via: :get
     post '/menu_select', to: 'reservations#menu_select'

@@ -1,3 +1,5 @@
+@use '../../global/color' as *;
+
 .l-main {
   padding: 0 16px;
 }
@@ -8,4 +10,10 @@
 
 .l-main-contents {
   margin-block-start: 32px;
+}
+
+.l-footer {
+  padding: 16px;
+  text-align: center;
+  background-color: $dark-700;
 }

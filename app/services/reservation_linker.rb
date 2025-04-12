@@ -6,8 +6,12 @@ class ReservationLinker
 
   def link_reservation
     reservation = Reservation.find_by(public_id: @public_id)
-    return unless reservation
+    return if reservation.blank?
 
     reservation.update(customer: @customer)
+    @customer.create_profile(
+      name: reservation.customer_name,
+      phone_number: reservation.customer_phone_number
+    )
   end
 end
