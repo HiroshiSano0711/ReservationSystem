@@ -23,6 +23,8 @@ class Admin::TeamBusinessSettingsController < Admin::BaseController
   def team_business_setting_params
     params.require(:team_business_setting).permit(
       :max_reservation_month,
+      :reservation_start_delay_days,
+      :cancellation_deadline_hours_before,
       business_hours_for_day_of_week: {}
     )
   end

@@ -15,10 +15,18 @@ class SlotCalculator
     slots = []
     reservations_for_day = reservations_by_date[date] || []
     opening_hours = @business_setting.opening_hours(date)
+    earliest_date = Time.zone.today + @business_setting.reservation_start_delay_days
+
+    return [] if date < earliest_date
 
     current_time = opening_hours[:open]
 
     while current_time + @duration <= opening_hours[:close]
+      if date == Time.zone.today && current_time < Time.zone.now
+        current_time += INTERVAL
+        next
+      end
+
       end_time = current_time + @duration
 
       if available_slot?(current_time, end_time, reservations_for_day)

@@ -19,7 +19,6 @@
       - elsif @team_business_setting.mon['working_day'] === '0'
         | 定休日
 
-  .p-card
     .p-card__title 火曜
     .p-card__desc
       - if @team_business_setting.tue['working_day'] === '1'
@@ -27,7 +26,6 @@
       - elsif @team_business_setting.tue['working_day'] === '0'
         | 定休日
 
-  .p-card
     .p-card__title 水曜
     .p-card__desc
       - if @team_business_setting.wed['working_day'] === '1'
@@ -35,7 +33,6 @@
       - elsif @team_business_setting.wed['working_day'] === '0'
         | 定休日
 
-  .p-card
     .p-card__title 木曜
     .p-card__desc
       - if @team_business_setting.thu['working_day'] === '1'
@@ -43,7 +40,6 @@
       - elsif @team_business_setting.thu['working_day'] === '0'
         | 定休日
 
-  .p-card
     .p-card__title 金曜
     .p-card__desc
       - if @team_business_setting.fri['working_day'] === '1'
@@ -51,7 +47,6 @@
       - elsif @team_business_setting.fri['working_day'] === '0'
         | 定休日
 
-  .p-card
     .p-card__title 土曜
     .p-card__desc
       - if @team_business_setting.sat['working_day'] === '1'
@@ -59,7 +54,6 @@
       - elsif @team_business_setting.sat['working_day'] === '0'
         | 定休日
 
-  .p-card
     .p-card__title 日曜
     .p-card__desc
       - if @team_business_setting.sun['working_day'] === '1'
@@ -71,3 +65,13 @@
   h2.p-txt-sub.u-mbt-16 最大予約受付月数
   .p-card
     = "#{@team_business_setting.max_reservation_month}ヶ月先まで"
+
+.l-flex-col
+  h2.p-txt-sub.u-mbt-16 予約受付猶予（日数）
+  .p-card
+    = "#{@team_business_setting.reservation_start_delay_days}日後から予約受付"
+
+.l-flex-col
+  h2.p-txt-sub.u-mbt-16 予約キャンセル期限（時間）
+  .p-card
+    = "予約開始時間の#{@team_business_setting.cancellation_deadline_hours_before}時間前になったらキャンセル不可"
