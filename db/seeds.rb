@@ -40,7 +40,6 @@ admin_staff = Staff.create!(
   email: 'admin@example.com',
   password: 'password',
   password_confirmation: 'password',
-  confirmed_at: Time.now,
   invitation_accepted_at: Time.now,
   role: 'admin_staff'
 )
@@ -56,7 +55,6 @@ staff = Staff.create!(
   email: 'staff-1@example.com',
   password: 'password',
   password_confirmation: 'password',
-  confirmed_at: Time.now,
   invitation_accepted_at: Time.now,
   role: 'staff'
 )
@@ -72,7 +70,6 @@ staff_2 = Staff.create!(
   email: 'staff-2@example.com',
   password: 'password',
   password_confirmation: 'password',
-  confirmed_at: Time.now,
   invitation_accepted_at: Time.now,
   role: 'staff'
 )
@@ -89,11 +86,8 @@ ServiceMenu.all.each do |menu|
   staff_2.service_menu_staffs.create!(service_menu: menu)
 end
 
-customer = Customer.create
-customer.create_customer_profile(name:'顧客1', phone_number: '09011112222')
 reservation = Reservation.create!(
   team: team,
-  customer: customer,
   date: Date.current.tomorrow,
   start_time: '10:00',
   end_time: '11:20',

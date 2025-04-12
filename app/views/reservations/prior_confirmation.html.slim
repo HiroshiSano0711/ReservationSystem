@@ -2,36 +2,43 @@
   h1.p-txt-primary = "#{@team.name}の予約ページ"
   p.p-txt-sub 予約内容の確認
 
-  = form_with url: reservations_finalize_path(@team.permalink, @reservation.public_id), method: :patch do |f|
-    .reservation-summary
-      h2 予約情報
+  .reservation-summary
+    h2 予約情報
 
-      dl
-        dt メニュー
-        dd = @service_menus.map(&:menu_name).join(", ")
+    dl
+      dt メニュー
+      dd = @service_menus.map(&:menu_name).join(", ")
 
-        dt 担当者:
-        - if @reservation.reservation_details.any? { |detail| detail.staff.present? }
-          dd  = @reservation.reservation_details.map { |detail| detail.staff.name }.uniq
-        - else
-          dd おまかせ
+      dt 担当者:
+      - if @reservation.reservation_details.any? { |detail| detail.staff.present? }
+        dd  = @reservation.reservation_details.map { |detail| detail.staff.name }.uniq
+      - else
+        dd おまかせ
 
-        dt 予約日時:
-        dd = "#{@reservation.date.strftime('%Y年%m月%d日') } #{@reservation.start_time.strftime("%H:%M")}~#{@reservation.end_time.strftime("%H:%M")}"
+      dt 予約日時:
+      dd = "#{@reservation.date.strftime('%Y年%m月%d日') } #{@reservation.start_time.strftime("%H:%M")}~#{@reservation.end_time.strftime("%H:%M")}"
 
-        dt 所要時間
-        dd = "#{@reservation.total_duration}分"
+      dt 所要時間
+      dd = "#{@reservation.total_duration}分"
 
-        dt 価格:
-        dd = number_to_currency(@reservation.total_price, locale: 'ja')
+      dt 価格:
+      dd = number_to_currency(@reservation.total_price, locale: 'ja')
 
-      p
-        strong 顧客情報:
-        | 最後にお名前と連絡先電話番号を入力してください
-      = f.label 'お名前'
-      = f.text_field 'reservation[customer_name]'
-      = f.label '連絡先電話番号'
-      = f.text_field 'reservation[customer_phone_number]'
+  = form_with model: @form, url: reservations_finalize_path(@team.permalink, @reservation.public_id), method: :patch do |f|
+    p
+      strong 顧客情報:
+      | 最後にお名前と連絡先電話番号を入力してください
+
+    - if @form.errors.any?
+      .p-notice.p-notice--alert
+        ul
+          - @form.errors.full_messages.each do |msg|
+            li = msg
+
+    = f.label :customer_name
+    = f.text_field :customer_name
+    = f.label :customer_phone_number
+    = f.telephone_field :customer_phone_number
 
     .actions
       = f.submit "予約を確定する"

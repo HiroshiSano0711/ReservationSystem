@@ -14,12 +14,6 @@ class DeviseCreateStaffs < ActiveRecord::Migration[8.0]
       t.datetime :reset_password_sent_at
       t.datetime :remember_created_at
 
-      # confirmation
-      t.string   :confirmation_token
-      t.datetime :confirmed_at
-      t.datetime :confirmation_sent_at
-      t.string   :unconfirmed_email
-      
       # invitable
       t.string     :invitation_token
       t.datetime   :invitation_created_at
@@ -34,7 +28,6 @@ class DeviseCreateStaffs < ActiveRecord::Migration[8.0]
 
     add_index :staffs, :email,                unique: true
     add_index :staffs, :reset_password_token, unique: true
-    add_index :staffs, :confirmation_token,   unique: true
     add_index :staffs, :invitation_token,     unique: true
     add_index :staffs, :invited_by_id
   end

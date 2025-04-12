@@ -11,13 +11,5 @@ p 続けてアカウント登録をお願いします。
     = f.label :email, 'メールアドレス'
     = f.email_field :email, value: nil, required: true
 
-  .field
-    = f.label :password, 'パスワード'
-    = f.password_field :password, required: true
-
-  .field
-    = f.label :password_confirmation, 'パスワード（確認）'
-    = f.password_field :password_confirmation, required: true
-
   .actions
     = f.submit '登録する'

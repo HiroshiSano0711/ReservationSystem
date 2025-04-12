@@ -13,15 +13,14 @@ Rails.application.routes.draw do
   mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 
   devise_for :staffs, controllers: {
-    invitable: 'staffs/invitations',
+    invitations: 'staffs/invitations',
     sessions: 'staffs/sessions',
     passwords: 'staffs/passwords'
   }
 
   devise_for :customers, controllers: {
+    invitations: 'customers/invitations',
     sessions: 'customers/sessions',
-    registrations: 'customers/registrations',
-    confirmable: 'customers/confirmations',
     passwords: 'customers/passwords'
   }
 

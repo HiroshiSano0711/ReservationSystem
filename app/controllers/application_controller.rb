@@ -2,10 +2,10 @@ class ApplicationController < ActionController::Base
   # allow_browser versions: :modern
 
   def after_sign_in_path_for(resource)
-    if resource.admin_staff?
-      admin_path
-    else
+    if resource.class == Customer
       root_path
+    elsif resource.admin_staff?
+      admin_path
     end
   end
 end

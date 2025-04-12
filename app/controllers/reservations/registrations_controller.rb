@@ -7,18 +7,11 @@ module Reservations
 
     def create
       @reservation = Reservation.find_by!(public_id: params[:public_id])
-
-      registrar = Customers::ConfirmReservationRegistrar.new(
-        reservation: @reservation,
-        phone_number: params[:customer][:phone_number],
-        customer_params: customer_params
-      )
-
-      if registrar.call
-        redirect_to root_path, notice: '確認メールを送信しました。メールに記載されている認証URLをクリックしてください。'
+      if @reservation.customer_phone_number === customer_params[:phone_number]
+        Customer.invite!(email: customer_params[:email])
+        redirect_to root_path, notice: '招待メールを送信しました。メールに記載されているURLから登録してください。'
       else
-        @customer = @reservation.customer
-        flash.now[:alert] = registrar.errors.flatten.join(',')
+        flash.now[:alert] = '電話番号が一致しません。入力内容をご確認ください。'
         render :new
       end
     end
@@ -26,7 +19,7 @@ module Reservations
     private
 
     def customer_params
-      params.require(:customer).permit(:email, :password, :password_confirmation)
+      params.require(:customer).permit(:email, :phone_number)
     end
   end
 end
