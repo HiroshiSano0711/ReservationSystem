@@ -2,11 +2,12 @@
 
 .l-wrapper {
 	max-inline-size: 768px;
-	margin: 0 auto;
+	margin: 32px auto;
 }
 
 .l-header {
   padding: 16px;
+  background-color: $dark-700;
 }
 
 .l-footer {
@@ -33,6 +34,4 @@
   border-radius: 6px;
   margin: 8px 0;
   block-size: 32px;
-  // display: flex;
-  // align-items: center;
 }

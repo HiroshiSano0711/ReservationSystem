@@ -1,0 +1,42 @@
+@use '../../global/color' as *;
+
+.toggle-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block-end: 8px;
+  cursor: pointer;
+}
+
+.toggle-switch input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-switch .slider {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  background-color: $light-600;
+  border-radius: 9999px;
+  transition: background-color 0.3s;
+}
+
+.toggle-switch .slider::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: $light-900;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .slider {
+  background-color: $light-accent;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .slider::before {
+  transform: translateX(20px);
+}

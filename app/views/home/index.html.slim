@@ -1,2 +1,7 @@
-h1 Home#index
-p Find me in app/views/home/index.html.slim
+h1 チーム一覧
+
+- @teams.each do |team|
+  .p-card
+    .p-card__title = team.name
+    .p-card__desc = team.description
+    = link_to '予約ページへ', team.permalink, class: 'p-link'

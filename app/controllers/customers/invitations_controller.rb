@@ -4,10 +4,10 @@ class Customers::InvitationsController < Devise::InvitationsController
   def update
     super
 
-    public_id = session[:public_id]
-    if public_id.present?
-      ReservationLinker.new(customer: resource, public_id: public_id).link_reservation
-      session.delete(:public_id)
+    reservation_session = Reservations::SessionData.new(session)
+    if reservation_session.public_id.present?
+      ReservationLinker.new(customer: resource, public_id: reservation_session.public_id).link_reservation
+      reservation_session.clear_public_id
     end
   end
 end

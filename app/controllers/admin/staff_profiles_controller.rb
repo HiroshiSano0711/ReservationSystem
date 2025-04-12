@@ -1,42 +1,50 @@
 class Admin::StaffProfilesController < Admin::BaseController
   def edit
     @staff = Staff.find(params[:staff_id])
-    @staff_profile = @staff.staff_profile
     @service_menus = @team.service_menus
+  
+    @form = StaffProfileForm.new(
+      staff: @staff,
+      staff_profile: @staff.staff_profile,
+      team_service_menus: @service_menus,
+      params: {
+        working_status: @staff.staff_profile.working_status,
+        nick_name: @staff.staff_profile.nick_name,
+        accepts_direct_booking: @staff.staff_profile.accepts_direct_booking,
+        bio: @staff.staff_profile.bio,
+        selected_service_menu_ids: @staff.service_menu_ids
+      }
+    )
   end
 
   def update
     @staff = Staff.find(params[:staff_id])
-    @staff.staff_profile.assign_attributes(staff_profile_params)
-    @staff.service_menus = @team.service_menus.where(id: service_menus_params[:ids])
-
-    ActiveRecord::Base.transaction do
-      @staff.staff_profile.save!
-      @staff.save!
-    end
-    redirect_to admin_staffs_path, notice: 'スタッフのプロフィール情報を更新しました。'
-  rescue
     @service_menus = @team.service_menus
-    flash.now[:alert] = '更新に失敗しました。入力内容を確認してください。'
-    render :edit, status: :unprocessable_entity
+  
+    @form = StaffProfileForm.new(
+      staff: @staff,
+      staff_profile: @staff.staff_profile,
+      team_service_menus: @service_menus,
+      params: staff_profile_form_params
+    )
+
+    if @form.save
+      redirect_to admin_staffs_path, notice: 'スタッフのプロフィール情報を更新しました。'
+    else
+      flash.now[:alert] = '更新に失敗しました。入力内容を確認してください。'
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private
 
-  def staff_params
-    params.require(:staff).permit(:email)
-  end
-
-  def staff_profile_params
-    params.require(:staff_profile).permit(
+  def staff_profile_form_params
+    params.require(:staff_profile_form).permit(
       :working_status,
       :nick_name,
       :accepts_direct_booking,
-      :bio
+      :bio,
+      selected_service_menu_ids: []
     )
-  end
-
-  def service_menus_params
-    params.require(:service_menus).permit(ids: [])
   end
 end

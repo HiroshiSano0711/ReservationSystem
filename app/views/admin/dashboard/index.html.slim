@@ -22,3 +22,11 @@
           td.p-table__td = reservation.assigned_staff_name
           td.p-table__td = "#{reservation.date.strftime('%Y年%m月%d日') } #{reservation.start_time.strftime("%H:%M")}~#{reservation.end_time.strftime("%H:%M")}"
           td.p-table__td = reservation.status
+
+  .l-statics
+    dl
+      dt 本日の予約数
+      dd = "#{@today_reservation_count}件"
+    dl
+      dt 今月の予約合計金額
+      dd = "#{@current_month_sales}円"

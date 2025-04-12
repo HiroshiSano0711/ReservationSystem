@@ -1,0 +1,16 @@
+// deviseのテンプレート用
+
+.field {
+  margin-block-start: 16px;
+
+  label {
+    display: inline-block;
+    margin-block-end: 8px;
+  }
+}
+
+.actions {
+  input[type="submit"] {
+    margin-block-start: 16px;
+  }
+}

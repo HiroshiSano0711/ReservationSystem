@@ -1,6 +1,33 @@
 .l-grid {
 	display: grid;
-  grid-template-rows: 60px calc(100vh - 60px) 64px;
+  grid-template-rows: 80px minmax(calc(100vh - 60px), 1fr) 64px;
+}
+
+.l-grid-header {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content max-content;
+  align-items: center;
+  block-size: 80px;
+
+  &__item-home {
+    grid-column: 1 / 2;
+  }
+
+  &__item-mypage {
+    grid-column: 3 / 4;
+  }
+
+  &__item-login {
+    grid-column: 4 / 5;
+  }
+
+  &__item-signup {
+    grid-column: 3 / 4;
+  }
+
+  &__item-login {
+    grid-column: 4 / 5;
+  }
 }
 
 .l-grid__item-header {

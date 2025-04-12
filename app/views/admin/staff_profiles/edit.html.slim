@@ -6,38 +6,34 @@
           span.material-symbols-outlined
             | arrow_back
     .l-flex__item
-      h1.p-txt-primary スタッフの編集
+      h1.p-txt-primary スタッフプロフィールの編集
 
 .l-main-content.u-mbt-32
-  = form_with model: @staff, url: admin_staff_profile_path(@staff), method: :patch, local: true, class: 'p-form' do |f|
+  = form_with model: @form, url: admin_staff_profile_path(@staff), method: :patch, local: true, class: 'p-form' do |f|
+    = render partial: 'admin/shared/form_error', locals: { form: @form }
+
     .p-form__fieldset
-      label.p-label メールアドレス
-      = @staff.email
+      = f.label :nick_name, class: 'p-label'
+      = f.text_field :nick_name
 
-    = fields_for :staff_profile, @staff.staff_profile do |ff|
-      .p-form__fieldset
-        = ff.label :nick_name, class: 'p-label'
-        = ff.text_field :nick_name
+    .p-form__fieldset
+      = f.label :accepts_direct_booking, class: 'p-label'
+      = f.select :accepts_direct_booking,  options_for_select(accepts_direct_booking_options, convert_boolean_to_string(@form.accepts_direct_booking))
 
-      .p-form__fieldset
-        = ff.label :accepts_direct_booking, class: 'p-label'
-        = ff.select :accepts_direct_booking,  options_for_select({ '受け付ける': '1', '受け付けない': '0' }) 
+    .p-form__fieldset
+      = f.label :working_status, class: 'p-label'
+      = f.select :working_status, enum_options_for_select_from(StaffProfile, :working_status), {}
 
-      .p-form__fieldset
-        = ff.label :working_status, '勤務状況', class: 'p-label'
-        = ff.select :working_status, StaffProfile.working_statuses.keys.to_a, {}
-
-      .p-form__fieldset
-        = ff.label :bio, class: 'p-label'
-        = ff.textarea :bio
+    .p-form__fieldset
+      = f.label :bio, class: 'p-label'
+      = f.textarea :bio
 
     .p-form__fieldset
       label.p-label 担当するサービスメニュー
-      = hidden_field_tag 'service_menus[ids][]', ''
       - @service_menus.each do |service_menu|
-        .l-flex-col
-          = label_tag 'service_menus_ids_', service_menu.menu_name
-          = check_box_tag 'service_menus[ids][]', service_menu.id, { checked: @staff.service_menus.ids.include?(service_menu.id), id: "service_menus_ids_#{service_menu.id}" }
-
+        label.toggle-switch
+          span.label-text = service_menu.menu_name
+          input[type="checkbox" name="staff_profile_form[selected_service_menu_ids][]" value=service_menu.id checked=(@form.staff.service_menus.ids.include?(service_menu.id))]
+          span.slider
     .p-form__fieldset
       = f.submit "更新する"

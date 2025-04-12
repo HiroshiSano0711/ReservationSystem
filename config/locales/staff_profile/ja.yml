@@ -8,3 +8,9 @@ ja:
         accepts_direct_booking: 指名受付
         bio: 自己紹介/PR
         working_status: 勤務状況
+    enums:
+      staff_profile:
+        working_status:
+          active: 勤続中
+          leave_on: 休職中
+          retire: 退職済み

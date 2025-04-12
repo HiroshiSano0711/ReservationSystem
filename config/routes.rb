@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   get 'customers/new', to: 'customers#new'
   post 'customers', to: 'customers#invite'
+  get 'mypage', to: 'mypage#index'
 
   scope ':permalink', as: 'reservations' do
     root to: 'reservations#new', via: :get

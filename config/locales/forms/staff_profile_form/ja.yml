@@ -1,0 +1,15 @@
+ja:
+  activemodel:
+    models:
+      staff_profile_form: スタッフプロフィールフォーム
+    attributes:
+      staff_profile_form:
+        nick_name: ニックネーム
+        accepts_direct_booking: 指名受付
+        bio: 自己紹介/PR
+        working_status: 勤務状況
+        staff: スタッフ
+        staff_profile: スタッフプロフィール
+        nick_name: ニックネーム
+        team_service_menus: チームサービスメニュー
+        selected_service_menu_ids: 選択したサービスメニュー

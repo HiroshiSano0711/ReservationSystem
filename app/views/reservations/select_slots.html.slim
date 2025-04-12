@@ -5,6 +5,12 @@
 
 
   .l-main-content
+    .l-flex.l-space-between
+      div class="l-flex__item #{!@can_go_to_previous_week ? 'is-hidden' : 'is-visible' }"
+        = link_to "前の週へ", reservations_select_slots_path(start_date: (@start_date - 1.week).to_s)
+      div class="l-flex__item #{@can_go_to_next_week ? 'is-visible' : 'is-hidden' }"
+        = link_to "次の週へ", reservations_select_slots_path(start_date: (@start_date + 1.week).to_s)
+
     = form_with url: reservations_temporary_path(permalink: @team.permalink), method: :post, class: 'p-form' do |f|
       .l-main-form
         .l-flex-slot

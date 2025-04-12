@@ -19,6 +19,9 @@ html
       .l-grid__item-nav.l-sidebar
         = render 'admin/header'
       main.l-grid__item-main.l-main
+        - flash.each do |type, msg|
+          div class="p-notice p-notice--#{type}" = msg
         = yield
+
       footer.l-grid__item-footer.l-footer
         | © 2025 Hiro
