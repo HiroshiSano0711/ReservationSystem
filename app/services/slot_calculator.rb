@@ -45,17 +45,18 @@ class SlotCalculator
   def available_slot?(start_time, end_time, reservations)
     return true if @available_staff_list.blank?
 
-    overlapping_reservation_count = reservations.count do |r|
-      time_overlap?(
+    overlapping_staff_count = reservations.sum do |r|
+      next 0 unless time_overlap?(
         Time.zone.parse("#{r.date} #{r.start_time}"),
         Time.zone.parse("#{r.date} #{r.end_time}"),
         start_time,
         end_time
       )
+
+      r.required_staff_count || 1
     end
 
-    overlapping_reservation_count < @available_staff_list.size &&
-      overlapping_reservation_count + @required_staff_count <= @available_staff_list.size
+    overlapping_staff_count + @required_staff_count <= @available_staff_list.size
   end
 
   def time_overlap?(reservation_start, reservation_end, slot_start, slot_end)

@@ -19,6 +19,7 @@ module Reservations
           public_id: generate_unique_public_id,
           total_price: @service_menus.sum(&:price),
           total_duration: @service_menus.sum(&:duration),
+          required_staff_count: @service_menus.map(&:required_staff_count).max,
           menu_summary: @service_menus.map(&:menu_name).join(','),
           assigned_staff_name: assigned_staff_name,
         )

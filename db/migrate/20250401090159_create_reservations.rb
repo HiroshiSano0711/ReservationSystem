@@ -12,6 +12,7 @@ class CreateReservations < ActiveRecord::Migration[8.0]
       t.string :customer_phone_number, null: false, default: '', comment: '顧客連絡先'
       t.integer :total_price, null: false, comment: '合計価格'
       t.integer :total_duration, null: false, comment: '合計所要時間'
+      t.integer :required_staff_count, null: false, comment: '合計所要人数'
       t.text :menu_summary, null: false, default: '', comment: 'メニュー'
       t.string :assigned_staff_name, null: false, default: '', comment: '担当者名'
       t.text :memo, null: false, default: '', comment: '希望・要望など'

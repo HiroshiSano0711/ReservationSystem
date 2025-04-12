@@ -14,6 +14,7 @@ ja:
         customer_phone_number: 顧客連絡先
         total_price: 合計価格
         total_duration: 合計所要時間
+        required_staff_count: 所要人数
         menu_summary: メニュー
         assigned_staff_name: 担当者名
         memo: 希望・要望など

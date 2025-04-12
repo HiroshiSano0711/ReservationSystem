@@ -8,7 +8,7 @@ class ReservationsController < ApplicationController
   def menu_select
     form = Reservations::SelectMenuAndStaffForm.new(reservations_select_menu_and_staff_form_params.merge(team: @team))
     if form.valid?
-      reservation_session.selected_service_menu_ids = form.service_menu_ids
+      reservation_session.selected_service_menu_ids = form.service_menu_ids || [form.multi_staff_menu_id]
       reservation_session.selected_staff_id = form.selected_staff
 
       redirect_to reservations_select_slots_path

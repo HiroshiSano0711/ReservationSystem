@@ -32,7 +32,7 @@ class SlotsGenerator
 
   def preload_reservations
     @team.reservations
-         .select(:id, :date, :start_time, :end_time)
+         .select(:id, :date, :start_time, :end_time, :required_staff_count)
          .where(date: @start_date..@end_date, status: :finalize)
          .group_by(&:date)
   end

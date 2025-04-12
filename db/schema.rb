@@ -85,6 +85,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.string "customer_phone_number", default: "", null: false, comment: "顧客連絡先"
     t.integer "total_price", null: false, comment: "合計価格"
     t.integer "total_duration", null: false, comment: "合計所要時間"
+    t.integer "required_staff_count", null: false, comment: "合計所要人数"
     t.text "menu_summary", default: "", null: false, comment: "メニュー"
     t.string "assigned_staff_name", default: "", null: false, comment: "担当者名"
     t.text "memo", default: "", null: false, comment: "希望・要望など"
