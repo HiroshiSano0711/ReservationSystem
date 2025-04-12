@@ -1,0 +1,26 @@
+ja:
+  activerecord:
+    models:
+      reservation: 予約
+    attributes:
+      reservation:
+        team_id:
+        customer_id:
+        public_id: 予約ID（公開用）
+        date: 予約日
+        start_time: 開始時間
+        end_time: 終了時間
+        customer_name: 顧客名
+        customer_phone_number: 顧客連絡先
+        total_price: 合計価格
+        total_duration: 合計所要時間
+        menu_summary: メニュー
+        assigned_staff_name: 担当者名
+        memo: 希望・要望など
+        status: ステータス
+    enums:
+      reservation:
+        status:
+          temporary: 仮予約
+          finalize: 確定
+          canceled: キャンセル

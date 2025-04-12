@@ -1,9 +1,9 @@
 module Reservations
   class WeekRangeCalculator
     def initialize(start_date_str:, max_reservation_month:)
-      @start_date = parse_date(start_date_str) || Date.today
-      @max_date = Date.today + max_reservation_month.months
-      @today = Date.today
+      @start_date = parse_date(start_date_str) || Time.zone.today
+      @max_date = Time.zone.today + max_reservation_month.months
+      @today = Time.zone.today
     end
 
     def call
@@ -14,7 +14,7 @@ module Reservations
     end
 
     def previous_week_available?
-      @start_date > Date.today
+      @start_date > Time.zone.today
     end
 
     def next_week_available?
@@ -24,7 +24,7 @@ module Reservations
     private
 
     def parse_date(date_str)
-      Date.parse(date_str) rescue nil
+      Time.zone.parse(date_str).to_date rescue nil
     end
   end
 end

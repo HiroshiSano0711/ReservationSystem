@@ -2,20 +2,19 @@ class ReservationsController < ApplicationController
   before_action :set_team
 
   def new
-    @menus = @team.service_menus.available
-    @staff_profiles = StaffProfile.includes(:staff).where(
-      staff_id: @team.staffs.ids,
-      accepts_direct_booking: true
-    )
+    @form = Reservations::SelectMenuAndStaffForm.new(team: @team)
   end
 
   def menu_select
-    return redirect_to reservations_root_path, alert: 'メニューを1つ以上選択してください' if params[:service_menus].blank?
+    form = Reservations::SelectMenuAndStaffForm.new(reservations_select_menu_and_staff_form_params.merge(team: @team))
+    if form.valid?
+      reservation_session.selected_service_menu_ids = form.service_menu_ids
+      reservation_session.selected_staff_id = form.selected_staff
 
-    reservation_session.service_menu_ids = params[:service_menus]
-    reservation_session.selected_staff_id = params[:selected_staff]
-
-    redirect_to reservations_select_slots_path
+      redirect_to reservations_select_slots_path
+    else
+      redirect_to reservations_root_path, alert: form.errors.full_messages.join(',')
+    end
   end
 
   def select_slots
@@ -87,7 +86,11 @@ class ReservationsController < ApplicationController
   def set_team
     @team = Team.find_by!(permalink: params[:permalink])
   end
-  
+
+  def reservations_select_menu_and_staff_form_params
+    params.require(:reservations_select_menu_and_staff_form).permit(:selected_staff, :multi_staff_menu_id, service_menu_ids: [])
+  end
+
   def reservations_finalization_form_params
     params.require(:reservations_finalization_form).permit(:customer_name, :customer_phone_number)
   end

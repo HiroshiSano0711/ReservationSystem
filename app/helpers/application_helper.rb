@@ -4,4 +4,8 @@ module ApplicationHelper
       [I18n.t("activerecord.enums.#{model_class.model_name.i18n_key}.#{attr}.#{key}"), key]
     end
   end
+
+  def enum_human_name(model_class, attr, key)
+    I18n.t("activerecord.enums.#{model_class.model_name.i18n_key}.#{attr}.#{key}")
+  end
 end

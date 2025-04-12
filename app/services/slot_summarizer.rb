@@ -34,7 +34,7 @@ class SlotSummarizer
     end_time = slot[:end]
 
     (start_time.to_i..(end_time - @duration).to_i).step(@duration.seconds).map do |start|
-      { start: Time.at(start), end: Time.at(start + @duration.seconds) }
+      { start: Time.zone.at(start), end: Time.zone.at(start + @duration.seconds) }
     end
   end
 end

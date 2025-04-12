@@ -1,0 +1,11 @@
+ja:
+  activemodel:
+    models:
+      reservations/select_menu_and_staff_form: メニュー、担当者選択フォーム
+    attributes:
+      reservations/select_menu_and_staff_form:
+        team: チーム
+        staff_profiles: スタッフプロフィール
+        service_menu_ids: メニュー
+        multi_staff_menu_id: 複数人対応メニュー
+        selected_staff: 担当者

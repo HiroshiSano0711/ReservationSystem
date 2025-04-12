@@ -85,39 +85,3 @@ ServiceMenu.all.each do |menu|
   staff.service_menu_staffs.create!(service_menu: menu)
   staff_2.service_menu_staffs.create!(service_menu: menu)
 end
-
-reservation = Reservation.create!(
-  team: team,
-  date: Date.current.tomorrow,
-  start_time: '10:00',
-  end_time: '11:20',
-  public_id: 'yoyaku-id',
-  total_price: 9000,
-  total_duration: 70,
-  customer_name: '顧客1',
-  customer_phone_number: '09011112222',
-  assigned_staff_name: staff.staff_profile.nick_name,
-  menu_summary: 'カット, カラー',
-  status: 'finalize'
-)
-
-menu = ServiceMenu.find_by(menu_name: 'カット')
-ReservationDetail.create!(
-  reservation: reservation,
-  staff: staff,
-  service_menu: menu,
-  menu_name: menu.menu_name,
-  price: menu.price,
-  duration: menu.duration,
-  required_staff_count: menu.required_staff_count
-)
-menu = ServiceMenu.find_by(menu_name: 'カラー')
-ReservationDetail.create!(
-  reservation: reservation,
-  staff: staff,
-  service_menu: menu,
-  menu_name: menu.menu_name,
-  price: menu.price,
-  duration: menu.duration,
-  required_staff_count: menu.required_staff_count
-)

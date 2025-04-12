@@ -10,6 +10,8 @@
 
 .l-main-content.u-mbt-32
   = form_with model: @staff, url: admin_staffs_path, method: :post, local: true, class: 'p-form' do |f|
+    = render partial: 'admin/shared/form_error', locals: { model: @staff }
+
     .p-form__fieldset
       = f.label :email, 'メールアドレス', class: 'p-label'
       = f.email_field :email

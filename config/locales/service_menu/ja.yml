@@ -1,0 +1,13 @@
+ja:
+  activerecord:
+    models:
+      service_menu: サービスメニュー
+    attributes:
+      service_menu:
+        team_id: チームID
+        menu_name: メニュー名
+        duration: 所要時間
+        price: 価格（税込）
+        required_staff_count: 所要人数
+        available_from: 提供開始日
+        available_until: 提供終了日

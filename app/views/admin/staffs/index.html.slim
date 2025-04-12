@@ -28,8 +28,8 @@
             td.p-table__td = staff.role
             td.p-table__td = staff.staff_profile&.nick_name
             td.p-table__td = staff.email
-            td.p-table__td = staff.staff_profile&.accepts_direct_booking
-            td.p-table__td = staff.staff_profile.working_status
+            td.p-table__td = staff.staff_profile&.accepts_direct_booking ? '受付ける' : '受け付けない'
+            td.p-table__td = enum_human_name(StaffProfile, :working_status, staff.staff_profile.working_status)
             td.p-table__td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
             td.p-table__td
               = link_to edit_admin_staff_profile_path(staff), class: 'p-link' do

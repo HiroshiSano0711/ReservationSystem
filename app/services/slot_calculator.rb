@@ -16,13 +16,16 @@ class SlotCalculator
     reservations_for_day = reservations_by_date[date] || []
     opening_hours = @business_setting.opening_hours(date)
 
-    (opening_hours[:open].to_i..(opening_hours[:close] - @duration).to_i).step(INTERVAL.seconds).each do |start_time_int|
-      start_time = Time.at(start_time_int)
-      end_time = start_time + @duration
+    current_time = opening_hours[:open]
 
-      if available_slot?(start_time, end_time, reservations_for_day)
-        slots << { start: start_time, end: end_time }
+    while current_time + @duration <= opening_hours[:close]
+      end_time = current_time + @duration
+
+      if available_slot?(current_time, end_time, reservations_for_day)
+        slots << { start: current_time, end: end_time }
       end
+
+      current_time += INTERVAL
     end
 
     slots
@@ -40,13 +43,9 @@ class SlotCalculator
   end
 
   def available_slot?(start_time, end_time, reservations)
-    return true if reservations.blank?
+    return true if @available_staff_list.blank?
 
-    relevant_reservations = reservations.select do |r|
-      (r.staffs.map(&:id) & @available_staff_list.map(&:id)).any?
-    end
-
-    overlap_count = relevant_reservations.count do |r|
+    overlapping_reservation_count = reservations.count do |r|
       time_overlap?(
         Time.zone.parse("#{r.date} #{r.start_time}"),
         Time.zone.parse("#{r.date} #{r.end_time}"),
@@ -55,11 +54,11 @@ class SlotCalculator
       )
     end
 
-    overlap_count < @available_staff_list.size &&
-      overlap_count < @required_staff_count
+    overlapping_reservation_count < @available_staff_list.size &&
+      overlapping_reservation_count + @required_staff_count <= @available_staff_list.size
   end
 
   def time_overlap?(reservation_start, reservation_end, slot_start, slot_end)
-    reservation_start < slot_end && slot_start < reservation_end
+    reservation_start < slot_end && reservation_end > slot_start
   end
 end

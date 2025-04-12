@@ -10,6 +10,8 @@
 
 .l-main-content.u-mbt-32
   = form_with model: @team_business_setting, url: admin_team_business_setting_path(@team), method: :patch, local: true, class: 'p-form' do |f|
+    = render partial: 'admin/shared/form_error', locals: { model: @team_business_setting }
+
     h2.p-txt-sub 営業日と営業時間
 
     .p-form__fieldset.u-mbt-16
