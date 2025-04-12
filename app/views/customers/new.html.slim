@@ -2,7 +2,7 @@
   = form_with model: @customer, url: customers_path, method: :post, local: true, class: 'p-form' do |f|
     .p-form__fieldset
       = f.label :email, 'メールアドレス', class: 'p-label'
-      = f.email_field :email
+      = f.email_field :email, required: true
 
     .p-form__fieldset
       = f.submit '招待メールを受け取る'

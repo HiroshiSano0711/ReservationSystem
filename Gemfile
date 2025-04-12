@@ -17,6 +17,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 gem "devise"
+gem 'devise-i18n'
 gem 'devise_invitable'
 gem "nanoid"
 

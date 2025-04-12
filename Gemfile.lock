@@ -117,6 +117,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-i18n (1.13.0)
+      devise (>= 4.9.0)
+      rails-i18n
     devise_invitable (2.0.10)
       actionmailer (>= 5.0)
       devise (>= 4.6)
@@ -465,6 +468,7 @@ DEPENDENCIES
   capybara
   dartsass-rails
   devise
+  devise-i18n
   devise_invitable
   importmap-rails
   kamal
