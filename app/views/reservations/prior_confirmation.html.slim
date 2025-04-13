@@ -3,8 +3,6 @@
   p.p-txt-sub 予約内容の確認
 
   .reservation-summary
-    h2 予約情報
-
     dl
       dt メニュー
       dd = @context.service_menu_list
@@ -22,20 +20,31 @@
       dd = number_to_currency(@context.total_price, locale: 'ja')
 
   = form_with model: @form, url: reservations_finalize_path(@team.permalink), method: :post, local: true do |f|
-    p
-      strong 顧客情報:
-      | 最後にお名前と連絡先電話番号を入力してください
+    - if current_customer.present? && current_customer.customer_profile.present?
+      = f.hidden_field :customer_name, value: current_customer.customer_profile.name
+      = f.hidden_field :customer_phone_number, value: current_customer.customer_profile.phone_number
+      dl
+        dt お名前
+        dd = current_customer.customer_profile.name
 
-    - if @form.errors.any?
-      .p-notice.p-notice--alert
-        ul
-          - @form.errors.full_messages.each do |msg|
-            li = msg
+        dt 連絡先
+        dd  = current_customer.customer_profile.phone_number
 
-    = f.label :customer_name
-    = f.text_field :customer_name
-    = f.label :customer_phone_number
-    = f.telephone_field :customer_phone_number
+    - else
+      p
+        strong 顧客情報:
+        | 最後にお名前と連絡先電話番号を入力してください
+
+      - if @form.errors.any?
+        .p-notice.p-notice--alert
+          ul
+            - @form.errors.full_messages.each do |msg|
+              li = msg
+
+      = f.label :customer_name
+      = f.text_field :customer_name
+      = f.label :customer_phone_number
+      = f.telephone_field :customer_phone_number
 
     .actions
       = f.submit "予約を確定する"

@@ -1,0 +1,34 @@
+h1 予約の詳細
+
+dl
+  dt 予約日
+  dd = @reservation.date.strftime("%Y年%m月%d日")
+
+  dt 時間
+  dd = "#{@reservation.start_time.strftime("%H:%M")}〜#{@reservation.end_time.strftime("%H:%M")}"
+
+  dt メニュー
+  dd = @reservation.menu_summary
+
+  dt 担当スタッフ
+  dd = @reservation.assigned_staff_name
+
+  dt 予約状況
+  dd = enum_human_name(Reservation, :status, @reservation.status)
+
+  dt 顧客名
+  dd = @reservation.customer_name
+
+  dt 電話番号
+  dd = @reservation.customer_phone_number
+
+  dt 合計料金
+  dd = number_to_currency(@reservation.total_price)
+
+  dt 所要時間
+  dd = "#{@reservation.total_duration}分"
+
+  / - if @reservation.cancelable?
+  = button_to "キャンセルする", cancel_mypage_reservation_path(public_id: @reservation.public_id), method: :patch, data: { confirm: "本当にキャンセルしますか？" }
+
+= link_to "マイページに戻る", mypage_reservations_path

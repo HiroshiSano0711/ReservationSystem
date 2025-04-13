@@ -9,7 +9,7 @@ class ReservationLinker
     return if reservation.blank?
 
     reservation.update(customer: @customer)
-    @customer.create_profile(
+    @customer.create_customer_profile(
       name: reservation.customer_name,
       phone_number: reservation.customer_phone_number
     )

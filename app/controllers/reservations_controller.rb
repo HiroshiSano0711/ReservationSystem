@@ -29,7 +29,7 @@ class ReservationsController < ApplicationController
     @can_go_to_previous_week = calculator.previous_week_available?
     @can_go_to_next_week = calculator.next_week_available?
 
-    @slots = ::SlotsGenerator.new(
+    @result = ::SlotsGenerator.new(
       team: @team,
       service_menus: @service_menus,
       start_date: @start_date,
@@ -55,22 +55,23 @@ class ReservationsController < ApplicationController
     @form = Reservations::FinalizationForm.new(reservations_finalization_form_params)
 
     if @form.valid?
-      reservation_creation_result = Reservations::CreateService.new(
+      result = Reservations::CreateService.new(
         team: @context.team,
         service_menus: @context.service_menus,
         staff: @context.selected_staff,
         start_time: @context.start_time,
-        form: @form
+        form: @form,
+        customer: current_customer
       ).call
 
-      if reservation_creation_result.is_a?(String)
-        flash.now[:alert] = reservation_creation_result
-        render :prior_confirmation
-      else
+      if result.success?
         reservation_session.clear_selection
         reservation_session.public_id = reservation_creation_result.public_id
 
         redirect_to reservations_complete_path(@team.permalink, reservation_creation_result.public_id)
+      else
+        flash.now[:alert] = result.message
+        render :prior_confirmation
       end
     else
       flash.now[:alert] = "入力内容に誤りがあります。"

@@ -14,15 +14,18 @@
     = form_with url: reservations_save_slot_selection_path(permalink: @team.permalink), method: :post, class: 'p-form' do |f|
       .l-main-form
         .l-flex-slot
-          - @slots.each_with_index do |slot, date_index|
-            = next if slot[:slots].blank?
+          - if @result.success?
+            - @result.data.each_with_index do |slot, date_index|
+              = next if slot[:slots].blank?
 
-            .l-flex-slot__item
-              = slot[:date].strftime('%m月%d日')
-              - slot[:slots].each_with_index do |slot, index|
-                .l-slot-radio
-                  = f.radio_button :selected_slot, slot[:start].to_s, id: "slot_#{date_index}_#{index}"
-                  = label_tag "slot_#{date_index}_#{index}", "#{slot[:start].strftime('%H:%M')} ~ #{slot[:end].strftime('%H:%M')}"
+              .l-flex-slot__item
+                = slot[:date].strftime('%m月%d日')
+                - slot[:slots].each_with_index do |slot, index|
+                  .l-slot-radio
+                    = f.radio_button :selected_slot, slot[:start].to_s, id: "slot_#{date_index}_#{index}"
+                    = label_tag "slot_#{date_index}_#{index}", "#{slot[:start].strftime('%H:%M')} ~ #{slot[:end].strftime('%H:%M')}"
+          - else
+            p = @result.message
 
       .l-main-form
         = f.submit '予約確認画面へ'

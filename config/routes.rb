@@ -26,7 +26,13 @@ Rails.application.routes.draw do
 
   get "customers/new", to: "customers#new"
   post "customers", to: "customers#invite"
-  get "mypage", to: "mypage#index"
+
+  namespace :mypage do
+    resources :reservations, only: [:index, :show], param: :public_id do
+      patch :cancel, on: :member
+    end
+    resource :profile, only: [:edit, :update]
+  end
 
   scope ":permalink", as: "reservations" do
     get "/", to: "reservations#new"
@@ -41,5 +47,4 @@ Rails.application.routes.draw do
   end
 
   root to: "home#index"
-  get "mypage", to: "mypage#index"
 end

@@ -18,7 +18,7 @@ class SlotsGenerator
   def call
     reservations_by_date = preload_reservations
 
-    (@start_date..@end_date).map do |date|
+    slots = (@start_date..@end_date).map do |date|
       if @business_setting.working_day?(date)
         slots = @slot_calculator.generate_slots_for_date(date, reservations_by_date)
         { date: date, slots: @slot_summarizer.summarize(slots) }
@@ -26,6 +26,11 @@ class SlotsGenerator
         { date: date, slots: [] }
       end
     end
+
+    ServiceResult.new(success: true, data: slots)
+  rescue => e
+    Rails.logger.error("スロット生成エラー: #{e.class} - #{e.message}")
+    ServiceResult.new(success: false, message: "空き時間の取得中にエラーが発生しました。")
   end
 
   private

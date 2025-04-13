@@ -1,0 +1,22 @@
+h1.p-txt-primary マイページ
+
+p
+  | こんにちは、
+  = @customer.customer_profile&.name || "お客様"
+  | さん
+
+h2.p-txt-primary 予約履歴
+
+- if @reservations.any?
+  ul
+    - @reservations.each do |r|
+      li
+        strong
+          = "#{r.date.strftime("%Y年%m月%d日")} #{r.start_time.strftime("%H:%M")}〜"
+        |  / #{r.menu_summary}
+        |  / 担当: #{r.assigned_staff_name}
+        |  / 予約状況: #{enum_human_name(Reservation, :status, r.status)}
+      li
+        = link_to '予約詳細へ', mypage_reservation_path(r.public_id)
+- else
+  p 予約履歴はまだありません。

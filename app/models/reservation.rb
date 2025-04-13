@@ -4,11 +4,17 @@ class Reservation < ApplicationRecord
   has_many :reservation_details
   has_many :staffs, through: :reservation_details
 
-  enum :status, { temporary: 0, finalize: 1, canceled: 99 }
+  enum :status, { finalize: 1, canceled: 99 }
 
   validate :start_date_within_allowed_range, on: :create
   validate :end_date_within_allowed_range, on: :create
   validate :customer_does_not_have_overlapping_reservations, if: -> { customer_id.present? }
+
+  def cancelable?
+    cacel_deadline_time = Time.zone.now + team.team_business_setting.cancellation_deadline_hours_before.hours
+    r_start_time = Time.zone.parse("#{date} #{start_time}")
+    cacel_deadline_time < r_start_time
+  end
 
   private
 
