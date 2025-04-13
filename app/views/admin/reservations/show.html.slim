@@ -1,6 +1,9 @@
-.l-main-contents
-  h1 予約の詳細
+.l-main-header
+  .l-flex.l-space-between.l-align-center.l-h-full
+    .l-flex__item
+      h1.p-txt-primary 予約詳細
 
+.l-main-contents
   dl
     dt 予約日
     dd = @reservation.date.strftime("%Y年%m月%d日")
@@ -29,7 +32,5 @@
     dt 所要時間
     dd = "#{@reservation.total_duration}分"
 
-    - if @reservation.finalize? && @reservation.cancelable?
-      = button_to "キャンセルする", cancel_mypage_reservation_path(public_id: @reservation.public_id), method: :patch, data: { confirm: "本当にキャンセルしますか？" }
-
-  = link_to "マイページに戻る", mypage_reservations_path
+  - if @reservation.finalize? && @reservation.cancelable?
+    = button_to "キャンセルする", cancel_admin_reservation_path(public_id: @reservation.public_id), method: :patch

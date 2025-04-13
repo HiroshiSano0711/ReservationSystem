@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     resources :staffs, only: %i[index new create]
     resources :staff_profiles, only: %i[edit update], param: :staff_id
     resources :service_menus
-    resources :reservations, except: %i[destroy]
+    resources :reservations, only: [:index, :show], param: :public_id do
+      patch :cancel, on: :member
+    end
     get "account", to: "accounts#show"
   end
 

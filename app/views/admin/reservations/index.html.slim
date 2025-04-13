@@ -13,6 +13,7 @@
         th.p-table__th 担当者
         th.p-table__th 予約時間
         th.p-table__th 状態
+        th.p-table__th 操作
     tbody.p-table__tbody
       - @reservations.each do |reservation|
         tr.p-table__tr
@@ -22,3 +23,4 @@
           td.p-table__td = reservation.assigned_staff_name
           td.p-table__td = "#{reservation.date.strftime('%Y年%m月%d日') } #{reservation.start_time.strftime("%H:%M")}~#{reservation.end_time.strftime("%H:%M")}"
           td.p-table__td = enum_human_name(Reservation, :status, reservation.status)
+          td.p-table__td = link_to '詳細', admin_reservation_path(reservation.public_id)
