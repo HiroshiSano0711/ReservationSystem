@@ -11,9 +11,9 @@ class Admin::TeamBusinessSettingsController < Admin::BaseController
     @team_business_setting = @team.team_business_setting
 
     if @team_business_setting.update(team_business_setting_params)
-      redirect_to admin_team_business_setting_path(@team), notice: '営業時間情報を更新しました。'
+      redirect_to admin_team_business_setting_path(@team), notice: "営業時間情報を更新しました。"
     else
-      flash.now[:alert] = '更新に失敗しました。入力内容を確認してください。'
+      flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
       render :edit, status: :unprocessable_entity
     end
   end

@@ -10,7 +10,7 @@ class CreateServiceMenus < ActiveRecord::Migration[8.0]
       t.date :available_until, comment: '提供終了日'
 
       t.timestamps
-      t.index [:team_id, :menu_name], unique: true
+      t.index [ :team_id, :menu_name ], unique: true
     end
   end
 end

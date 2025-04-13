@@ -6,7 +6,7 @@ class CreateServiceMenuUsers < ActiveRecord::Migration[8.0]
       t.integer :priority, null: false, default: 0, comment: '優先度'
       t.timestamps
 
-      t.index [:staff_id, :service_menu_id], unique: true
+      t.index [ :staff_id, :service_menu_id ], unique: true
     end
   end
 end

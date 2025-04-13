@@ -14,9 +14,9 @@ class Admin::StaffsController < Admin::BaseController
       @staff.invite!
       @staff.create_staff_profile!
     end
-    redirect_to admin_staffs_path, notice: 'メールアドレスへ招待しました。'
+    redirect_to admin_staffs_path, notice: "メールアドレスへ招待しました。"
   rescue
-    flash.now[:alert] = '招待に失敗しました。システム管理者へご連絡ください。'
+    flash.now[:alert] = "招待に失敗しました。システム管理者へご連絡ください。"
     render :new, status: :unprocessable_entity
   end
 

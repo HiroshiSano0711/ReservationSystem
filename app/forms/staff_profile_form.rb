@@ -44,7 +44,7 @@ class StaffProfileForm
     end
 
     true
-  rescue ActiveRecord::RecordInvalid => e
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation, ActiveRecord::RecordNotUnique => e
     Rails.logger.error("StaffProfileForm save failed: #{e.message}")
     false
   end
@@ -57,7 +57,7 @@ class StaffProfileForm
     team_selected_service_menu_ids = @team_service_menus.map(&:id)
     selected_service_menu_ids.each do |id|
       unless team_selected_service_menu_ids.include?(id.to_i)
-        errors.add(:service_menus, 'に無効な選択肢があります。')
+        errors.add(:service_menus, "に無効な選択肢があります。")
         return false
       end
     end

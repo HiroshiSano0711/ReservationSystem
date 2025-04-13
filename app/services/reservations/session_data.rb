@@ -20,12 +20,12 @@ module Reservations
       @session[:selected_staff]
     end
 
-    def selected_start_time=(start_time)
-      @session[:selected_start_time] = start_time
+    def selected_slot=(slot_time)
+      @session[:selected_slot] = slot_time
     end
 
-    def selected_start_time
-      @session[:selected_start_time]
+    def selected_slot
+      @session[:selected_slot]
     end
 
     def public_id
@@ -39,7 +39,7 @@ module Reservations
     def clear_selection
       @session.delete(:selected_service_menus)
       @session.delete(:selected_staff)
-      @session.delete(:selected_start_time)
+      @session.delete(:selected_slot)
     end
 
     def clear_public_id

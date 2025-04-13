@@ -7,24 +7,21 @@
 
     dl
       dt メニュー
-      dd = @service_menus.map(&:menu_name).join(", ")
+      dd = @context.service_menu_list
 
       dt 担当者:
-      - if @reservation.reservation_details.any? { |detail| detail.staff.present? }
-        dd  = @reservation.reservation_details.map { |detail| detail.staff.name }.uniq
-      - else
-        dd おまかせ
+      dd  = @context.staff_name
 
       dt 予約日時:
-      dd = "#{@reservation.date.strftime('%Y年%m月%d日') } #{@reservation.start_time.strftime("%H:%M")}~#{@reservation.end_time.strftime("%H:%M")}"
+      dd = @context.reservation_time_str
 
       dt 所要時間
-      dd = "#{@reservation.total_duration}分"
+      dd = "#{@context.total_duration}分"
 
       dt 価格:
-      dd = number_to_currency(@reservation.total_price, locale: 'ja')
+      dd = number_to_currency(@context.total_price, locale: 'ja')
 
-  = form_with model: @form, url: reservations_finalize_path(@team.permalink, @reservation.public_id), method: :patch do |f|
+  = form_with model: @form, url: reservations_finalize_path(@team.permalink), method: :post, local: true do |f|
     p
       strong 顧客情報:
       | 最後にお名前と連絡先電話番号を入力してください

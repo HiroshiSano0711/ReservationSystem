@@ -17,18 +17,18 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 gem "devise"
-gem 'devise-i18n'
-gem 'devise_invitable'
+gem "devise-i18n"
+gem "devise_invitable"
 gem "nanoid"
 
 gem "slim-rails"
 gem "dartsass-rails"
 
-gem 'rails-i18n'
+gem "rails-i18n"
 
 group :development, :test do
-  gem 'pry-byebug'
-  gem 'awesome_print'
+  gem "pry-byebug"
+  gem "awesome_print"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
 end
@@ -36,8 +36,8 @@ end
 group :development do
   gem "web-console"
   gem "rails-erd"
-  gem 'bullet'
-  gem 'letter_opener_web'
+  gem "bullet"
+  gem "letter_opener_web"
 end
 
 group :test do

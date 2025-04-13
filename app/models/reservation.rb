@@ -8,20 +8,32 @@ class Reservation < ApplicationRecord
 
   validate :start_date_within_allowed_range, on: :create
   validate :end_date_within_allowed_range, on: :create
+  validate :customer_does_not_have_overlapping_reservations, if: -> { customer_id.present? }
 
   private
 
   def start_date_within_allowed_range
-    earliest_possible_start_time = Time.zone.now + team.business_setting.reservation_start_delay_days.days
-    if start_time < earliest_possible_start_time
-      errors.add(:start_time, "予約は#{team.business_setting.reservation_start_delay_days}日後からしか受付けられません。")
+    possible_start_date = Time.zone.today + team.team_business_setting.reservation_start_delay_days.days
+    if date < possible_start_date
+      errors.add(:start_time, "予約は#{team.team_business_setting.reservation_start_delay_days}日後からしか受付けられません。")
     end
   end
 
   def end_date_within_allowed_range
-    possible_end_time = Time.zone.now + team.business_setting.max_reservation_month.months
-    if start_time > possible_end_time
-      errors.add(:start_time, "予約は#{team.business_setting.max_reservation_month}ヶ月後までしか受付けられません。")
+    possible_end_date = Time.zone.today + team.team_business_setting.max_reservation_month.months
+    if date > possible_end_date
+      errors.add(:start_time, "予約は#{team.team_business_setting.max_reservation_month}ヶ月後までしか受付けられません。")
+    end
+  end
+
+  def customer_does_not_have_overlapping_reservations
+    overlapping = Reservation.where(customer_id: customer_id)
+                             .where.not(id: id)
+                             .where("start_time < ? AND end_time > ?", end_time, start_time)
+                             .exists?
+
+    if overlapping
+      errors.add(:base, "すでにこの時間帯に予約があります。")
     end
   end
 end

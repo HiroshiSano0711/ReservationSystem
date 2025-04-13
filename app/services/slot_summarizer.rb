@@ -14,11 +14,11 @@ class SlotSummarizer
   def merge_continuous_slots(slots)
     return [] if slots.blank?
 
-    slots[1..].each_with_object([{ start: slots.first[:start], end: slots.first[:end] }]) do |slot, merged_slots|
+    slots[1..].each_with_object([ { start: slots.first[:start], end: slots.first[:end] } ]) do |slot, merged_slots|
       last_slot = merged_slots.last
 
       if continuous_slot?(last_slot[:end], slot[:start])
-        last_slot[:end] = [last_slot[:end], slot[:end]].max
+        last_slot[:end] = [ last_slot[:end], slot[:end] ].max
       else
         merged_slots << { start: slot[:start], end: slot[:end] }
       end

@@ -2,7 +2,7 @@ class Admin::StaffProfilesController < Admin::BaseController
   def edit
     @staff = Staff.find(params[:staff_id])
     @service_menus = @team.service_menus
-  
+
     @form = StaffProfileForm.new(
       staff: @staff,
       staff_profile: @staff.staff_profile,
@@ -20,7 +20,7 @@ class Admin::StaffProfilesController < Admin::BaseController
   def update
     @staff = Staff.find(params[:staff_id])
     @service_menus = @team.service_menus
-  
+
     @form = StaffProfileForm.new(
       staff: @staff,
       staff_profile: @staff.staff_profile,
@@ -29,9 +29,9 @@ class Admin::StaffProfilesController < Admin::BaseController
     )
 
     if @form.save
-      redirect_to admin_staffs_path, notice: 'スタッフのプロフィール情報を更新しました。'
+      redirect_to admin_staffs_path, notice: "スタッフのプロフィール情報を更新しました。"
     else
-      flash.now[:alert] = '更新に失敗しました。入力内容を確認してください。'
+      flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
       render :edit, status: :unprocessable_entity
     end
   end

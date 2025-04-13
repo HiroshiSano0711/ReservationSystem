@@ -32,9 +32,9 @@ module Reservations
 
     def service_menus
       if service_menu_ids.blank? && multi_staff_menu_id.blank?
-        errors.add(:service_menu_ids, 'を1つ選択してください。')
+        errors.add(:service_menu_ids, "を1つ選択してください。")
       elsif service_menu_ids.present? && multi_staff_menu_id.present?
-        errors.add(:multi_staff_menu_id, 'は単独対応メニューと同時に選択できません。')
+        errors.add(:multi_staff_menu_id, "は単独対応メニューと同時に選択できません。")
       end
     end
   end

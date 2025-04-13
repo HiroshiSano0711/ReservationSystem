@@ -1,45 +1,45 @@
 Rails.application.routes.draw do
   namespace :admin do
-    get '/', to: 'dashboard#index'
+    get "/", to: "dashboard#index"
     resources :teams, only: %i[show edit update]
     resources :team_business_settings, only: %i[show edit update]
     resources :staffs, only: %i[index new create]
     resources :staff_profiles, only: %i[edit update], param: :staff_id
     resources :service_menus
     resources :reservations, except: %i[destroy]
-    get 'account', to: 'accounts#show'
+    get "account", to: "accounts#show"
   end
 
-  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 
   devise_for :staffs, controllers: {
-    invitations: 'staffs/invitations',
-    sessions: 'staffs/sessions',
-    passwords: 'staffs/passwords'
+    invitations: "staffs/invitations",
+    sessions: "staffs/sessions",
+    passwords: "staffs/passwords"
   }
 
   devise_for :customers, controllers: {
-    invitations: 'customers/invitations',
-    sessions: 'customers/sessions',
-    passwords: 'customers/passwords'
+    invitations: "customers/invitations",
+    sessions: "customers/sessions",
+    passwords: "customers/passwords"
   }
 
-  get 'customers/new', to: 'customers#new'
-  post 'customers', to: 'customers#invite'
-  get 'mypage', to: 'mypage#index'
+  get "customers/new", to: "customers#new"
+  post "customers", to: "customers#invite"
+  get "mypage", to: "mypage#index"
 
-  scope ':permalink', as: 'reservations' do
-    root to: 'reservations#new', via: :get
-    post '/menu_select', to: 'reservations#menu_select'
-    get '/select_slots', to: 'reservations#select_slots'
-    post '/temporary', to: 'reservations#temporary'
-    get '/:public_id/prior_confirmation', to: 'reservations#prior_confirmation', as: 'prior_confirmation'
-    patch '/:public_id', to: 'reservations#finalize', as: 'finalize'
-    get '/:public_id/complete', to: 'reservations#complete', as: 'complete'
-    get  '/:public_id/reservation_signup', to: 'reservations/registrations#new', as: :reservation_signup
-    post '/:public_id/reservation_signup', to: 'reservations/registrations#create', as: :reservation_signup_create
+  scope ":permalink", as: "reservations" do
+    get "/", to: "reservations#new"
+    post "/menu_select", to: "reservations#menu_select"
+    get "/select_slots", to: "reservations#select_slots"
+    post "/save_slot_selection", to: "reservations#save_slot_selection"
+    get "/prior_confirmation", to: "reservations#prior_confirmation", as: "prior_confirmation"
+    post "/finalize", to: "reservations#finalize", as: "finalize"
+    get "/:public_id/complete", to: "reservations#complete", as: "complete"
+    get  "/:public_id/reservation_signup", to: "reservations/registrations#new", as: :reservation_signup
+    post "/:public_id/reservation_signup", to: "reservations/registrations#create", as: :reservation_signup_create
   end
 
-  root to: 'home#index'
-  get 'mypage', to: 'mypage#index'
+  root to: "home#index"
+  get "mypage", to: "mypage#index"
 end

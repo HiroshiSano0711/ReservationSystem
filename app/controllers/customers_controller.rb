@@ -5,7 +5,7 @@ class CustomersController < ApplicationController
 
   def invite
     Customer.invite!(email: staff_params[:email])
-    redirect_to root_path, notice: 'メールアドレスへ招待メールを送信しました。'
+    redirect_to root_path, notice: "メールアドレスへ招待メールを送信しました。"
   end
 
   private

@@ -7,10 +7,10 @@ module Reservations
     end
 
     def call
-      @start_date = [@start_date, @today].max
-      @start_date = [@start_date, @max_date].min
-      @end_date = [@start_date + 1.week, @max_date].min
-      [@start_date, @end_date]
+      @start_date = [ @start_date, @today ].max
+      @start_date = [ @start_date, @max_date ].min
+      @end_date = [ @start_date + 1.week, @max_date ].min
+      [ @start_date, @end_date ]
     end
 
     def previous_week_available?

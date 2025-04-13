@@ -8,12 +8,12 @@ class ReservationsController < ApplicationController
   def menu_select
     form = Reservations::SelectMenuAndStaffForm.new(reservations_select_menu_and_staff_form_params.merge(team: @team))
     if form.valid?
-      reservation_session.selected_service_menu_ids = form.service_menu_ids || [form.multi_staff_menu_id]
+      reservation_session.selected_service_menu_ids = form.service_menu_ids || [ form.multi_staff_menu_id ]
       reservation_session.selected_staff_id = form.selected_staff
 
       redirect_to reservations_select_slots_path
     else
-      redirect_to reservations_root_path, alert: form.errors.full_messages.join(',')
+      redirect_to reservations_root_path, alert: form.errors.full_messages.join(",")
     end
   end
 
@@ -38,41 +38,42 @@ class ReservationsController < ApplicationController
     ).call
   end
 
-  def temporary
-    return redirect_to reservations_select_slots_path, alert: '空き時間を1つ選択してください。' if params[:selected_slot].blank?
+  def save_slot_selection
+    return redirect_to reservations_select_slots_path, alert: "空き時間を1つ選択してください。" if params[:selected_slot].blank?
 
-    selected_start = Time.zone.parse(params[:selected_slot])
-    service_menus = ServiceMenu.find(reservation_session.selected_service_menu_ids)
-
-    reservation = Reservations::TemporaryReservationCreator.new(
-      team: @team,
-      service_menus: service_menus,
-      staff_id: reservation_session.selected_staff_id || [],
-      start_time: selected_start
-    ).call
-
-    redirect_to reservations_prior_confirmation_path(public_id: reservation.public_id)
+    reservation_session.selected_slot = params[:selected_slot]
+    redirect_to reservations_prior_confirmation_path
   end
 
   def prior_confirmation
-    @reservation = Reservation.find_by!(public_id: params[:public_id])
-    @service_menus = @reservation.reservation_details.includes(:service_menu, :staff).map(&:service_menu)
-
+    @context = Reservations::FinalizationContext.new(team: @team, session: reservation_session)
     @form = Reservations::FinalizationForm.new
   end
 
   def finalize
-    @reservation = Reservation.find_by!(public_id: params[:public_id])
+    @context = Reservations::FinalizationContext.new(team: @team, session: reservation_session)
     @form = Reservations::FinalizationForm.new(reservations_finalization_form_params)
 
-    if Reservations::FinalizeService.new(reservation: @reservation, form: @form).call
-      reservation_session.clear_selection
-      reservation_session.public_id = @reservation.public_id
+    if @form.valid?
+      reservation_creation_result = Reservations::CreateService.new(
+        team: @context.team,
+        service_menus: @context.service_menus,
+        staff: @context.selected_staff,
+        start_time: @context.start_time,
+        form: @form
+      ).call
 
-      redirect_to reservations_complete_path(@team.permalink, @reservation.public_id)
+      if reservation_creation_result.is_a?(String)
+        flash.now[:alert] = reservation_creation_result
+        render :prior_confirmation
+      else
+        reservation_session.clear_selection
+        reservation_session.public_id = reservation_creation_result.public_id
+
+        redirect_to reservations_complete_path(@team.permalink, reservation_creation_result.public_id)
+      end
     else
-      flash.now[:alert] = '入力内容に誤りがあります。'
-      @service_menus = @reservation.reservation_details.includes(:service_menu, :staff).map(&:service_menu)
+      flash.now[:alert] = "入力内容に誤りがあります。"
       render :prior_confirmation
     end
   end
