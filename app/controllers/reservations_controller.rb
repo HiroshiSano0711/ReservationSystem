@@ -13,7 +13,7 @@ class ReservationsController < ApplicationController
 
       redirect_to reservations_select_slots_path
     else
-      redirect_to reservations_root_path, alert: form.errors.full_messages.join(",")
+      redirect_to reservations_path, alert: form.errors.full_messages.join(",")
     end
   end
 
@@ -66,9 +66,16 @@ class ReservationsController < ApplicationController
 
       if result.success?
         reservation_session.clear_selection
-        reservation_session.public_id = reservation_creation_result.public_id
+        reservation_session.public_id = result.data.public_id
+        ReservationCreatedNotifier.send(
+          context: {
+            current_customer: current_customer,
+            admin_staff: @team.admin_staff
+          },
+          attr: result.data
+        )
 
-        redirect_to reservations_complete_path(@team.permalink, reservation_creation_result.public_id)
+        redirect_to reservations_complete_path(@team.permalink, result.data.public_id)
       else
         flash.now[:alert] = result.message
         render :prior_confirmation

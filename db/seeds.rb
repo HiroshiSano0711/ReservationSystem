@@ -33,6 +33,7 @@ menus.each do |menu|
     required_staff_count: 1,
     available_from: Time.zone.now
   )
+  puts "Created ServiceMenu: #{menu[:name]}"
 end
 
 admin_staff = Staff.create!(

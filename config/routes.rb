@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :staffs, only: %i[index new create]
     resources :staff_profiles, only: %i[edit update], param: :staff_id
     resources :service_menus
-    resources :reservations, only: [:index, :show], param: :public_id do
+    resources :reservations, only: [ :index, :show ], param: :public_id do
       patch :cancel, on: :member
     end
     get "account", to: "accounts#show"
@@ -30,10 +30,10 @@ Rails.application.routes.draw do
   post "customers", to: "customers#invite"
 
   namespace :mypage do
-    resources :reservations, only: [:index, :show], param: :public_id do
+    resources :reservations, only: [ :index, :show ], param: :public_id do
       patch :cancel, on: :member
     end
-    resource :profile, only: [:edit, :update]
+    resource :profile, only: [ :edit, :update ]
   end
 
   scope ":permalink", as: "reservations" do

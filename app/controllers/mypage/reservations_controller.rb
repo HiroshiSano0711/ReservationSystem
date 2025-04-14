@@ -16,6 +16,13 @@ class Mypage::ReservationsController < ApplicationController
     result = service.call
 
     if result.success?
+      ReservationCanceledNotifier.send(
+          context: {
+            current_customer: current_customer,
+            admin_staff: result.data.team.admin_staff
+          },
+          attr: result.data
+        )
       redirect_to mypage_reservations_path, notice: "予約をキャンセルしました。"
     else
       redirect_to mypage_reservation_path(public_id: reservation.public_id), alert: "キャンセルできませんでした。#{result.message}"

@@ -16,4 +16,8 @@ class Team < ApplicationRecord
   def reservation_url(req)
     "#{req.protocol}#{req.host_with_port}/#{permalink}"
   end
+
+  def admin_staff
+    Staff.find_by(team: id, role: :admin_staff)
+  end
 end

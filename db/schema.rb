@@ -47,7 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.bigint "sender_id", null: false
+    t.bigint "sender_id"
     t.bigint "receiver_id", null: false
     t.integer "status", null: false, comment: "ステータス"
     t.integer "notification_type", null: false, comment: "タイプ"
@@ -164,7 +164,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.bigint "team_id", null: false
     t.jsonb "business_hours_for_day_of_week", null: false, comment: "営業時間／曜日"
     t.integer "max_reservation_month", null: false, comment: "最大受付月数"
-    t.integer "reservation_start_delay_days", default: 30, null: false, comment: "予約受付猶予（日数）"
+    t.integer "reservation_start_delay_days", default: 0, null: false, comment: "予約受付猶予（日数）"
     t.integer "cancellation_deadline_hours_before", default: 24, null: false, comment: "予約キャンセル期限（時間）"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

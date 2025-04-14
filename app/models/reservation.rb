@@ -35,11 +35,12 @@ class Reservation < ApplicationRecord
   def customer_does_not_have_overlapping_reservations
     overlapping = Reservation.where(customer_id: customer_id)
                              .where.not(id: id)
+                             .where(date: date)
                              .where("start_time < ? AND end_time > ?", end_time, start_time)
                              .exists?
 
     if overlapping
-      errors.add(:base, "すでにこの時間帯に予約があります。")
+      errors.add(:base, "すでに予約している時間帯と重複しています。")
     end
   end
 end

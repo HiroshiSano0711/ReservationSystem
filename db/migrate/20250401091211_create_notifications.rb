@@ -1,7 +1,7 @@
 class CreateNotifications < ActiveRecord::Migration[8.0]
   def change
     create_table :notifications do |t|
-      t.bigint :sender_id, null: false
+      t.bigint :sender_id
       t.bigint :receiver_id, null: false
       t.integer :status, null: false, comment: 'ステータス'
       t.integer :notification_type, null: false, comment: 'タイプ'

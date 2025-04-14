@@ -19,7 +19,7 @@ module Reservations
           form: @form,
           customer: @customer
         ).build
-
+        reservation.save!
         create_reservation_details!(reservation)
 
         ::ServiceResult.new(success: true, data: reservation)
