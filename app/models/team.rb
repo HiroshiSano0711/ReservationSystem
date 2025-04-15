@@ -3,6 +3,7 @@ class Team < ApplicationRecord
   has_many :reservations
   has_many :staffs
   has_many :service_menus
+  has_many :notifications
 
   validates :permalink,
     presence: true,

@@ -1,21 +1,13 @@
 class NotifierSystemUser
-  include ActiveModel::Model
+  attr_reader :id, :email, :name
 
-  attr_reader :id
-
-  def id
-    nil
-  end
-
-  def name
-    "SystemUser"
+  def initialize
+    @id = nil
+    @email = "no-reply@example.com"
+    @name = "SystemUser"
   end
 
   def to_s
     name
-  end
-
-  def persisted?
-    false
   end
 end

@@ -1,0 +1,21 @@
+ja:
+  activerecord:
+    models:
+      notification: 通知
+    attributes:
+      notification:
+        team_id: チームID
+        sender_id: 送信者ID
+        receiver_id: 受信者ID
+        status: ステータス
+        notification_type: 通知タイプ
+        message: 通知内容
+        action_url: アクションURL
+    enums:
+      notification:
+        notification_type:
+          reservation_created: 新規予約
+          reservation_canceled: 予約のキャンセル
+        status:
+          unread: 未読
+          read: 既読

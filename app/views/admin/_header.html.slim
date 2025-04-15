@@ -16,6 +16,16 @@
           | 予約
 
   .l-flex-col__item
+    = link_to admin_notifications_path, class: 'p-link' do
+      .p-menu-link
+        .l-flex.l-colgap-8.l-position-relative
+          span.material-symbols-outlined
+            | notifications
+          - if @unread_notifications_count.positive?
+            span.p-badge = @unread_notifications_count
+          | 通知
+
+  .l-flex-col__item
     = link_to admin_staffs_path, class: 'p-link' do
       .p-menu-link
         .l-flex.l-colgap-8

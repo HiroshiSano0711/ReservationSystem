@@ -47,6 +47,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   end
 
   create_table "notifications", force: :cascade do |t|
+    t.bigint "team_id", null: false
     t.bigint "sender_id"
     t.bigint "receiver_id", null: false
     t.integer "status", null: false, comment: "ステータス"
@@ -57,6 +58,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"
+    t.index ["team_id"], name: "index_notifications_on_team_id"
   end
 
   create_table "reservation_details", force: :cascade do |t|
@@ -183,6 +185,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_01_091211) do
   end
 
   add_foreign_key "customer_profiles", "customers"
+  add_foreign_key "notifications", "teams"
   add_foreign_key "reservation_details", "reservations"
   add_foreign_key "reservation_details", "service_menus"
   add_foreign_key "reservation_details", "staffs"

@@ -9,6 +9,12 @@ Rails.application.routes.draw do
     resources :reservations, only: [ :index, :show ], param: :public_id do
       patch :cancel, on: :member
     end
+    resources :notifications, only: [ :index ] do
+      member do
+        patch :mark_as_read
+      end
+    end
+
     get "account", to: "accounts#show"
   end
 

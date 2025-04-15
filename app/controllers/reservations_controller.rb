@@ -67,13 +67,7 @@ class ReservationsController < ApplicationController
       if result.success?
         reservation_session.clear_selection
         reservation_session.public_id = result.data.public_id
-        ReservationCreatedNotifier.send(
-          context: {
-            current_customer: current_customer,
-            admin_staff: @team.admin_staff
-          },
-          attr: result.data
-        )
+        ReservationCreatedNotifier.send(team: @team, attr: result.data)
 
         redirect_to reservations_complete_path(@team.permalink, result.data.public_id)
       else

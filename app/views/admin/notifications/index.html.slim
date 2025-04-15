@@ -1,0 +1,11 @@
+.l-main-header
+  .l-flex.l-space-between.l-align-center.l-h-full
+    .l-flex__item
+      h1.p-txt-primary 通知一覧
+
+.l-main-contents
+  - @notifications.each do |notification|
+    .p-card
+      .p-card__title = enum_human_name(Notification, :notification_type, notification.notification_type)
+      .p-card__desc = notification.message
+      = button_to '詳細確認', mark_as_read_admin_notification_path(notification), method: :patch

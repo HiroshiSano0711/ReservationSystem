@@ -1,24 +1,29 @@
 class BaseNotifier
   include Rails.application.routes.url_helpers
+  NOTIFIER_SYSTEM_USER = NotifierSystemUser.new.freeze
 
-  def self.send(context:, attr:)
-    new(context: context, attr: attr).send
+  def default_url_options
+    Rails.application.default_url_options
+  end
+
+  def self.send(team:, attr:)
+    new(team: team, attr: attr).notify
   rescue => e
     Rails.logger.error("[NotificationError] #{e.class} - #{e.message}")
     Rails.logger.error(e.backtrace.join("\n"))
     nil
   end
 
-  def initialize(context:, attr:)
-    @context = context
+  def initialize(team:, attr:)
+    @team = team
     @attr = attr
     validate_attr
-    @build_context = build_context
   end
 
-  def send
-    notification = create_notification
-    NotificationSender.send(notification, @context)
+  def notify
+    context = build_context
+    notification = Notification.create!(context[:notification_attr])
+    NotificationSender.send(notification, context)
   end
 
   private
@@ -34,9 +39,5 @@ class BaseNotifier
 
   def attr_class
     raise AbstractMethodNotImplementedError.new(klass: self.class, method: :attr_class)
-  end
-
-  def create_notification
-    Notification.create!(build_context)
   end
 end

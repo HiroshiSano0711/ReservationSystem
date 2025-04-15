@@ -2,6 +2,7 @@ class Admin::BaseController < ApplicationController
   before_action :authenticate_staff!
   before_action :check_admin
   before_action :find_team
+  before_action :unread_notifications_count
 
   layout "admin"
 
@@ -15,5 +16,9 @@ class Admin::BaseController < ApplicationController
 
   def find_team
     @team = current_staff.team
+  end
+
+  def unread_notifications_count
+    @unread_notifications_count = Notification.where(team: @team, receiver_id: current_staff.id, status: :unread).count
   end
 end
