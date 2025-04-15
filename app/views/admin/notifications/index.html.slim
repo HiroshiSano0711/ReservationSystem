@@ -7,5 +7,6 @@
   - @notifications.each do |notification|
     .p-card
       .p-card__title = enum_human_name(Notification, :notification_type, notification.notification_type)
+      .p-card__desc = enum_human_name(Notification, :status, notification.status)
       .p-card__desc = notification.message
       = button_to '詳細確認', mark_as_read_admin_notification_path(notification), method: :patch
