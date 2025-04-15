@@ -17,6 +17,6 @@ class Admin::TeamsController < Admin::BaseController
   private
 
   def team_params
-    params.require(:team).permit(:name, :description, :permalink, :phone_number)
+    params.require(:team).permit(:image, :name, :description, :permalink, :phone_number)
   end
 end

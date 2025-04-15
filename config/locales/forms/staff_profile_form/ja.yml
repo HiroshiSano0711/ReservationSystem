@@ -4,6 +4,7 @@ ja:
       staff_profile_form: スタッフプロフィールフォーム
     attributes:
       staff_profile_form:
+        image: 画像
         nick_name: ニックネーム
         accepts_direct_booking: 指名受付
         bio: 自己紹介/PR

@@ -11,6 +11,10 @@
 
 .l-main-contents
   .p-card
+    .p-card__title 画像
+    .p-card__desc = image_tag @team.image, class: 'p-img-small' if @team.image.attached?
+
+  .p-card
     .p-card__title チーム名
     .p-card__desc = @team.name
 

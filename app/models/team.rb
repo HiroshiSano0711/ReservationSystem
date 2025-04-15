@@ -1,5 +1,6 @@
 class Team < ApplicationRecord
   has_one :team_business_setting
+  has_one_attached :image
   has_many :reservations
   has_many :staffs
   has_many :service_menus

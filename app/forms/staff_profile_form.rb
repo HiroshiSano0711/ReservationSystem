@@ -3,6 +3,7 @@ class StaffProfileForm
 
   attr_accessor :staff,
                 :staff_profile,
+                :image,
                 :working_status,
                 :nick_name,
                 :accepts_direct_booking,
@@ -27,6 +28,7 @@ class StaffProfileForm
 
     ActiveRecord::Base.transaction do
       staff_profile.assign_attributes(
+        image: image,
         working_status: working_status,
         nick_name: nick_name,
         accepts_direct_booking: accepts_direct_booking,

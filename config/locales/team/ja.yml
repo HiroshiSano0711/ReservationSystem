@@ -4,6 +4,7 @@ ja:
       team: チーム
     attributes:
       team:
+        image: 画像
         name: チーム名
         permalink: 予約URL(パーマリンク)
         description: 概要

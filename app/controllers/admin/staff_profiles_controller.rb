@@ -40,6 +40,7 @@ class Admin::StaffProfilesController < Admin::BaseController
 
   def staff_profile_form_params
     params.require(:staff_profile_form).permit(
+      :image,
       :working_status,
       :nick_name,
       :accepts_direct_booking,
