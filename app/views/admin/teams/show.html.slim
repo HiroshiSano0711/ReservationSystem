@@ -20,7 +20,7 @@
 
   .p-card
     .p-card__title 予約URL
-    .p-card__desc = link_to @team.reservation_url(request), @team.reservation_url(request), target: :_blank, rel: 'noopener', class: 'p-link'
+    .p-card__desc = link_to reservations_url(permalink: @team.permalink), reservations_url(permalink: @team.permalink), target: :_blank, rel: 'noopener', class: 'p-link'
 
   .p-card
     .p-card__title 連絡先
