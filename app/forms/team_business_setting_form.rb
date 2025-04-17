@@ -36,7 +36,7 @@ class TeamBusinessSettingForm
     end
 
     true
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation, ActiveRecord::RecordNotUnique => e
     false
   end
 

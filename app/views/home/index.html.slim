@@ -4,7 +4,7 @@
       .l-flex__item
         .p-card__title = team.name
         .p-card__desc = team.description
-        = link_to '予約ページへ', team.permalink, class: 'p-link'
+        = link_to '予約ページへ', reservations_path(team.permalink), class: 'p-link'
       .l-flex__item
         - if team.image.attached?
           = image_tag team.image, class: 'p-img-small'
