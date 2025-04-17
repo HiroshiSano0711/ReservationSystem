@@ -1,0 +1,20 @@
+ja:
+  activerecord:
+    models:
+      weekly_business_hour: 各曜日の営業設定
+    attributes:
+      weekly_business_hour:
+        wday: 曜日
+        working_day: 営業日
+        open: 開店時間
+        close: 閉店時間
+    enums:
+      weekly_business_hour:
+        wday:
+          sun: 日曜
+          mon: 月曜
+          tue: 火曜
+          wed: 水曜
+          thu: 木曜
+          fri: 金曜
+          sat: 土曜

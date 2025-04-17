@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_15_143848) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -118,6 +118,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_143848) do
     t.integer "required_staff_count", null: false, comment: "合計所要人数"
     t.text "menu_summary", default: "", null: false, comment: "メニュー"
     t.string "assigned_staff_name", default: "", null: false, comment: "担当者名"
+    t.text "memo", default: "", null: false, comment: "希望・要望など"
     t.integer "status", default: 0, null: false, comment: "ステータス"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -143,8 +144,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_143848) do
     t.integer "duration", default: 0, null: false, comment: "所要時間"
     t.integer "price", default: 0, null: false, comment: "価格（税込）"
     t.integer "required_staff_count", default: 1, null: false, comment: "所要人数"
-    t.date "available_from", null: false, comment: "提供開始日"
-    t.date "available_until", comment: "提供終了日"
+    t.datetime "available_from", null: false, comment: "提供開始日"
+    t.datetime "available_until", comment: "提供終了日"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id", "menu_name"], name: "index_service_menus_on_team_id_and_menu_name", unique: true
@@ -155,7 +156,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_143848) do
     t.bigint "staff_id", null: false
     t.integer "working_status", default: 0, null: false, comment: "勤務状況"
     t.string "nick_name", default: "", null: false, comment: "ニックネーム"
-    t.string "profile_image", default: "", null: false, comment: "プロフィール画像"
     t.boolean "accepts_direct_booking", default: false, null: false, comment: "指名受付"
     t.text "bio", default: "", null: false, comment: "自己紹介"
     t.datetime "created_at", null: false
@@ -191,7 +191,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_143848) do
 
   create_table "team_business_settings", force: :cascade do |t|
     t.bigint "team_id", null: false
-    t.jsonb "business_hours_for_day_of_week", null: false, comment: "営業時間／曜日"
     t.integer "max_reservation_month", null: false, comment: "最大受付月数"
     t.integer "reservation_start_delay_days", default: 0, null: false, comment: "予約受付猶予（日数）"
     t.integer "cancellation_deadline_hours_before", default: 24, null: false, comment: "予約キャンセル期限（時間）"
@@ -203,13 +202,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_143848) do
   create_table "teams", force: :cascade do |t|
     t.string "name", null: false, comment: "チーム名"
     t.string "permalink", null: false, comment: "予約URL"
-    t.string "image", default: "", null: false, comment: "画像"
     t.text "description", comment: "概要"
     t.string "phone_number", comment: "連絡先電話番号"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_teams_on_name", unique: true
     t.index ["permalink"], name: "index_teams_on_permalink", unique: true
+  end
+
+  create_table "weekly_business_hours", force: :cascade do |t|
+    t.bigint "team_business_setting_id", null: false
+    t.integer "wday", null: false, comment: "曜日"
+    t.boolean "working_day", default: true, null: false, comment: "営業日か休日か"
+    t.time "open", null: false, comment: "オープン"
+    t.time "close", null: false, comment: "クローズ"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_business_setting_id", "wday"], name: "idx_on_team_business_setting_id_wday_07303326f0", unique: true
+    t.index ["team_business_setting_id"], name: "index_weekly_business_hours_on_team_business_setting_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -227,4 +237,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_15_143848) do
   add_foreign_key "staff_profiles", "staffs"
   add_foreign_key "staffs", "teams"
   add_foreign_key "team_business_settings", "teams"
+  add_foreign_key "weekly_business_hours", "team_business_settings"
 end

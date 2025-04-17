@@ -6,18 +6,20 @@ team = Team.create!(
 puts "Created Team: #{team.name}"
 
 team_business_setting = team.create_team_business_setting(
-  business_hours_for_day_of_week: {
-    'sun': { 'working_day': '1', 'open': '09:00', 'close': '19:00' },
-    'mon': { 'working_day': '1', 'open': '09:00', 'close': '19:00' },
-    'tue': { 'working_day': '1', 'open': '09:00', 'close': '19:00' },
-    'wed': { 'working_day': '1', 'open': '09:00', 'close': '19:00' },
-    'thu': { 'working_day': '1', 'open': '09:00', 'close': '19:00' },
-    'fri': { 'working_day': '1', 'open': '09:00', 'close': '19:00' },
-    'sat': { 'working_day': '1', 'open': '09:00', 'close': '19:00' }
-  },
-  max_reservation_month: '3'
+  max_reservation_month: 3,
+  reservation_start_delay_days: 0,
+  cancellation_deadline_hours_before: 24
 )
-puts "Created TeamBusinessSetting: #{team_business_setting.business_hours_for_day_of_week}"
+puts "Created TeamBusinessSetting: #{team_business_setting}"
+
+WeeklyBusinessHour::WDAYS.each do |wday|
+  team_business_setting.weekly_business_hours.create(
+    wday: wday,
+    working_day: true,
+    open: '09:00',
+    close: '19:00'
+  )
+end
 
 menus = [
   { name: 'カラー', duration: 50, price: 5000, required_staff_count: 1 },
@@ -41,7 +43,7 @@ admin_staff = Staff.create!(
   email: 'admin@example.com',
   password: 'password',
   password_confirmation: 'password',
-  invitation_accepted_at: Time.now,
+  invitation_accepted_at: Time.zone.now,
   role: 'admin_staff'
 )
 
@@ -56,7 +58,7 @@ staff = Staff.create!(
   email: 'staff-1@example.com',
   password: 'password',
   password_confirmation: 'password',
-  invitation_accepted_at: Time.now,
+  invitation_accepted_at: Time.zone.now,
   role: 'staff'
 )
 
@@ -71,7 +73,7 @@ staff_2 = Staff.create!(
   email: 'staff-2@example.com',
   password: 'password',
   password_confirmation: 'password',
-  invitation_accepted_at: Time.now,
+  invitation_accepted_at: Time.zone.now,
   role: 'staff'
 )
 

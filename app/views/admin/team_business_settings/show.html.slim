@@ -12,54 +12,13 @@
 .l-flex-col
   h2.p-txt-sub 営業時間／曜日
   .p-card
-    .p-card__title 月曜
-    .p-card__desc
-      - if @team_business_setting.mon['working_day'] === '1'
-        = "営業日: #{@team_business_setting.mon.dig('open')}~#{@team_business_setting.mon.dig('close')}"
-      - elsif @team_business_setting.mon['working_day'] === '0'
-        | 定休日
-
-    .p-card__title 火曜
-    .p-card__desc
-      - if @team_business_setting.tue['working_day'] === '1'
-        = "営業日: #{@team_business_setting.tue.dig('open')}~#{@team_business_setting.tue.dig('close')}"
-      - elsif @team_business_setting.tue['working_day'] === '0'
-        | 定休日
-
-    .p-card__title 水曜
-    .p-card__desc
-      - if @team_business_setting.wed['working_day'] === '1'
-        = "営業日: #{@team_business_setting.wed.dig('open')}~#{@team_business_setting.wed.dig('close')}"
-      - elsif @team_business_setting.wed['working_day'] === '0'
-        | 定休日
-
-    .p-card__title 木曜
-    .p-card__desc
-      - if @team_business_setting.thu['working_day'] === '1'
-        = "営業日: #{@team_business_setting.thu.dig('open')}~#{@team_business_setting.thu.dig('close')}"
-      - elsif @team_business_setting.thu['working_day'] === '0'
-        | 定休日
-
-    .p-card__title 金曜
-    .p-card__desc
-      - if @team_business_setting.fri['working_day'] === '1'
-        = "営業日: #{@team_business_setting.fri.dig('open')}~#{@team_business_setting.fri.dig('close')}"
-      - elsif @team_business_setting.fri['working_day'] === '0'
-        | 定休日
-
-    .p-card__title 土曜
-    .p-card__desc
-      - if @team_business_setting.sat['working_day'] === '1'
-        = "営業日: #{@team_business_setting.sat.dig('open')}~#{@team_business_setting.sat.dig('close')}"
-      - elsif @team_business_setting.sat['working_day'] === '0'
-        | 定休日
-
-    .p-card__title 日曜
-    .p-card__desc
-      - if @team_business_setting.sun['working_day'] === '1'
-        = "営業日: #{@team_business_setting.sun.dig('open')}~#{@team_business_setting.sun.dig('close')}"
-      - elsif @team_business_setting.sun['working_day'] === '0'
-        | 定休日
+    - @weekly_business_hours.each do |weekly_business_hour|
+      .p-card__title = enum_human_name(WeeklyBusinessHour, :wday, weekly_business_hour.wday.to_sym)
+      .p-card__desc
+        - if weekly_business_hour.working_day
+          = "営業日: #{weekly_business_hour.open.strftime("%H:%M")}~#{weekly_business_hour.close.strftime("%H:%M")}"
+        - else
+          | 定休日
 
 .l-flex-col
   h2.p-txt-sub.u-mbt-16 最大予約受付月数

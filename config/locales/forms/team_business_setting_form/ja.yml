@@ -1,0 +1,9 @@
+ja:
+  activemodel:
+    models:
+      team_business_setting_form: チーム営業設定フォーム
+    attributes:
+      team_business_setting_form:
+        max_reservation_month: 最大受付期間（何ヶ月先まで）
+        reservation_start_delay_days: 予約受付猶予（日数）
+        cancellation_deadline_hours_before: 予約キャンセル期限（時間）

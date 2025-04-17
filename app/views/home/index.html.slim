@@ -6,4 +6,5 @@
         .p-card__desc = team.description
         = link_to '予約ページへ', team.permalink, class: 'p-link'
       .l-flex__item
-        = image_tag team.image, class: 'p-img-small'
+        - if team.image.attached?
+          = image_tag team.image, class: 'p-img-small'

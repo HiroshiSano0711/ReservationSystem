@@ -9,128 +9,37 @@
       h1.p-txt-primary 営業設定の編集
 
 .l-main-content.u-mbt-32
-  = form_with model: @team_business_setting, url: admin_team_business_setting_path(@team), method: :patch, local: true, class: 'p-form' do |f|
-    = render partial: 'admin/shared/form_error', locals: { model: @team_business_setting }
+  = form_with model: @form, url: admin_team_business_setting_path(@team), method: :patch, local: true, class: 'p-form' do |f|
+    = render partial: 'admin/shared/form_error', locals: { model: @form }
 
     h2.p-txt-sub 営業日と営業時間
 
-    .p-form__fieldset.u-mbt-16
-      .l-flex.l-colgap-8
-        .l-flex__item
-          = label_tag '月曜'
-        .l-flex__item
-          = select_tag "team_business_setting[business_hours_for_day_of_week][mon][working_day]", options_for_select({'営業日': '1', '定休日': '0' }, selected: @team_business_setting.mon&.dig("working_day"))
-        .l-flex__item
-          = label_tag '開店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][mon][open]", @team_business_setting.mon&.dig("open")
-        .l-flex__item
-          = label_tag '閉店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][mon][close]", @team_business_setting.mon&.dig("close")
+    - @form.weekly_business_hours.each_with_index do |wh, i|
+      .p-form__fieldset
+        .l-flex.l-colgap-8
+          = hidden_field_tag "team_business_setting_form[weekly_business_hours][#{i}][wday]", wh.wday
+          .l-flex__item
+            = label_tag "team_business_setting_form[weekly_business_hours][#{i}][working_day]", enum_human_name(WeeklyBusinessHour, :wday, wh.wday)
+            = check_box_tag "team_business_setting_form[weekly_business_hours][#{i}][working_day]", '1', wh.working_day
+          .l-flex__item
+            = label_tag "team_business_setting_form[weekly_business_hours][#{i}][open]", "開始時間"
+            = time_field_tag "team_business_setting_form[weekly_business_hours][#{i}][open]", wh.open.strftime('%H:%M')
+          .l-flex__item
+            = label_tag "team_business_setting_form[weekly_business_hours][#{i}][close]", "終了時間"
+            = time_field_tag "team_business_setting_form[weekly_business_hours][#{i}][close]", wh.close.strftime('%H:%M')
 
     .p-form__fieldset
-      .l-flex.l-colgap-8
-        .l-flex__item
-          = label_tag '火曜'
-        .l-flex__item
-          = select_tag "team_business_setting[business_hours_for_day_of_week][tue][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.tue&.dig("working_day"))
-        .l-flex__item
-          = label_tag '開店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][tue][open]", @team_business_setting.tue&.dig("open")
-        .l-flex__item
-          = label_tag '閉店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][tue][close]", @team_business_setting.tue&.dig("close")
+      = f.label :max_reservation_month
+      = f.number_field :max_reservation_month
 
     .p-form__fieldset
-      .l-flex.l-colgap-8
-        .l-flex__item
-          = label_tag '水曜'
-        .l-flex__item
-          = select_tag "team_business_setting[business_hours_for_day_of_week][wed][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.wed&.dig("working_day"))
-        .l-flex__item
-          = label_tag '開店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][wed][open]", @team_business_setting.wed&.dig("open")
-        .l-flex__item
-          = label_tag '閉店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][wed][close]", @team_business_setting.wed&.dig("close")
-
-    .p-form__fieldset
-      .l-flex.l-colgap-8
-        .l-flex__item
-          = label_tag '木曜'
-        .l-flex__item
-          = select_tag "team_business_setting[business_hours_for_day_of_week][thu][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.thu&.dig("working_day"))
-        .l-flex__item
-          = label_tag '開店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][thu][open]", @team_business_setting.thu&.dig("open")
-        .l-flex__item
-          = label_tag '閉店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][thu][close]", @team_business_setting.thu&.dig("close")
-
-    .p-form__fieldset
-      .l-flex.l-colgap-8
-        .l-flex__item
-          = label_tag '金曜'
-        .l-flex__item
-          = select_tag "team_business_setting[business_hours_for_day_of_week][fri][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.fri&.dig("working_day"))
-        .l-flex__item
-          = label_tag '開店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][fri][open]", @team_business_setting.fri&.dig("open")
-        .l-flex__item
-          = label_tag '閉店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][fri][close]", @team_business_setting.fri&.dig("close")
-
-    .p-form__fieldset
-      .l-flex.l-colgap-8
-        .l-flex__item
-          = label_tag '土曜'
-        .l-flex__item
-          = select_tag "team_business_setting[business_hours_for_day_of_week][sat][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.sat&.dig("working_day"))
-        .l-flex__item
-          = label_tag '開店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][sat][open]", @team_business_setting.sat&.dig("open")
-        .l-flex__item
-          = label_tag '閉店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][sat][close]", @team_business_setting.sat&.dig("close")
-
-    .p-form__fieldset
-      .l-flex.l-colgap-8
-        .l-flex__item
-          = label_tag '日曜'
-        .l-flex__item
-          = select_tag "team_business_setting[business_hours_for_day_of_week][sun][working_day]",options_for_select({ '営業日': '1', '定休日': '0'}, selected: @team_business_setting.sun&.dig("working_day"))
-        .l-flex__item
-          = label_tag '開店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][sun][open]", @team_business_setting.sun&.dig("open")
-        .l-flex__item
-          = label_tag '閉店'
-        .l-flex__item
-          = time_field_tag "team_business_setting[business_hours_for_day_of_week][sun][close]", @team_business_setting.sun&.dig("close")
-
-    .p-form__fieldset
-      = f.label :max_reservation_month, "最大受付期間（何ヶ月先まで）"
-      = f.number_field :max_reservation_month, max: 6
-
-    .p-form__fieldset
-      = f.label :reservation_start_delay_days, "予約受付猶予（日数）"
+      = f.label :reservation_start_delay_days
       p.p-txt-anno
         | ※何日後から予約を受付するか（例: 1と設定した場合は当日予約不可）
       = f.number_field :reservation_start_delay_days
 
     .p-form__fieldset
-      = f.label :cancellation_deadline_hours_before, "予約キャンセル期限（時間）"
+      = f.label :cancellation_deadline_hours_before
       p.p-txt-anno
         | ※予約の何時間前までキャンセルを受付するか（例: 24と設定した場合は24時間以内はキャンセル不可）
       = f.number_field :cancellation_deadline_hours_before
