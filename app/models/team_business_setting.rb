@@ -18,7 +18,7 @@ class TeamBusinessSetting < ApplicationRecord
   def opening_hours(date)
     business_hour = weekly_business_hour_for(date)
     {
-      open: Time.zone.parse("#{date} #{hbusiness_hourour.open.strftime("%H:%M")}"),
+      open: Time.zone.parse("#{date} #{business_hour.open.strftime("%H:%M")}"),
       close: Time.zone.parse("#{date} #{business_hour.close.strftime("%H:%M")}")
     }
   end

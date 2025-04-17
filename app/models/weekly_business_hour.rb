@@ -5,7 +5,7 @@ class WeeklyBusinessHour < ApplicationRecord
   WDAYS = %i[sun mon tue wed thu fri sat]
 
   validates :wday, presence: true
-  validates :working_day, inclusion: { in: [true, false] }
+  validates :working_day, inclusion: { in: [ true, false ] }
   validates :open, presence: true
   validates :close, presence: true
   validate :close_after_open

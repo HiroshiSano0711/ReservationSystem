@@ -9,6 +9,6 @@ class CreateWeeklyBusinessHours < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :weekly_business_hours, [:team_business_setting_id, :wday], unique: true
+    add_index :weekly_business_hours, [ :team_business_setting_id, :wday ], unique: true
   end
 end

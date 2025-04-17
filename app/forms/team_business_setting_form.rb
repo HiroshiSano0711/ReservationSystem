@@ -26,11 +26,11 @@ class TeamBusinessSettingForm
       )
       @weekly_business_hours_params.each do |hour|
         update_attr = hour[1]
-        weekly_business_hour = @weekly_business_hours.find { |h| h.wday == update_attr['wday'] }
+        weekly_business_hour = @weekly_business_hours.find { |h| h.wday == update_attr["wday"] }
         weekly_business_hour.update!(
-          working_day: update_attr['working_day'].to_s === '1',
-          open: update_attr['open'],
-          close: update_attr['close']
+          working_day: update_attr["working_day"].to_s === "1",
+          open: update_attr["open"],
+          close: update_attr["close"]
         )
       end
     end
@@ -51,7 +51,7 @@ class TeamBusinessSettingForm
   def validate_weekly_business_hours
     weekly_business_hours.each_with_index do |hour, idx|
       next if hour.valid?
-  
+
       hour.errors.each do |attr, msg|
         errors.add("weekly_business_hours[#{idx}].#{attr}", msg)
       end
