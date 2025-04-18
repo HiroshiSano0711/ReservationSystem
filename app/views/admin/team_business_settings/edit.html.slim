@@ -17,29 +17,29 @@
     - @form.weekly_business_hours.each_with_index do |wh, i|
       .p-form__fieldset
         .l-flex.l-colgap-8
-          = hidden_field_tag "team_business_setting_form[weekly_business_hours][#{i}][wday]", wh.wday
+          = hidden_field_tag "#{@form.nested_param_key}[#{i}][wday]", wh.wday
           .l-flex__item
-            = label_tag "team_business_setting_form[weekly_business_hours][#{i}][working_day]", enum_human_name(WeeklyBusinessHour, :wday, wh.wday)
-            = check_box_tag "team_business_setting_form[weekly_business_hours][#{i}][working_day]", '1', wh.working_day
+            = label_tag "#{@form.nested_param_key}[#{i}][working_day]", enum_human_name(WeeklyBusinessHour, :wday, wh.wday)
+            = check_box_tag "#{@form.nested_param_key}[#{i}][working_day]", '1', wh.working_day
           .l-flex__item
-            = label_tag "team_business_setting_form[weekly_business_hours][#{i}][open]", "開始時間"
-            = time_field_tag "team_business_setting_form[weekly_business_hours][#{i}][open]", wh.open.strftime('%H:%M')
+            = label_tag "#{@form.nested_param_key}[#{i}][open]", model_label(f, :open)
+            = time_field_tag "#{@form.nested_param_key}[#{i}][open]", wh.open.strftime('%H:%M')
           .l-flex__item
-            = label_tag "team_business_setting_form[weekly_business_hours][#{i}][close]", "終了時間"
-            = time_field_tag "team_business_setting_form[weekly_business_hours][#{i}][close]", wh.close.strftime('%H:%M')
+            = label_tag "#{@form.nested_param_key}[#{i}][close]", model_label(f, :close)
+            = time_field_tag "#{@form.nested_param_key}[#{i}][close]", wh.close.strftime('%H:%M')
 
     .p-form__fieldset
-      = f.label :max_reservation_month
+      = model_label(f, :max_reservation_month)
       = f.number_field :max_reservation_month
 
     .p-form__fieldset
-      = f.label :reservation_start_delay_days
+      = model_label(f, :reservation_start_delay_days)
       p.p-txt-anno
         | ※何日後から予約を受付するか（例: 1と設定した場合は当日予約不可）
       = f.number_field :reservation_start_delay_days
 
     .p-form__fieldset
-      = f.label :cancellation_deadline_hours_before
+      = model_label(f, :cancellation_deadline_hours_before)
       p.p-txt-anno
         | ※予約の何時間前までキャンセルを受付するか（例: 24と設定した場合は24時間以内はキャンセル不可）
       = f.number_field :cancellation_deadline_hours_before

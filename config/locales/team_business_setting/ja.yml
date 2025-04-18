@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    models:
+      team_business_setting: チーム営業設定
+    attributes:
+      team_business_setting:
+        max_reservation_month: 最大受付月数
+        reservation_start_delay_days: 予約受付猶予（日数）
+        cancellation_deadline_hours_before: 予約キャンセル期限（時間）
