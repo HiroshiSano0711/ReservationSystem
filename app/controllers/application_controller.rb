@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
     if resource.class == Customer
       mypage_reservations_path
     elsif resource.admin_staff?
-      admin_path
+      admin_reservations_path
     end
   end
 end

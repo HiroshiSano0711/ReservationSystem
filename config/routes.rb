@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   namespace :admin do
-    get "/", to: "dashboard#index"
     resources :teams, only: %i[show edit update]
     resources :team_business_settings, only: %i[show edit update]
     resources :staffs, only: %i[index new create]
