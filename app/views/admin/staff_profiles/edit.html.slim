@@ -13,26 +13,26 @@
     = render partial: 'admin/shared/form_error', locals: { model: @form }
 
     .p-form__fieldset
-      = f.label :image, class: 'p-label'
+      = model_label(f, :image, class: 'p-label')
       = f.file_field :image
 
     .p-form__fieldset
       = image_tag @staff.staff_profile.image, class: 'p-img-small' if @staff.staff_profile.image.attached?
 
     .p-form__fieldset
-      = f.label :nick_name, class: 'p-label'
+      = model_label(f, :nick_name, class: 'p-label')
       = f.text_field :nick_name
 
     .p-form__fieldset
-      = f.label :accepts_direct_booking, class: 'p-label'
+      = model_label(f, :accepts_direct_booking, class: 'p-label')
       = f.select :accepts_direct_booking,  options_for_select(accepts_direct_booking_options, convert_boolean_to_string(@form.accepts_direct_booking))
 
     .p-form__fieldset
-      = f.label :working_status, class: 'p-label'
+      = model_label(f, :working_status, class: 'p-label')
       = f.select :working_status, enum_options_for_select_from(StaffProfile, :working_status), {}
 
     .p-form__fieldset
-      = f.label :bio, class: 'p-label'
+      = model_label(f, :bio, class: 'p-label')
       = f.textarea :bio
 
     .p-form__fieldset
