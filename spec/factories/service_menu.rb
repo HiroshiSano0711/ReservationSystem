@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :service_menu do
-    team
+    association :team
     sequence(:menu_name) { |n| "Team Menu #{n}" }
     duration { 30 }
     price { 4000 }

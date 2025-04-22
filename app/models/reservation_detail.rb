@@ -3,6 +3,7 @@ class ReservationDetail < ApplicationRecord
   belongs_to :staff, optional: true
   belongs_to :service_menu
 
+  validates :menu_name, presence: true
   validates :price, presence: true
   validates :duration, presence: true
   validates :required_staff_count, presence: true

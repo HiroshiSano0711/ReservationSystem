@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :staff do
-    team
+    association :team
+
     sequence(:email) { |n| "test-#{n}@example.com" }
     password { "password" }
     invitation_token { Devise.friendly_token }
