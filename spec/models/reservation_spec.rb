@@ -32,9 +32,10 @@ RSpec.describe Reservation, type: :model do
       allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
     end
 
+    let(:team) { create(:team) }
+
     describe "#start_date_within_allowed_range" do
       it "adds an error if the start date is too early" do
-        team = create(:team)
         create(:team_business_setting, team: team, reservation_start_delay_days: 1)
         reservation = build(:reservation, team: team, date: Time.zone.today)
 
@@ -46,7 +47,6 @@ RSpec.describe Reservation, type: :model do
 
     describe "#end_date_within_allowed_range" do
       it "adds an error if the end date is too late" do
-        team = create(:team)
         create(:team_business_setting, team: team)
         reservation = build(:reservation, team: team, date: Time.zone.today + team.team_business_setting.max_reservation_month.months + 1.day)
 
@@ -59,7 +59,6 @@ RSpec.describe Reservation, type: :model do
     describe "#customer_does_not_have_overlapping_reservations" do
       it "adds an error if the customer has overlapping reservations" do
         customer = create(:customer)
-        team = create(:team)
         create(:team_business_setting, team: team)
         create(:reservation, team: team, customer: customer, date: Time.zone.today, start_time: "12:00", end_time: "13:00")
 
@@ -77,12 +76,13 @@ RSpec.describe Reservation, type: :model do
       allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
     end
 
+    let(:team) { create(:team) }
+
     describe "#cancelable?" do
       context "when the cancellation deadline has passed" do
         it "returns false" do
           allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 12:00:00"))
 
-          team = create(:team)
           reservation = create(:reservation, team: team, date: FIXED_TIME.call.to_date, start_time: "12:00", end_time: "13:00")
           expect(reservation.cancelable?).to be_falsey
         end
@@ -92,7 +92,6 @@ RSpec.describe Reservation, type: :model do
         it "returns false" do
           allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 11:59:59"))
 
-          team = create(:team)
           reservation = create(:reservation, team: team, date: FIXED_TIME.call.to_date, start_time: "12:00", end_time: "13:00")
           expect(reservation.cancelable?).to be_truthy
         end
