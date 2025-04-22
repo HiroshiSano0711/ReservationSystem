@@ -8,11 +8,13 @@ class WeeklyBusinessHour < ApplicationRecord
   validates :working_day, inclusion: { in: [ true, false ] }
   validates :open, presence: true
   validates :close, presence: true
-  validate :close_after_open
+  validate :validate_close_after_open
 
   private
 
-  def close_after_open
+  def validate_close_after_open
+    return if open.blank? || close.blank?
+
     if close <= open
       errors.add(:close, "はオープンより後の時間にしてください")
     end

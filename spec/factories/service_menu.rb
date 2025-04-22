@@ -1,0 +1,11 @@
+FactoryBot.define do
+  factory :service_menu do
+    team
+    sequence(:menu_name) { |n| "Team Menu #{n}" }
+    duration { 30 }
+    price { 4000 }
+    required_staff_count { 1 }
+    available_from { fixed_time }
+    available_until { nil }
+  end
+end
