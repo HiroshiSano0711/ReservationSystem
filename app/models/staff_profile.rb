@@ -4,5 +4,4 @@ class StaffProfile < ApplicationRecord
 
   enum :working_status, { active: 0, leave_on: 1, retire: 99 }
   validates :nick_name, presence: true, on: :update
-  validates :accepts_direct_booking, inclusion: { in: [ true, false ] }
 end
