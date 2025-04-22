@@ -118,7 +118,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.integer "required_staff_count", null: false, comment: "合計所要人数"
     t.text "menu_summary", default: "", null: false, comment: "メニュー"
     t.string "assigned_staff_name", default: "", null: false, comment: "担当者名"
-    t.text "memo", default: "", null: false, comment: "希望・要望など"
     t.integer "status", default: 0, null: false, comment: "ステータス"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -203,7 +202,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.string "name", null: false, comment: "チーム名"
     t.string "permalink", null: false, comment: "予約URL"
     t.text "description", comment: "概要"
-    t.string "phone_number", comment: "連絡先電話番号"
+    t.string "phone_number", comment: "電話番号"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_teams_on_name", unique: true

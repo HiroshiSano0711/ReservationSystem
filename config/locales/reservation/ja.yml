@@ -11,7 +11,7 @@ ja:
         start_time: 開始時間
         end_time: 終了時間
         customer_name: 顧客名
-        customer_phone_number: 顧客連絡先
+        customer_phone_number: 顧客電話番号
         total_price: 合計価格
         total_duration: 合計所要時間
         required_staff_count: 所要人数

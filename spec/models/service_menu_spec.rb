@@ -9,7 +9,7 @@ RSpec.describe ServiceMenu, type: :model do
   end
 
   describe "scopes" do
-    let!(:now) { fixed_time }
+    let!(:now) { FIXED_TIME.call }
     let!(:team) { create(:team) }
 
     before { travel_to(now) }
@@ -29,7 +29,7 @@ RSpec.describe ServiceMenu, type: :model do
   end
 
   describe "#available?" do
-    let!(:now) { fixed_time }
+    let!(:now) { FIXED_TIME.call }
     let!(:team) { create(:team) }
 
     before { travel_to(now) }

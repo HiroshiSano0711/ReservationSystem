@@ -5,7 +5,7 @@ FactoryBot.define do
     duration { 30 }
     price { 4000 }
     required_staff_count { 1 }
-    available_from { fixed_time }
+    available_from { FIXED_TIME.call }
     available_until { nil }
   end
 end

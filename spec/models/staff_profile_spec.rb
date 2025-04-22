@@ -1,16 +1,16 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe StaffProfile, type: :model do
-  describe 'associations' do
+  describe "associations" do
     it { should belong_to(:staff) }
     it { should have_one_attached(:image) }
   end
 
-  describe 'validations' do
+  describe "validations" do
     it { should validate_presence_of(:nick_name).on(:update) }
   end
 
-  describe 'enum' do
+  describe "enum" do
     it { should define_enum_for(:working_status).with_values(active: 0, leave_on: 1, retire: 99) }
   end
 
