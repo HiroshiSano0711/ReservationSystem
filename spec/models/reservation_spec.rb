@@ -72,30 +72,31 @@ RSpec.describe Reservation, type: :model do
     end
   end
 
-  # describe "public method" do
-  #   describe "#cancelable?" do
-  #     let!(:team) { create(:team) }
-  #     let(:reservation) { create(:reservation, team: team, date: FIXED_TIME.call.to_date + 1.day, start_time: "12:00", end_time: "13:00") }
+  describe "public method" do
+    before do
+      allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
+    end
 
-  #     context "when the cancellation deadline has passed" do
-  #       before do
-  #         allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 12:00:00"))
-  #       end
+    describe "#cancelable?" do
+      context "when the cancellation deadline has passed" do
+        it "returns false" do
+          allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 12:00:00"))
 
-  #       it "returns false" do
-  #         expect(reservation.cancelable?).to be_falsey
-  #       end
-  #     end
+          team = create(:team)
+          reservation = create(:reservation, team: team, date: FIXED_TIME.call.to_date, start_time: "12:00", end_time: "13:00")
+          expect(reservation.cancelable?).to be_falsey
+        end
+      end
 
-  #     context "when the cancellation deadline has not passed" do
-  #       before do
-  #         allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 11:59:59"))
-  #       end
+      context "when the cancellation deadline has not passed" do
+        it "returns false" do
+          allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 11:59:59"))
 
-  #       it "returns true" do
-  #         expect(reservation.cancelable?).to be_truthy
-  #       end
-  #     end
-  #   end
-  # end
+          team = create(:team)
+          reservation = create(:reservation, team: team, date: FIXED_TIME.call.to_date, start_time: "12:00", end_time: "13:00")
+          expect(reservation.cancelable?).to be_truthy
+        end
+      end
+    end
+  end
 end
