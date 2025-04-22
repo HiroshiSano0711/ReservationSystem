@@ -1,56 +1,56 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe TeamBusinessSetting, type: :model do
-  let(:team) { create(:team) }
-
-  let(:valid_day_setting) do
-    {
-      "working_day" => "1",
-      "open" => "09:00",
-      "close" => "18:00"
-    }
+  describe "associations" do
+    it { should belong_to(:team) }
+    it { should have_many(:weekly_business_hours).dependent(:destroy) }
   end
 
-  shared_examples 'invalid when' do |day, message, mutate_proc|
-    it "#{day} is invalid: #{message}" do
-      settings = TeamBusinessSetting::DAYS_OF_WEEK.index_with { valid_day_setting.deep_dup }
-      mutate_proc.call(settings)
-      team_business_setting = described_class.new(team: team, business_hours_for_day_of_week: settings)
-      expect(team_business_setting).to be_invalid
-      expect(team_business_setting.errors[day].join).to include(message)
+  describe "validations" do
+    it { should validate_presence_of(:max_reservation_month) }
+    it { should validate_presence_of(:reservation_start_delay_days) }
+    it { should validate_presence_of(:cancellation_deadline_hours_before) }
+  end
+
+  describe 'public method' do
+    let(:monday) { Date.commercial(2025, 1, 1) }
+    let(:setting) { create(:team_business_setting) }
+
+    describe "#weekly_business_hour_for" do
+      it "returns the business hour for the given date" do
+        weekly_business_hour = create(:weekly_business_hour, team_business_setting: setting, wday: monday.wday)
+
+        expect(setting.weekly_business_hour_for(monday)).to eq(weekly_business_hour)
+      end
     end
-  end
 
-  describe 'validations for each day' do
-    TeamBusinessSetting::DAYS_OF_WEEK.each do |day|
-      include_examples 'invalid when', day, 'はハッシュを入力してください', ->(setting) {
-        setting[day] = "not-a-hash"
-      }
+    describe "#working_day?" do
+      it "returns true if the day is a working day" do
+        create(:weekly_business_hour, team_business_setting: setting, wday: monday.wday, working_day: true)
 
-      include_examples 'invalid when', day, 'はworking_day、open、closeのキーが必要です', ->(setting) {
-        setting[day].delete("working_day")
-      }
+        expect(setting.working_day?(monday)).to be true
+      end
 
-      include_examples 'invalid when', day, "に不正なキーが含まれています: unexpected", ->(setting) {
-        setting[day]["unexpected"] = "oops"
-      }
+      it "returns false if the day is not a working day" do
+        create(:weekly_business_hour, team_business_setting: setting, wday: monday.wday, working_day: false)
 
-      include_examples 'invalid when', day, 'のworking_dayは1か0を入力してください', ->(setting) {
-        setting[day]["working_day"] = "2"
-      }
+        expect(setting.working_day?(monday)).to be false
+      end
+    end
 
-      include_examples 'invalid when', day, 'のopenはHH:MM形式で入力してください', ->(setting) {
-        setting[day]["open"] = "25:00"
-      }
+    describe "#opening_hours" do
+      it "returns opening and closing times for the given date" do
+        create(:weekly_business_hour,
+          team_business_setting: setting,
+          wday: monday.wday,
+          open: "09:00",
+          close: "18:00"
+        )
 
-      include_examples 'invalid when', day, 'のcloseはHH:MM形式で入力してください', ->(setting) {
-        setting[day]["close"] = "25:00"
-      }
-
-      include_examples 'invalid when', day, 'のopenはcloseより前の時間を入力してください', ->(setting) {
-        setting[day]["open"] = "18:00"
-        setting[day]["close"] = "09:00"
-      }
+        hours = setting.opening_hours(monday)
+        expect(hours[:open].strftime("%H:%M")).to eq("09:00")
+        expect(hours[:close].strftime("%H:%M")).to eq("18:00")
+      end
     end
   end
 end

@@ -17,10 +17,10 @@ class BaseNotifier
   def initialize(team:, attr:)
     @team = team
     @attr = attr
-    validate_attr
   end
 
   def notify
+    validate_attr
     context = build_context
     notification = Notification.create!(context[:notification_attr])
     NotificationSender.send(notification, context)
