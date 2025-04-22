@@ -24,10 +24,6 @@ RSpec.describe WeeklyBusinessHour, type: :model do
   end
 
   describe "enums" do
-    it "defines correct wday enum mapping" do
-      expect(described_class.wdays).to eq(
-        { "sun" => 0, "mon" => 1, "tue" => 2, "wed" => 3, "thu" => 4, "fri" => 5, "sat" => 6 }
-      )
-    end
+    it { should define_enum_for(:wday).with_values(sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6) }
   end
 end
