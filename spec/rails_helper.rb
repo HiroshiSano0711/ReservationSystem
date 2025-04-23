@@ -31,4 +31,8 @@ RSpec.configure do |config|
       with.library :rails
     end
   end
+
+  config.define_derived_metadata(file_path: %r{spec/validators}) do |metadata|
+    metadata[:type] = :validator
+  end
 end

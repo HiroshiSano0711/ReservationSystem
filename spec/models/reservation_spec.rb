@@ -27,50 +27,6 @@ RSpec.describe Reservation, type: :model do
     it { should validate_presence_of(:status) }
   end
 
-  describe "custom validations" do
-    before do
-      allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
-    end
-
-    let(:team) { create(:team) }
-
-    describe "#start_date_within_allowed_range" do
-      it "adds an error if the start date is too early" do
-        create(:team_business_setting, team: team, reservation_start_delay_days: 1)
-        reservation = build(:reservation, team: team, date: Time.zone.today)
-
-        reservation.valid?
-
-        expect(reservation.errors[:start_time]).to include("予約は#{team.team_business_setting.reservation_start_delay_days}日後からしか受付けられません。")
-      end
-    end
-
-    describe "#end_date_within_allowed_range" do
-      it "adds an error if the end date is too late" do
-        create(:team_business_setting, team: team)
-        reservation = build(:reservation, team: team, date: Time.zone.today + team.team_business_setting.max_reservation_month.months + 1.day)
-
-        reservation.valid?
-
-        expect(reservation.errors[:start_time]).to include("予約は#{team.team_business_setting.max_reservation_month}ヶ月後までしか受付けられません。")
-      end
-    end
-
-    describe "#customer_does_not_have_overlapping_reservations" do
-      it "adds an error if the customer has overlapping reservations" do
-        customer = create(:customer)
-        create(:team_business_setting, team: team)
-        create(:reservation, team: team, customer: customer, date: Time.zone.today, start_time: "12:00", end_time: "13:00")
-
-        new_reservation = build(:reservation, team: team, customer: customer, date: Time.zone.today, start_time: "12:30", end_time: "13:30")
-
-        new_reservation.valid?
-
-        expect(new_reservation.errors[:base]).to include("すでに予約している時間帯と重複しています。")
-      end
-    end
-  end
-
   describe "public method" do
     before do
       allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)

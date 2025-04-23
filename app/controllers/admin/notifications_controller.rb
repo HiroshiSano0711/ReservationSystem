@@ -1,11 +1,11 @@
 class Admin::NotificationsController < Admin::BaseController
   def index
-    @notifications = @team.notifications.order(created_at: :desc)
+    @notifications = @team.notifications.includes(:reservation).order(created_at: :desc)
   end
 
   def mark_as_read
     notification = Notification.find(params[:id])
-    notification.update!(status: :read)
+    notification.update!(is_read: true)
     redirect_to notification.action_url
   end
 end

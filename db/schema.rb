@@ -76,6 +76,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
 
   create_table "notifications", force: :cascade do |t|
     t.bigint "team_id", null: false
+    t.bigint "reservation_id", null: false
     t.bigint "receiver_id", null: false, comment: "受信者（Staff）"
     t.boolean "is_read", default: false, null: false, comment: "既読か未読か"
     t.integer "notification_type", null: false, comment: "タイプ"
@@ -83,6 +84,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
+    t.index ["reservation_id"], name: "index_notifications_on_reservation_id"
     t.index ["team_id"], name: "index_notifications_on_team_id"
   end
 
@@ -221,6 +223,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customer_profiles", "customers"
+  add_foreign_key "notifications", "reservations"
   add_foreign_key "notifications", "staffs", column: "receiver_id"
   add_foreign_key "notifications", "teams"
   add_foreign_key "reservation_details", "reservations"

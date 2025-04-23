@@ -1,12 +1,21 @@
 FactoryBot.define do
   factory :notification do
-    association :team
-    sender_id { nil }
-    receiver_id { nil }
+    transient do
+      team { create(:team) }
+    end
+
+    association :team, factory: :team, strategy: :build
+    association :receiver, factory: :staff, strategy: :build
+    association :reservation, factory: :reservation, strategy: :build
 
     notification_type { :reservation_created }
-    status { :unread }
-    message { "~さんから予約が入りました" }
+    is_read { false }
     action_url { "http://test.localhost:3000/" }
+
+    after(:build) do |notification, evaluator|
+      notification.team = evaluator.team
+      notification.receiver.team = evaluator.team
+      notification.reservation.team = evaluator.team
+    end
   end
 end

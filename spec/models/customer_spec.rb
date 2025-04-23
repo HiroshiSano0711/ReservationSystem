@@ -19,6 +19,14 @@ RSpec.describe Customer, type: :model do
   end
 
   describe "validations" do
+    it "is valid with valid attributes" do
+      customer = Customer.new(
+        email: 'test@example.com',
+        password: 'passowrd'
+      )
+      expect(customer).to be_valid
+    end
+
     subject { build(:customer) }
     it { should validate_presence_of(:email) }
     it { should validate_uniqueness_of(:email).case_insensitive }

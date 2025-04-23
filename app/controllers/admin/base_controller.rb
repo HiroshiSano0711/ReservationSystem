@@ -19,6 +19,7 @@ class Admin::BaseController < ApplicationController
   end
 
   def unread_notifications_count
-    @unread_notifications_count = Notification.where(team: @team, receiver_id: current_staff.id, status: :unread).count
+    @unread_notifications_count = Notification.where(team: @team, receiver: current_staff, is_read: false)
+                                              .count
   end
 end
