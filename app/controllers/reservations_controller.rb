@@ -67,7 +67,11 @@ class ReservationsController < ApplicationController
       if result.success?
         reservation_session.clear_selection
         reservation_session.public_id = result.data.public_id
-        ReservationCreatedNotifier.send(team: @team, attr: result.data)
+        NotificationSender.new(
+          team: @team,
+          reservation: result.data,
+          notification_type: :reservation_created
+        ).call
 
         redirect_to reservations_complete_path(@team.permalink, result.data.public_id)
       else

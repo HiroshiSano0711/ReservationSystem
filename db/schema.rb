@@ -76,16 +76,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
 
   create_table "notifications", force: :cascade do |t|
     t.bigint "team_id", null: false
-    t.bigint "sender_id"
-    t.bigint "receiver_id", null: false
-    t.integer "status", null: false, comment: "ステータス"
+    t.bigint "receiver_id", null: false, comment: "受信者（Staff）"
+    t.boolean "is_read", default: false, null: false, comment: "既読か未読か"
     t.integer "notification_type", null: false, comment: "タイプ"
-    t.text "message", null: false, comment: "通知内容"
     t.string "action_url", null: false, comment: "アクションURL"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["receiver_id"], name: "index_notifications_on_receiver_id"
-    t.index ["sender_id"], name: "index_notifications_on_sender_id"
     t.index ["team_id"], name: "index_notifications_on_team_id"
   end
 
@@ -96,7 +93,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.string "menu_name", default: "", null: false, comment: "メニュー名"
     t.integer "price", null: false, comment: "価格"
     t.integer "duration", null: false, comment: "所要時間"
-    t.integer "required_staff_count", comment: "所要人数"
+    t.integer "required_staff_count", null: false, comment: "所要人数"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["reservation_id"], name: "index_reservation_details_on_reservation_id"
@@ -112,7 +109,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.time "start_time", null: false, comment: "開始時間"
     t.time "end_time", null: false, comment: "終了時間"
     t.string "customer_name", default: "", null: false, comment: "顧客名"
-    t.string "customer_phone_number", default: "", null: false, comment: "顧客連絡先"
+    t.string "customer_phone_number", default: "", null: false, comment: "電話番号"
     t.integer "total_price", null: false, comment: "合計価格"
     t.integer "total_duration", null: false, comment: "合計所要時間"
     t.integer "required_staff_count", null: false, comment: "合計所要人数"
@@ -224,6 +221,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customer_profiles", "customers"
+  add_foreign_key "notifications", "staffs", column: "receiver_id"
   add_foreign_key "notifications", "teams"
   add_foreign_key "reservation_details", "reservations"
   add_foreign_key "reservation_details", "service_menus"

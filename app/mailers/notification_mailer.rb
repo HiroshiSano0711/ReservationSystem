@@ -1,11 +1,15 @@
 class NotificationMailer < ApplicationMailer
-  def reservation_created(notification:, sender_email:, receiver_email:)
-    @notification = notification
-    mail(from: sender_email, to: receiver_email, subject: "新しい予約が入りました")
+  default from: "no-reply@example.com"
+
+  def reservation_created(receiver:, reservation:, action_url:)
+    @reservation = reservation
+    @action_url = action_url
+    mail(to: receiver.email, subject: "新しい予約が入りました")
   end
 
-  def reservation_canceled(notification:, sender_email:, receiver_email:)
-    @notification = notification
-    mail(from: sender_email, to: receiver_email, subject: "予約がキャンセルされました")
+  def reservation_canceled(receiver:, reservation:, action_url:)
+    @reservation = reservation
+    @action_url = action_url
+    mail(to: receiver.email, subject: "予約がキャンセルされました")
   end
 end
