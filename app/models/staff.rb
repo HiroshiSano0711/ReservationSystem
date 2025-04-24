@@ -8,5 +8,5 @@ class Staff < ApplicationRecord
   has_many :reservation_details
   has_many :reservations, through: :reservation_details
 
-  enum :role, { admin_staff: 0, staff: 1 }
+  enum :role, { admin_staff: 0, general: 1 }
 end

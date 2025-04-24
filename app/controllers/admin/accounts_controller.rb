@@ -1,4 +1,6 @@
-class Admin::AccountsController < Admin::BaseController
-  def show
+module Admin
+  class AccountsController < Admin::BaseController
+    def show
+    end
   end
 end

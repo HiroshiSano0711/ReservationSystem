@@ -1,37 +1,39 @@
-class Admin::StaffProfilesController < Admin::BaseController
-  def edit
-    @staff = Staff.find(params[:staff_id])
-    @service_menus = @team.service_menus
-    @form = form_class.new(staff: @staff, service_menus: @service_menus)
-  end
-
-  def update
-    @staff = Staff.find(params[:staff_id])
-    @service_menus = @team.service_menus
-    @form = form_class.new(staff: @staff, service_menus: @service_menus)
-
-    if @form.save(form_params)
-      redirect_to admin_staffs_path, notice: "スタッフのプロフィール情報を更新しました。"
-    else
-      flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
-      render :edit, status: :unprocessable_entity
+module Admin
+  class StaffProfilesController < Admin::BaseController
+    def edit
+      @staff = Staff.find(params[:staff_id])
+      @service_menus = @team.service_menus
+      @form = form_class.new(staff: @staff, service_menus: @service_menus)
     end
-  end
 
-  private
+    def update
+      @staff = Staff.find(params[:staff_id])
+      @service_menus = @team.service_menus
+      @form = form_class.new(staff: @staff, service_menus: @service_menus)
 
-  def form_params
-    params.require(form_class.model_name.param_key.to_sym).permit(
-      :image,
-      :working_status,
-      :nick_name,
-      :accepts_direct_booking,
-      :bio,
-      selected_service_menu_ids: []
-    )
-  end
+      if @form.save(form_params)
+        redirect_to admin_staffs_path, notice: "スタッフのプロフィール情報を更新しました。"
+      else
+        flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
+        render :edit, status: :unprocessable_entity
+      end
+    end
 
-  def form_class
-    StaffProfileForm
+    private
+
+    def form_params
+      params.require(form_class.model_name.param_key.to_sym).permit(
+        :image,
+        :working_status,
+        :nick_name,
+        :accepts_direct_booking,
+        :bio,
+        selected_service_menu_ids: []
+      )
+    end
+
+    def form_class
+      StaffProfileForm
+    end
   end
 end

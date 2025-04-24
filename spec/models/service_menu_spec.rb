@@ -8,6 +8,36 @@ RSpec.describe ServiceMenu, type: :model do
     it { should have_many(:reservation_details) }
   end
 
+  describe "validations" do
+    context "standard" do
+      it { should validate_presence_of(:menu_name) }
+      it { should validate_presence_of(:required_staff_count) }
+      it { should validate_presence_of(:duration) }
+      it { should validate_presence_of(:available_from) }
+
+      it { should validate_numericality_of(:duration).only_integer.is_greater_than(0) }
+      it { should validate_numericality_of(:price).only_integer.is_greater_than(0) }
+      it { should validate_numericality_of(:required_staff_count).only_integer.is_greater_than(0) }
+    end
+
+    context "custom validation" do
+      it "is valid when duration is  a multiple of 5" do
+        service_menu = build(:service_menu, duration: 10)
+        service_menu.valid?
+
+        expect(service_menu).to be_valid
+      end
+
+      it "is invalid when duration is not a multiple of 5" do
+        service_menu = build(:service_menu, duration: 11)
+        service_menu.valid?
+
+        expect(service_menu).to be_invalid
+        expect(service_menu.errors[:duration]).to include("は5分単位で指定してください")
+      end
+    end
+  end
+
   describe "scopes" do
     let!(:now) { FIXED_TIME.call }
     let!(:team) { create(:team) }

@@ -29,6 +29,6 @@ RSpec.describe Staff, type: :model do
   end
 
   describe "enums" do
-    it { should define_enum_for(:role).with_values(admin_staff: 0, staff: 1) }
+    it { should define_enum_for(:role).with_values(admin_staff: 0, general: 1) }
   end
 end

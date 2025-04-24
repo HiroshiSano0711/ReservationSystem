@@ -42,8 +42,9 @@ end
 
 group :test do
   gem "capybara"
-  gem "selenium-webdriver"
-  gem "rspec-rails"
-  gem "shoulda-matchers"
   gem "factory_bot_rails"
+  gem 'rails-controller-testing'
+  gem "rspec-rails"
+  gem "selenium-webdriver"
+  gem "shoulda-matchers"
 end

@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:email) { |n| "test-#{n}@example.com" }
     password { "password" }
     invitation_token { Devise.friendly_token }
-    invitation_sent_at { Time.zone.now }
+    invitation_sent_at { FIXED_TIME.call }
     invitation_accepted_at { nil }
   end
 end

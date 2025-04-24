@@ -24,6 +24,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   config.include FactoryBot::Syntax::Methods
   config.include ActiveSupport::Testing::TimeHelpers
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   Shoulda::Matchers.configure do |shoulda_config|
     shoulda_config.integrate do |with|
@@ -34,5 +35,11 @@ RSpec.configure do |config|
 
   config.define_derived_metadata(file_path: %r{spec/validators}) do |metadata|
     metadata[:type] = :validator
+  end
+
+  # セッション関連のバグだと思われる。パッチが当てられるまでこの記述を追加しておく。テスト環境のみ発生。
+  # https://github.com/heartcombo/devise/issues/5771#issuecomment-2752689527
+  config.before(:suite) do
+    Devise.configure_warden!
   end
 end

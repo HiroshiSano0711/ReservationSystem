@@ -1,5 +1,5 @@
 class SlotCalculator
-  INTERVAL = 10.minutes
+  INTERVAL = 5.minutes
 
   def initialize(team:, business_setting:, service_menus:, selected_staff:)
     @team = team
