@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :team do
-    name { "Test Team" }
+    sequence(:name) { |n| "Test Team #{n}" }
     sequence(:permalink) { |n| "test-team-#{n}" }
 
     after(:create) do |team|

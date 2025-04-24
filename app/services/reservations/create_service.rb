@@ -11,6 +11,8 @@ module Reservations
 
     def call
       Reservation.transaction do
+        TeamAssociationValidator.new(team: @team, objects: [ @service_menus, @staff ]).validate!
+
         reservation = ::ReservationFactory.new(
           team: @team,
           service_menus: @service_menus,
@@ -32,7 +34,7 @@ module Reservations
       ::ServiceResult.new(success: false, message: "予約の処理中にエラーが発生しました。お手数ですが、もう一度お試しください。")
     rescue => e
       Rails.logger.fatal("予期せぬエラー: #{e.class} - #{e.message}")
-      ::ServiceResult.new(success: false, message: "システムエラーが発生しました。原因を調査いたします。ご迷惑をおかけして申し訳ありません。")
+      ::ServiceResult.new(success: false, message: "システムエラーが発生しました。原因を調査いたします。ご迷惑をおかけし申し訳ありません。")
     end
 
     private
