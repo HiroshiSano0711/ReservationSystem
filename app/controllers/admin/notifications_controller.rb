@@ -7,7 +7,8 @@ module Admin
     def mark_as_read
       notification = Notification.find(params[:id])
       notification.update!(is_read: true)
-      redirect_to notification.action_url
+
+      redirect_to URI.parse(notification.action_url).path
     end
   end
 end

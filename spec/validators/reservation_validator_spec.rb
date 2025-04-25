@@ -16,7 +16,7 @@ RSpec.describe ReservationValidator, type: :validator do
         ReservationValidator.new(reservation).validate
         possible_start_date = Time.zone.today + reservation.team.team_business_setting.reservation_start_delay_days.days
 
-        expect(reservation.errors[:start_time]).to include("は#{possible_start_date.strftime("%Y年%m月%d日")}から受付けしています")
+        expect(reservation.errors[:start_time]).to include("は#{possible_start_date.strftime("%Y年%m月%d日")}から受付しています")
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe ReservationValidator, type: :validator do
         ReservationValidator.new(reservation).validate
         possible_end_date = Time.zone.today + reservation.team.team_business_setting.max_reservation_month.months
 
-        expect(reservation.errors[:start_time]).to include("は#{possible_end_date.strftime("%Y年%m月%d日")}までしか受付けられません")
+        expect(reservation.errors[:start_time]).to include("は#{possible_end_date.strftime("%Y年%m月%d日")}までしか受付していません")
       end
     end
 

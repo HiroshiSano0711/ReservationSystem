@@ -10,6 +10,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
   describe "GET #show" do
     it "returns success" do
       get admin_team_business_setting_path(admin.team)
+
       expect(response).to have_http_status(:ok)
     end
   end
@@ -17,6 +18,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
   describe "GET #edit" do
     it "returns success" do
       get edit_admin_team_business_setting_path(admin.team)
+
       expect(response).to have_http_status(:ok)
     end
   end

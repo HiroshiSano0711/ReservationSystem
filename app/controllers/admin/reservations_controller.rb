@@ -15,9 +15,8 @@ module Admin
         customer: nil
       )
       result = service.call(admin: true)
-
       if result.success?
-        redirect_to admin_reservation_path(public_id: reservation.public_id), notice: "予約をキャンセルしました。"
+        redirect_to admin_reservation_path(public_id: reservation.public_id), notice: "予約をキャンセルしました"
       else
         redirect_to admin_reservation_path(public_id: reservation.public_id), alert: result.message
       end
