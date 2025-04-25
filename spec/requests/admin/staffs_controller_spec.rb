@@ -45,6 +45,7 @@ RSpec.describe Admin::StaffsController, type: :request do
           post admin_staffs_path(team_id: team.id), params: invalid_params
         }.not_to change(ActionMailer::Base.deliveries, :count)
 
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:new)
       end
     end

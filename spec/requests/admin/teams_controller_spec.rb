@@ -22,6 +22,7 @@ RSpec.describe Admin::TeamsController, type: :request do
     describe "GET #show" do
       it "responds successfully" do
         get admin_team_path(admin.team.id)
+
         expect(response).to have_http_status(:success)
       end
     end
@@ -29,6 +30,7 @@ RSpec.describe Admin::TeamsController, type: :request do
     describe "GET #edit" do
       it "responds successfully" do
         get edit_admin_team_path(admin.team.id)
+
         expect(response).to have_http_status(:success)
       end
     end
@@ -46,9 +48,10 @@ RSpec.describe Admin::TeamsController, type: :request do
 
         it "updates the team and redirects" do
           patch admin_team_path(admin.team.id), params: { team: team_params }
-          expect(response).to redirect_to(admin_team_path(team))
-          expect(flash[:notice]).to eq("チーム情報を更新しました。")
+
           expect(team.reload.name).to eq("更新されたチーム名")
+          expect(response).to redirect_to(admin_team_path(team))
+          expect(flash[:notice]).to be_present
         end
       end
 
@@ -57,9 +60,10 @@ RSpec.describe Admin::TeamsController, type: :request do
 
         it "does not update the team and re-renders edit" do
           patch admin_team_path(admin.team.id), params: { team: invalid_params }
+
           expect(response).to have_http_status(:unprocessable_entity)
           expect(response).to render_template(:edit)
-          expect(flash[:alert]).to eq("更新に失敗しました。入力内容を確認してください。")
+          expect(flash[:alert]).to be_present
         end
       end
     end

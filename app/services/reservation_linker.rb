@@ -8,10 +8,14 @@ class ReservationLinker
     reservation = Reservation.find_by(public_id: @public_id)
     return if reservation.blank?
 
-    reservation.update(customer: @customer)
-    @customer.create_customer_profile(
-      name: reservation.customer_name,
-      phone_number: reservation.customer_phone_number
-    )
+    begin
+      reservation.update!(customer: @customer)
+      @customer.create_customer_profile!(
+        name: reservation.customer_name,
+        phone_number: reservation.customer_phone_number
+      )
+    rescue StandardError => e
+      Rails.logger.error("Reservation linking failed: #{e.message}")
+    end
   end
 end

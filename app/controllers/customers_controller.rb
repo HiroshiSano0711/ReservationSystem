@@ -4,13 +4,19 @@ class CustomersController < ApplicationController
   end
 
   def invite
-    Customer.invite!(email: staff_params[:email])
-    redirect_to root_path, notice: "メールアドレスへ招待メールを送信しました。"
+    if customer_params[:email].match? URI::MailTo::EMAIL_REGEXP
+      Customer.invite!(email: customer_params[:email])
+      redirect_to root_path, notice: "メールアドレスへ登録メールを送信しました"
+    else
+      @customer = Customer.new(email: customer_params[:email])
+      flash[:alert] = "メールアドレスの形式ではありません。入力内容をご確認ください"
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private
 
-  def staff_params
+  def customer_params
     params.require(:customer).permit(:email)
   end
 end

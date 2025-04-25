@@ -76,11 +76,11 @@ class ReservationsController < ApplicationController
         redirect_to reservations_complete_path(@team.permalink, result.data.public_id)
       else
         flash.now[:alert] = result.message
-        render :prior_confirmation
+        render :prior_confirmation, status: :unprocessable_entity
       end
     else
       flash.now[:alert] = "入力内容に誤りがあります。"
-      render :prior_confirmation
+      render :prior_confirmation, status: :unprocessable_entity
     end
   end
 

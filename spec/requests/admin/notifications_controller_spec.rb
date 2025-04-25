@@ -7,16 +7,16 @@ RSpec.describe Admin::NotificationsController, type: :request do
     sign_in admin, scope: :staff
   end
 
-  describe 'GET /admin/notifications' do
-    it '通知の一覧ページが表示される' do
+  describe "GET /admin/notifications" do
+    it "returns a successful response" do
       get admin_notifications_path
 
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe 'PATCH /admin/notifications/:id/mark_as_read' do
-    it '通知が既読としてマークされ、リダイレクトされる' do
+  describe "PATCH /admin/notifications/:id/mark_as_read" do
+    it "marks the notification as read and redirects to the action URL" do
       allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
 
       reservation = create(:reservation, team: team)

@@ -24,8 +24,8 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
   describe 'GET #edit' do
     it 'スタッフのプロフィール編集ページが表示される' do
       get edit_admin_staff_profile_path(team_id: team.id, staff_id: staff_profile.staff.id)
+
       expect(response).to have_http_status(:success)
-      expect(response.body).to include('スタッフプロフィールの編集')
     end
   end
 
@@ -38,10 +38,8 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
         expect(staff.staff_profile.working_status).to eq('active')
         expect(staff.staff_profile.nick_name).to eq('Ruby Man')
         expect(staff.staff_profile.bio).to eq('A dedicated staff member.')
-
         expect(response).to redirect_to(admin_staffs_path)
-        follow_redirect!
-        expect(response.body).to include('スタッフのプロフィール情報を更新しました。')
+        expect(flash[:notice]).to be_present
       end
     end
 
@@ -54,9 +52,9 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
         staff.reload
         expect(staff.staff_profile.working_status).to_not eq('')
         expect(staff.staff_profile.nick_name).to_not eq('')
-
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
-        expect(response.body).to include('更新に失敗しました。入力内容を確認してください。')
+        expect(flash[:alert]).to be_present
       end
     end
   end

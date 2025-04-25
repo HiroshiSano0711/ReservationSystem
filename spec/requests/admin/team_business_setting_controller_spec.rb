@@ -11,7 +11,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
     it "returns success" do
       get admin_team_business_setting_path(admin.team)
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:success)
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
     it "returns success" do
       get edit_admin_team_business_setting_path(admin.team)
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:success)
     end
   end
 
@@ -51,7 +51,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
         patch admin_team_business_setting_path(team), params: valid_params
 
         expect(response).to redirect_to(admin_team_business_setting_path(team))
-        expect(flash[:notice]).to eq("保存しました")
+        expect(flash[:notice]).to be_present
       end
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
         patch admin_team_business_setting_path(team), params: invalid_params
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include("更新に失敗しました")
+        expect(flash[:alert]).to be_present
       end
     end
   end

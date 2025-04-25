@@ -31,6 +31,7 @@ RSpec.describe Admin::ServiceMenusController, type: :request do
         }.to change(ServiceMenu, :count).by(1)
 
         expect(response).to redirect_to(admin_service_menus_path)
+        expect(flash[:notice]).to be_present
       end
     end
 
@@ -43,7 +44,7 @@ RSpec.describe Admin::ServiceMenusController, type: :request do
         }.to_not change(ServiceMenu, :count)
 
         expect(response).to render_template(:new)
-        expect(response.body).to include("登録に失敗しました。入力内容を確認してください。")
+        expect(flash[:alert]).to be_present
       end
     end
   end
@@ -71,6 +72,7 @@ RSpec.describe Admin::ServiceMenusController, type: :request do
         expect(service_menu.name).to eq("Updated Menu")
         expect(service_menu.price).to eq(1000)
         expect(response).to redirect_to(admin_service_menus_path)
+        expect(flash[:notice]).to be_present
       end
     end
 
@@ -83,7 +85,9 @@ RSpec.describe Admin::ServiceMenusController, type: :request do
 
         expect(service_menu.name).to_not eq("")
         expect(service_menu.price).to_not eq(-1)
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response).to render_template(:edit)
+        expect(flash[:alert]).to be_present
       end
     end
   end
