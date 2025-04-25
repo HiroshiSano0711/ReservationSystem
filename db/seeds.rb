@@ -29,7 +29,7 @@ menus = [
 menus.each do |menu|
   ServiceMenu.create!(
     team: team,
-    menu_name: menu[:name],
+    name: menu[:name],
     duration: menu[:duration],
     price: menu[:price],
     required_staff_count: 1,
@@ -59,7 +59,7 @@ staff = Staff.create!(
   password: 'password',
   password_confirmation: 'password',
   invitation_accepted_at: Time.zone.now,
-  role: 'staff'
+  role: 'general'
 )
 
 staff.create_staff_profile!(
@@ -74,7 +74,7 @@ staff_2 = Staff.create!(
   password: 'password',
   password_confirmation: 'password',
   invitation_accepted_at: Time.zone.now,
-  role: 'staff'
+  role: 'general'
 )
 
 staff_2.create_staff_profile!(

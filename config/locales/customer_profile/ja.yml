@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    models:
+      customer_profile: 顧客プロフィール
+    attributes:
+      customer_profile:
+        name: 名前
+        phone_number: 電話番号

@@ -1,13 +1,5 @@
 .l-flex-col.l-rowgap-8.u-pse-8.u-mbt-8
   .l-flex-col__item
-    = link_to admin_path, class: 'p-link' do
-      .p-menu-link
-        .l-flex.l-colgap-8
-          span.material-symbols-outlined
-            | team_dashboard
-          | ダッシュボード
-
-  .l-flex-col__item
     = link_to admin_reservations_path, class: 'p-link' do
       .p-menu-link
         .l-flex.l-colgap-8
@@ -58,9 +50,8 @@
           | チーム設定
 
   .l-flex-col__item
-    = link_to admin_account_path, class: 'p-link' do
-      .p-menu-link
-        .l-flex.l-colgap-8
-          span.material-symbols-outlined
-            | manage_accounts
-          | アカウント設定
+    .p-menu-link
+      .l-flex.l-colgap-8
+        span.material-symbols-outlined
+          | logout
+        = button_to 'ログアウト', destroy_staff_session_path, method: :delete

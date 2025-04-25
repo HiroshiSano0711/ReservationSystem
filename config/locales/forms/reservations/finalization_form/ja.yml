@@ -5,4 +5,4 @@ ja:
     attributes:
       reservations/finalization_form:
         customer_name: お名前
-        customer_phone_number: 電話番号
+        customer_phone_number: 連絡先電話番号

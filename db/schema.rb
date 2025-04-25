@@ -138,7 +138,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
 
   create_table "service_menus", force: :cascade do |t|
     t.bigint "team_id", null: false
-    t.string "menu_name", default: "", null: false, comment: "メニュー名"
+    t.string "name", default: "", null: false, comment: "メニュー名"
     t.integer "duration", default: 0, null: false, comment: "所要時間"
     t.integer "price", default: 0, null: false, comment: "価格（税込）"
     t.integer "required_staff_count", default: 1, null: false, comment: "所要人数"
@@ -146,7 +146,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.datetime "available_until", comment: "提供終了日"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["team_id", "menu_name"], name: "index_service_menus_on_team_id_and_menu_name", unique: true
+    t.index ["team_id", "name"], name: "index_service_menus_on_team_id_and_name", unique: true
     t.index ["team_id"], name: "index_service_menus_on_team_id"
   end
 

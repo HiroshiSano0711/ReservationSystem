@@ -10,7 +10,7 @@ RSpec.describe ServiceMenu, type: :model do
 
   describe "validations" do
     context "standard" do
-      it { should validate_presence_of(:menu_name) }
+      it { should validate_presence_of(:name) }
       it { should validate_presence_of(:required_staff_count) }
       it { should validate_presence_of(:duration) }
       it { should validate_presence_of(:available_from) }

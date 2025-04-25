@@ -8,8 +8,6 @@ class TeamBusinessSettingForm
 
   attr_accessor :weekly_business_hours
 
-  validate :validate_weekly_business_hours
-
   MODEL_ATTR_MAP = {
     team_business_setting: %i[max_reservation_month reservation_start_delay_days cancellation_deadline_hours_before],
     weekly_business_hour: %i[open close working_day]
@@ -57,16 +55,6 @@ class TeamBusinessSettingForm
 
   private
 
-  def validate_weekly_business_hours
-    weekly_business_hours.each_with_index do |hour, idx|
-      next if hour.valid?
-
-      hour.errors.each do |attr, msg|
-        errors.add("weekly_business_hours[#{idx}].#{attr}", msg)
-      end
-    end
-  end
-
   def save_team_business_setting!
     @team_business_setting.update!(
       max_reservation_month: max_reservation_month,
@@ -77,7 +65,7 @@ class TeamBusinessSettingForm
 
   def save_weekly_business_hours!(params)
     params.each do |_, hour_param|
-      weekly_business_hour = @weekly_business_hours.find { |wbh| wdh.wday == hour_param["wday"] }
+      weekly_business_hour = @weekly_business_hours.find { |wbh| wbh.wday === hour_param["wday"] }
       weekly_business_hour.update!(
         working_day: hour_param["working_day"].to_s === "1",
         open: hour_param["open"],

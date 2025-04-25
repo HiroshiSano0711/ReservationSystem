@@ -5,7 +5,7 @@ ja:
     attributes:
       service_menu:
         team_id: チームID
-        menu_name: メニュー名
+        name: メニュー名
         duration: 所要時間
         price: 価格（税込）
         required_staff_count: 所要人数

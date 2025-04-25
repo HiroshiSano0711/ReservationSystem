@@ -4,8 +4,9 @@ class ServiceMenu < ApplicationRecord
   has_many :staffs, through: :service_menu_staffs
   has_many :reservation_details
 
-  validates :menu_name, :duration, :price, :required_staff_count, :available_from, presence: true
-  validates :duration, :price, :required_staff_count, numericality: { only_integer: true, greater_than: 0 }
+  validates :name, presence: true, uniqueness: { scope: :team_id }
+  validates :duration, :price, :required_staff_count, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :available_from, presence: true
 
   validate :duration_in_5_minute_units
 

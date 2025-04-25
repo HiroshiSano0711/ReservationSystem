@@ -36,7 +36,7 @@ module Admin
 
     def service_menu_params
       params.require(:service_menu).permit(
-        :menu_name,
+        :name,
         :duration,
         :price,
         :required_staff_count,

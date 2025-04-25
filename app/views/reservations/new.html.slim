@@ -7,14 +7,14 @@
       - @form.single_staff_menus.each do |menu|
         li
           = f.check_box :service_menu_ids, { multiple: true }, menu.id, nil
-          = f.label :service_menu_ids, "#{menu.menu_name}（#{menu.duration}分 / ¥#{menu.price}）", value: menu.id
+          = f.label :service_menu_ids, "#{menu.name}（#{menu.duration}分 / ¥#{menu.price}）", value: menu.id
 
     - if @form.multi_staff_menus.present?
       p.p-txt-sub 複数人対応メニュー(1回の予約につき1つしか選択できません)
       - @form.multi_staff_menus.each do |menu|
         label
           = f.radio_button :multi_staff_menu_id, menu.id
-          = "#{menu.menu_name}（#{menu.duration}分 / ¥#{menu.price}）"
+          = "#{menu.name}（#{menu.duration}分 / ¥#{menu.price}）"
 
     .p-form__fieldset
       p 担当者を選択してください。

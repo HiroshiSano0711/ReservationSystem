@@ -14,7 +14,7 @@ module Reservations
     end
 
     def service_menu_list
-      @service_menus.map(&:menu_name).join(", ")
+      @service_menus.map(&:name).join(", ")
     end
 
     def total_price

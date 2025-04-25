@@ -23,7 +23,7 @@
       tbody.p-table__tbody
         - @service_menus.each do |service_menu|
           tr.p-table__tr
-            td.p-table__td = service_menu.menu_name
+            td.p-table__td = service_menu.name
             td.p-table__td = "#{service_menu.price}円"
             td.p-table__td = service_menu.duration
             td.p-table__td = service_menu.required_staff_count
