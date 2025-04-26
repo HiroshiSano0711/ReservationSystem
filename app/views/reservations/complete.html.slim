@@ -7,4 +7,4 @@
     = link_to "予約の確認はこちらから", mypage_reservations_path
   -else
     p 登録しておくと次回からの予約が簡単になり、今回の予約履歴も確認できるようになります。(24時間以内)
-    = link_to "新規登録へ", reservations_reservation_signup_path(@reservation)
+    = link_to "新規登録へ", reservations_reservation_signup_path(permalink: @team.permalink, public_id: @reservation.public_id)

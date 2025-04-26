@@ -2,9 +2,10 @@ module Reservations
   class SelectMenuAndStaffForm
     include ActiveModel::Model
 
-    attr_accessor :team, :staff_profiles, :service_menu_ids, :multi_staff_menu_id, :selected_staff
+    attr_accessor :team, :staff_profiles, :single_menu_ids, :multi_staff_menu_id, :selected_staff
 
-    validate :service_menus
+    validates :selected_staff, presence: true
+    validate :validate_service_menus
 
     def initialize(attributes = {})
       super
@@ -12,7 +13,7 @@ module Reservations
     end
 
     def available_menus
-      @team.service_menus.available
+      team.service_menus.available
     end
 
     def single_staff_menus
@@ -27,13 +28,19 @@ module Reservations
 
     def preload_staff_profile
       StaffProfile.includes(:staff)
-                  .where(staff_id: @team.staffs.ids, accepts_direct_booking: true)
+                  .where(staff_id: team.staffs.ids, accepts_direct_booking: true)
     end
 
-    def service_menus
-      if service_menu_ids.blank? && multi_staff_menu_id.blank?
-        errors.add(:service_menu_ids, "を1つ選択してください。")
-      elsif service_menu_ids.present? && multi_staff_menu_id.present?
+    def validate_service_menus
+      unless single_menu_ids.is_a?(Array)
+        errors.add(:single_menu_ids, "は不正な形式です")
+        return
+      end
+
+      menu_ids = single_menu_ids.reject { |e| e.to_s.blank? }
+      if menu_ids.blank? && multi_staff_menu_id.blank?
+        errors.add(:single_menu_ids, "を1つ選択してください。")
+      elsif menu_ids.present? && multi_staff_menu_id.present?
         errors.add(:multi_staff_menu_id, "は単独対応メニューと同時に選択できません。")
       end
     end

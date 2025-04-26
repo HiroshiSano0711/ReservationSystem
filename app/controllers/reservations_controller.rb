@@ -6,9 +6,9 @@ class ReservationsController < ApplicationController
   end
 
   def menu_select
-    form = Reservations::SelectMenuAndStaffForm.new(reservations_select_menu_and_staff_form_params.merge(team: @team))
+    form = Reservations::SelectMenuAndStaffForm.new(select_menu_and_staff_form_params.merge(team: @team))
     if form.valid?
-      reservation_session.selected_service_menu_ids = form.service_menu_ids || [ form.multi_staff_menu_id ]
+      reservation_session.selected_service_menu_ids = form.single_menu_ids || [ form.multi_staff_menu_id ]
       reservation_session.selected_staff_id = form.selected_staff
 
       redirect_to reservations_select_slots_path
@@ -52,7 +52,7 @@ class ReservationsController < ApplicationController
 
   def finalize
     @context = Reservations::FinalizationContext.new(team: @team, session: reservation_session)
-    @form = Reservations::FinalizationForm.new(reservations_finalization_form_params)
+    @form = Reservations::FinalizationForm.new(finalization_form_params)
 
     if @form.valid?
       result = Reservations::CreateService.new(
@@ -94,11 +94,11 @@ class ReservationsController < ApplicationController
     @team = Team.find_by!(permalink: params[:permalink])
   end
 
-  def reservations_select_menu_and_staff_form_params
-    params.require(:reservations_select_menu_and_staff_form).permit(:selected_staff, :multi_staff_menu_id, service_menu_ids: [])
+  def select_menu_and_staff_form_params
+    params.require(:reservations_select_menu_and_staff_form).permit(:selected_staff, :multi_staff_menu_id, single_menu_ids: [])
   end
 
-  def reservations_finalization_form_params
+  def finalization_form_params
     params.require(:reservations_finalization_form).permit(:customer_name, :customer_phone_number)
   end
 
