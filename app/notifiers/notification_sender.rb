@@ -9,7 +9,7 @@ class NotificationSender
   end
 
   def default_url_options
-    Rails.application.default_url_options
+    Rails.application.config.action_mailer.default_url_options
   end
 
   def call
@@ -25,6 +25,7 @@ class NotificationSender
     notification = Notification.create!(
       team: @team,
       receiver: @receiver,
+      reservation: @reservation,
       is_read: false,
       notification_type: @notification_type,
       action_url: admin_reservation_url(public_id: @reservation.public_id)

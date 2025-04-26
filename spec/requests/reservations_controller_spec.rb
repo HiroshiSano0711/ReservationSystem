@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Reservations", type: :request do
   let(:team) { create(:team) }
-  let(:staff) { create(:staff, :with_profile, team: team) }
+  let(:staff) { create(:staff, :admin, :with_profile, team: team) }
   let(:service_menu) { create(:service_menu, team: team) }
 
   before { allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date) }
@@ -114,7 +114,12 @@ RSpec.describe "Reservations", type: :request do
       )
       allow(Reservations::SessionData).to receive(:new).and_return(session_data)
       allow(session_data).to receive(:public_id=)
-      allow_any_instance_of(Reservations::CreateService).to receive(:call).and_return(ServiceResult.new(success: true, data: Reservation.new(public_id: 'public_id')))
+      allow_any_instance_of(Reservations::CreateService).to receive(:call).and_return(
+        ServiceResult.new(
+          success: true,
+          data: create(:reservation, team: team, public_id: 'public_id')
+        )
+      )
 
       post reservations_finalize_path(permalink: team.permalink), params: {
         reservations_finalization_form: {
