@@ -7,7 +7,7 @@ module Reservations
 
     def call(admin: false)
       return failure("不正な操作です") unless admin || owned_by_customer?
-      return failure("キャンセル期限を過ぎています") unless admin || cancellable?
+      return failure("キャンセル期限を過ぎています") unless admin || cancelable?
 
       @reservation.update!(status: :canceled)
       success(@reservation)
@@ -21,7 +21,7 @@ module Reservations
       @reservation.customer == @customer
     end
 
-    def cancellable?
+    def cancelable?
       @reservation.cancelable?
     end
 

@@ -3,13 +3,16 @@ require 'rails_helper'
 RSpec.describe Admin::TeamsController, type: :request do
   include_context "admin access setup"
 
-  describe 'admin access' do
+  describe "admin access" do
     it "inherits from Admin::BaseController" do
       expect(described_class < Admin::BaseController).to be true
     end
 
     it_behaves_like "admin-only access" do
       let(:path) { admin_team_path(team.id) }
+    end
+
+    it_behaves_like "admin-only access" do
       let(:path) { edit_admin_team_path(team.id) }
     end
   end

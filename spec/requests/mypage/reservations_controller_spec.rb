@@ -2,10 +2,12 @@ require "rails_helper"
 
 RSpec.describe Mypage::ReservationsController, type: :request do
   let(:customer) { create(:customer) }
-  let!(:reservation) { create(:reservation, customer: customer, public_id: "abc123", date: Date.tomorrow, start_time: "10:00") }
+  let(:reservation) { create(:reservation, customer: customer, public_id: "abc123", date: (FIXED_TIME.call + 2.day).to_date, start_time: "10:00") }
 
   before do
     sign_in customer
+    allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
+    allow(Time.zone).to receive(:now).and_return(FIXED_TIME.call.to_date)
   end
 
   describe "GET /mypage/reservations" do
