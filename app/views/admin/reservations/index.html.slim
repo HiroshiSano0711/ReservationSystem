@@ -1,5 +1,5 @@
 .l-main-header
-  .l-flex.l-space-between.l-align-center.l-h-full
+  .l-flex.l-align-center.l-h-full
     .l-flex__item
       h1.p-txt-primary 予約一覧
 
@@ -21,6 +21,6 @@
           td.p-table__td = reservation.customer_name
           td.p-table__td = reservation.menu_summary
           td.p-table__td = reservation.assigned_staff_name
-          td.p-table__td = "#{reservation.date.strftime('%Y年%m月%d日') } #{reservation.start_time.strftime("%H:%M")}~#{reservation.end_time.strftime("%H:%M")}"
-          td.p-table__td = enum_human_name(Reservation, :status, reservation.status)
+          td.p-table__td = reservation.decorate.reserve_datetime
+          td.p-table__td = reservation.decorate.human_enum_status
           td.p-table__td = link_to '詳細', admin_reservation_path(reservation.public_id)

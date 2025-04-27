@@ -25,11 +25,11 @@
 
     .p-form__fieldset
       = model_label(f, :accepts_direct_booking, class: 'p-label')
-      = f.select :accepts_direct_booking,  options_for_select(accepts_direct_booking_options, convert_boolean_to_string(@form.accepts_direct_booking))
+      = f.select :accepts_direct_booking,  options_for_select([["受け付ける", true], ["受け付けない", false]], @form.accepts_direct_booking)
 
     .p-form__fieldset
       = model_label(f, :working_status, class: 'p-label')
-      = f.select :working_status, enum_options_for_select_from(StaffProfile, :working_status), {}
+      = f.select :working_status, enum_options_for_select(f, :working_status), {}
 
     .p-form__fieldset
       = model_label(f, :bio, class: 'p-label')

@@ -3,10 +3,10 @@
 
   dl
     dt 予約日
-    dd = @reservation.date.strftime("%Y年%m月%d日")
+    dd = @reservation.decorate.reserve_date
 
     dt 時間
-    dd = "#{@reservation.start_time.strftime("%H:%M")}〜#{@reservation.end_time.strftime("%H:%M")}"
+    dd = @reservation.decorate.reserve_time
 
     dt メニュー
     dd = @reservation.menu_summary
@@ -15,7 +15,7 @@
     dd = @reservation.assigned_staff_name
 
     dt 予約状況
-    dd = enum_human_name(Reservation, :status, @reservation.status)
+    dd = @reservation.decorate.human_enum_status
 
     dt 顧客名
     dd = @reservation.customer_name
@@ -27,7 +27,7 @@
     dd = number_to_currency(@reservation.total_price)
 
     dt 所要時間
-    dd = "#{@reservation.total_duration}分"
+    dd = @reservation.decorate.total_duration_with_unit
 
     - if @reservation.finalize? && @reservation.cancelable?
       = button_to "キャンセルする", cancel_mypage_reservation_path(public_id: @reservation.public_id), method: :patch, data: { confirm: "本当にキャンセルしますか？" }

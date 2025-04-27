@@ -25,6 +25,7 @@ gem "slim-rails"
 gem "dartsass-rails"
 
 gem "rails-i18n"
+gem "draper"
 
 group :development, :test do
   gem "pry-byebug"

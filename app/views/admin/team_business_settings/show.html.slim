@@ -13,10 +13,10 @@
   h2.p-txt-sub 営業時間／曜日
   .p-card
     - @weekly_business_hours.each do |weekly_business_hour|
-      .p-card__title = enum_human_name(WeeklyBusinessHour, :wday, weekly_business_hour.wday.to_sym)
+      .p-card__title = weekly_business_hour.decorate.human_enum_wday
       .p-card__desc
         - if weekly_business_hour.working_day
-          = "営業日: #{weekly_business_hour.open.strftime("%H:%M")}~#{weekly_business_hour.close.strftime("%H:%M")}"
+          = "営業日: #{weekly_business_hour.decorate.open_close}"
         - else
           | 定休日
 

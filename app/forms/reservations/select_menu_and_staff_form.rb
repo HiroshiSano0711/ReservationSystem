@@ -4,7 +4,6 @@ module Reservations
 
     attr_accessor :team, :staff_profiles, :single_menu_ids, :multi_staff_menu_id, :selected_staff
 
-    validates :selected_staff, presence: true
     validate :validate_service_menus
 
     def initialize(attributes = {})

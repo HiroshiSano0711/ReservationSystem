@@ -3,7 +3,7 @@ class TeamAssociationValidator
 
   def initialize(team:, objects:)
     @team = team
-    @objects = objects.flatten
+    @objects = objects.flatten.compact
   end
 
   def validate!

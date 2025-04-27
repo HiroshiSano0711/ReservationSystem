@@ -6,7 +6,7 @@
 .l-main-contents
   - @notifications.each do |notification|
     .p-card
-      .p-card__title = enum_human_name(Notification, :notification_type, notification.notification_type)
-      .p-card__desc = notification.is_read ? "既読" : "未読"
-      .p-card__desc = "#{notification.reservation.customer_name}さんから予約が入りました。"
+      .p-card__title = notification.decorate.human_enum_notification_type
+      .p-card__desc = notification.decorate.human_is_read
+      .p-card__desc = notification.decorate.message
       = button_to '詳細確認', mark_as_read_admin_notification_path(notification), method: :patch
