@@ -16,10 +16,6 @@ class StaffProfileForm
   validates :nick_name, presence: true
   validate :validate_service_menus
 
-  MODEL_ATTR_MAP = {
-    staff_profile: %i[image working_status nick_name accepts_direct_booking bio]
-  }.freeze
-
   def initialize(staff:, service_menus:)
     @staff = staff
     @staff_profile = staff.staff_profile
@@ -33,11 +29,8 @@ class StaffProfileForm
     )
   end
 
-  def model_class_for(attr)
-    case
-    when MODEL_ATTR_MAP[:staff_profile].include?(attr)
-      StaffProfile
-    end
+  def model_class_for(_attr)
+    StaffProfile
   end
 
   def save(params)

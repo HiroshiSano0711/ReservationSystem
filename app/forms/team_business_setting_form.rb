@@ -6,12 +6,9 @@ class TeamBusinessSettingForm
   attribute :reservation_start_delay_days, :integer
   attribute :cancellation_deadline_hours_before, :integer
 
-  attr_accessor :weekly_business_hours
+  validates :max_reservation_month, :reservation_start_delay_days, :cancellation_deadline_hours_before, presence: true
 
-  MODEL_ATTR_MAP = {
-    team_business_setting: %i[max_reservation_month reservation_start_delay_days cancellation_deadline_hours_before],
-    weekly_business_hour: %i[open close working_day]
-  }.freeze
+  attr_accessor :weekly_business_hours
 
   def initialize(team_business_setting)
     @team_business_setting = team_business_setting
@@ -25,10 +22,10 @@ class TeamBusinessSettingForm
   end
 
   def model_class_for(attr)
-    case
-    when MODEL_ATTR_MAP[:team_business_setting].include?(attr)
+    case attr
+    when :max_reservation_month, :reservation_start_delay_days, :cancellation_deadline_hours_before
       TeamBusinessSetting
-    when MODEL_ATTR_MAP[:weekly_business_hour].include?(attr)
+    when :open, :close, :working_day
       WeeklyBusinessHour
     end
   end
