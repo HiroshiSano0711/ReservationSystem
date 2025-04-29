@@ -11,7 +11,9 @@ module Admin
 
     def update
       @form = form_class.new(@team.team_business_setting)
-      if @form.save(form_params)
+      @form.assign_attributes(form_params)
+
+      if @form.save
         redirect_to admin_team_business_setting_path(@team), notice: "保存しました"
       else
         flash.now[:alert] = "更新に失敗しました。入力内容をご確認ください"
@@ -26,7 +28,7 @@ module Admin
         :max_reservation_month,
         :reservation_start_delay_days,
         :cancellation_deadline_hours_before,
-        weekly_business_hours: [
+        weekly_business_hours_params: [
           :id, :wday, :working_day, :open, :close
         ]
       )

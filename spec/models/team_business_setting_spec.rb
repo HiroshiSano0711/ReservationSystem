@@ -11,8 +11,8 @@ RSpec.describe TeamBusinessSetting, type: :model do
     it { should validate_presence_of(:reservation_start_delay_days) }
     it { should validate_presence_of(:cancellation_deadline_hours_before) }
     it { should validate_numericality_of(:max_reservation_month).only_integer.is_greater_than(0) }
-    it { should validate_numericality_of(:reservation_start_delay_days).only_integer.greater_than_or_equal_to(0) }
-    it { should validate_numericality_of(:cancellation_deadline_hours_before).only_integer.greater_than_or_equal_to(0) }
+    it { should validate_numericality_of(:reservation_start_delay_days).only_integer.is_greater_than_or_equal_to(0) }
+    it { should validate_numericality_of(:cancellation_deadline_hours_before).only_integer.is_greater_than_or_equal_to(0) }
   end
 
   describe 'public method' do

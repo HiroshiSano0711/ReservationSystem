@@ -48,7 +48,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
               max_reservation_month: 2,
               reservation_start_delay_days: 1,
               cancellation_deadline_hours_before: 12,
-              weekly_business_hours: {
+              weekly_business_hours_params: {
                 "0" => {
                   wday: 'mon',
                   working_day: '1',
@@ -77,7 +77,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
               max_reservation_month: nil,
               reservation_start_delay_days: nil,
               cancellation_deadline_hours_before: nil,
-              weekly_business_hours: []
+              weekly_business_hours_params: []
             }
           }
         end

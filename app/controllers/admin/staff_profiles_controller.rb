@@ -10,8 +10,9 @@ module Admin
       @staff = Staff.find(params[:staff_id])
       @service_menus = @team.service_menus
       @form = form_class.new(staff: @staff, service_menus: @service_menus)
+      @form.assign_attributes(form_params)
 
-      if @form.save(form_params)
+      if @form.save
         redirect_to admin_staffs_path, notice: "スタッフのプロフィール情報を更新しました。"
       else
         flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"

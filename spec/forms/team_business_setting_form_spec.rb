@@ -63,18 +63,22 @@ RSpec.describe TeamBusinessSettingForm, type: :model do
           max_reservation_month: 6,
           reservation_start_delay_days: 3,
           cancellation_deadline_hours_before: 24,
-          weekly_business_hours: {
+          weekly_business_hours_params: {
             "0" => { "wday" => "sun", "working_day" => "1", "open" => "10:00", "close" => "20:00" },
           }
         }
       end
 
       it 'saves the team business setting' do
-        expect { form.save(params) }.to change { team_business_setting.reload.max_reservation_month }.from(3).to(6)
+        form.assign_attributes(params)
+
+        expect { form.save }.to change { team_business_setting.reload.max_reservation_month }.from(3).to(6)
       end
 
       it 'saves weekly business hours' do
-        expect(form.save(params)).to be_truthy
+        form.assign_attributes(params)
+
+        expect(form.save).to be_truthy
 
         team_business_setting.reload
         weekly_business_hour = team_business_setting.weekly_business_hours.find { |wbh| wbh.wday === "sun" }
@@ -87,7 +91,9 @@ RSpec.describe TeamBusinessSettingForm, type: :model do
       let(:params) { { max_reservation_month: -1 } }
 
       it 'does not save the team business setting' do
-        expect(form.save(params)).to be_falsey
+        form.assign_attributes(params)
+ 
+        expect(form.save).to be_falsey
         expect(form.errors[:max_reservation_month]).to be_present
       end
     end

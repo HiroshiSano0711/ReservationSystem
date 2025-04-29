@@ -22,20 +22,22 @@ class StaffProfileForm
     @service_menus = service_menus
 
     super(
-      working_status: staff_profile.working_status,
-      nick_name: staff_profile.nick_name,
-      accepts_direct_booking: staff_profile.accepts_direct_booking,
-      bio: staff_profile.bio
+      working_status: staff.staff_profile.working_status,
+      nick_name: staff.staff_profile.nick_name,
+      accepts_direct_booking: staff.staff_profile.accepts_direct_booking,
+      bio: staff.staff_profile.bio
     )
+  end
+
+  def persisted?
+    true
   end
 
   def model_class_for(_attr)
     StaffProfile
   end
 
-  def save(params)
-    assign_attributes(params)
-
+  def save
     return false unless valid?
 
     ActiveRecord::Base.transaction do
@@ -46,19 +48,13 @@ class StaffProfileForm
         accepts_direct_booking: accepts_direct_booking,
         bio: bio
       )
-
-      current_ids = staff.service_menus.ids
-      added_ids = selected_service_menu_ids.map(&:to_i) - current_ids
-      removed_ids = current_ids - selected_service_menu_ids.map(&:to_i)
-      staff.service_menus << service_menus.where(id: added_ids) if added_ids.present?
-      staff.service_menus.delete(service_menus.where(id: removed_ids)) if removed_ids.present?
-
-      staff.save!
+      update_diff_service_menus!
     end
 
     true
   rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation, ActiveRecord::RecordNotUnique => e
     Rails.logger.error("#{self.model_name} save failed: #{e.message}")
+    errors.add(:base, e.message)
     false
   end
 
@@ -73,5 +69,15 @@ class StaffProfileForm
         errors.add(:base, "サービスメニューに無効な選択肢があります")
       end
     end
+  end
+
+  def update_diff_service_menus!
+    current_ids = staff.service_menus.ids
+    added_ids = selected_service_menu_ids.map(&:to_i) - current_ids
+    removed_ids = current_ids - selected_service_menu_ids.map(&:to_i)
+    staff.service_menus << service_menus.select {|sm| added_ids.include?(sm.id) } if added_ids.present?
+    staff.service_menus.delete(service_menus.select {|sm| removed_ids.include?(sm.id) }) if removed_ids.present?
+
+    staff.save!
   end
 end

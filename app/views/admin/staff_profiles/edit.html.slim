@@ -9,7 +9,7 @@
       h1.p-txt-primary スタッフプロフィールの編集
 
 .l-main-content.u-mbt-32
-  = form_with model: @form, url: admin_staff_profile_path(@staff), method: :patch, local: true, class: 'p-form' do |f|
+  = form_with model: @form, url: admin_staff_profile_path(@staff), local: true, class: 'p-form' do |f|
     = render partial: 'admin/shared/form_error', locals: { model: @form }
 
     .p-form__fieldset
