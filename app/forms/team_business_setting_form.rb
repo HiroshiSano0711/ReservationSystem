@@ -6,7 +6,10 @@ class TeamBusinessSettingForm
   attribute :reservation_start_delay_days, :integer
   attribute :cancellation_deadline_hours_before, :integer
 
-  validates :max_reservation_month, :reservation_start_delay_days, :cancellation_deadline_hours_before, presence: true
+  validates :max_reservation_month, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :reservation_start_delay_days,
+            :cancellation_deadline_hours_before,
+            presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   attr_accessor :weekly_business_hours
 
@@ -40,6 +43,7 @@ class TeamBusinessSettingForm
     return false unless valid?
 
     ActiveRecord::Base.transaction do
+
       save_team_business_setting!
       save_weekly_business_hours!(params[:weekly_business_hours])
     end
@@ -47,6 +51,7 @@ class TeamBusinessSettingForm
     true
   rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation, ActiveRecord::RecordNotUnique => e
     Rails.logger.error("#{self.model_name} save failed: #{e.message}")
+    errors.add(:base, e.message.join(', '))
     false
   end
 
@@ -61,6 +66,8 @@ class TeamBusinessSettingForm
   end
 
   def save_weekly_business_hours!(params)
+    return if params.blank?
+
     params.each do |_, hour_param|
       weekly_business_hour = @weekly_business_hours.find { |wbh| wbh.wday === hour_param["wday"] }
       weekly_business_hour.update!(
