@@ -13,7 +13,7 @@ module Reservations
       Reservation.transaction do
         TeamAssociationValidator.new(team: @team, objects: [ @service_menus, @staff ]).validate!
 
-        reservation = ::ReservationFactory.new(
+        reservation = ReservationFactory.new(
           team: @team,
           service_menus: @service_menus,
           staff: @staff,

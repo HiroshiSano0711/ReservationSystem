@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe StaffProfileForm, type: :model do
   let(:staff) { create(:staff, :with_profile) }
   let(:service_menus) { create_list(:service_menu, 3, team: staff.team) }
-  let(:form) { described_class.new(staff: staff, service_menus: service_menus) }
+  let(:form) { described_class.new(staff_profile: staff.staff_profile, service_menus: service_menus) }
 
   describe '#model_class_for' do
     it 'returns StaffProfile for staff profile attributes' do

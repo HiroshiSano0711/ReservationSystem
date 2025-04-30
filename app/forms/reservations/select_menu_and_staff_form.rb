@@ -11,8 +11,8 @@ module Reservations
       @staff_profiles = preload_staff_profile
     end
 
-    def available_menus
-      team.service_menus.available
+    def persisted?
+      false
     end
 
     def single_staff_menus
@@ -28,6 +28,10 @@ module Reservations
     def preload_staff_profile
       StaffProfile.includes(:staff)
                   .where(staff_id: team.staffs.ids, accepts_direct_booking: true)
+    end
+
+    def available_menus
+      team.service_menus.available
     end
 
     def validate_service_menus

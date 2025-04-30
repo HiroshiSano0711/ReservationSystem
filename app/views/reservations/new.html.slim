@@ -2,7 +2,7 @@
   h1.p-txt-primary = "#{@team.name}の予約ページ"
   p.p-txt-sub メニューを選択してください
 
-  = form_with model: @form, url: reservations_menu_select_path(permalink: @team.permalink), method: :post, class: 'p-form' do |f|
+  = form_with model: @form, url: reservations_menu_select_path(permalink: @team.permalink), class: 'p-form' do |f|
     ul
       - @form.single_staff_menus.each do |menu|
         li

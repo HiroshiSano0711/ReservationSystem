@@ -3,13 +3,13 @@ module Admin
     def edit
       @staff = Staff.find(params[:staff_id])
       @service_menus = @team.service_menus
-      @form = form_class.new(staff: @staff, service_menus: @service_menus)
+      @form = form_class.new(staff_profile: @staff.staff_profile, service_menus: @service_menus)
     end
 
     def update
       @staff = Staff.find(params[:staff_id])
       @service_menus = @team.service_menus
-      @form = form_class.new(staff: @staff, service_menus: @service_menus)
+      @form = form_class.new(staff_profile: @staff.staff_profile, service_menus: @service_menus)
       @form.assign_attributes(form_params)
 
       if @form.save

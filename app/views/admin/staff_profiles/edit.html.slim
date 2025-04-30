@@ -40,7 +40,7 @@
       - @service_menus.each do |service_menu|
         label.toggle-switch
           span.label-text = service_menu.name
-          input[type="checkbox" name="staff_profile_form[selected_service_menu_ids][]" value=service_menu.id checked=(@form.staff.service_menus.ids.include?(service_menu.id))]
+          input[type="checkbox" name="staff_profile_form[selected_service_menu_ids][]" value=service_menu.id checked=(@staff.service_menus.ids.include?(service_menu.id))]
           span.slider
     .p-form__fieldset
       = f.submit "更新する"

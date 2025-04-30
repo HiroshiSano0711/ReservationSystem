@@ -19,7 +19,7 @@
       dt 価格:
       dd = number_to_currency(@context.total_price, locale: 'ja')
 
-  = form_with model: @form, url: reservations_finalize_path(@team.permalink), method: :post, local: true do |f|
+  = form_with model: @form, url: reservations_finalize_path(@team.permalink), local: true do |f|
     - if current_customer.present? && current_customer.customer_profile.present?
       = f.hidden_field :customer_name, value: current_customer.customer_profile.name
       = f.hidden_field :customer_phone_number, value: current_customer.customer_profile.phone_number

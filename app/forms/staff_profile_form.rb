@@ -2,8 +2,7 @@ class StaffProfileForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attr_accessor :staff,
-                :staff_profile,
+  attr_accessor :staff_profile,
                 :image,
                 :service_menus,
                 :selected_service_menu_ids
@@ -16,16 +15,15 @@ class StaffProfileForm
   validates :nick_name, presence: true
   validate :validate_service_menus
 
-  def initialize(staff:, service_menus:)
-    @staff = staff
-    @staff_profile = staff.staff_profile
+  def initialize(staff_profile:, service_menus:)
+    @staff_profile = staff_profile
     @service_menus = service_menus
 
     super(
-      working_status: staff.staff_profile.working_status,
-      nick_name: staff.staff_profile.nick_name,
-      accepts_direct_booking: staff.staff_profile.accepts_direct_booking,
-      bio: staff.staff_profile.bio
+      working_status: staff_profile.working_status,
+      nick_name: staff_profile.nick_name,
+      accepts_direct_booking: staff_profile.accepts_direct_booking,
+      bio: staff_profile.bio
     )
   end
 
@@ -72,12 +70,12 @@ class StaffProfileForm
   end
 
   def update_diff_service_menus!
+    staff = staff_profile.staff
     current_ids = staff.service_menus.ids
     added_ids = selected_service_menu_ids.map(&:to_i) - current_ids
     removed_ids = current_ids - selected_service_menu_ids.map(&:to_i)
     staff.service_menus << service_menus.select {|sm| added_ids.include?(sm.id) } if added_ids.present?
     staff.service_menus.delete(service_menus.select {|sm| removed_ids.include?(sm.id) }) if removed_ids.present?
-
     staff.save!
   end
 end
