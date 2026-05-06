@@ -77,6 +77,4 @@ jobs:
         env:
           RAILS_ENV: test
           DATABASE_URL: postgres://reservation_system:password@localhost:5432/reservation_system_test
-        run: |
-          bin/rails db:prepare
-          bundle exec rspec
+        run: bundle exec rspec
