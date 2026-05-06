@@ -6,11 +6,11 @@ class WeeklyBusinessHourDecorator < Draper::Decorator
   end
 
   def open_str
-    object.open.strftime('%H:%M')
+    object.open.strftime("%H:%M")
   end
 
   def close_str
-    object.close.strftime('%H:%M')
+    object.close.strftime("%H:%M")
   end
 
   def open_close

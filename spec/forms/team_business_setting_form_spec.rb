@@ -24,7 +24,7 @@ RSpec.describe TeamBusinessSettingForm, type: :model do
       expect(form).to be_invalid
       expect(form.errors[:max_reservation_month]).to include("を入力してください")
     end
-  
+
     it 'is invalid if max_reservation_month is not greater than 0' do
       form.max_reservation_month = 0
       expect(form).to be_invalid
@@ -36,7 +36,7 @@ RSpec.describe TeamBusinessSettingForm, type: :model do
       expect(form).to be_invalid
       expect(form.errors[:reservation_start_delay_days]).to include("を入力してください")
     end
-  
+
     it 'is invalid if reservation_start_delay_days is not greater than equal to 0' do
       form.reservation_start_delay_days = -1
       expect(form).to be_invalid
@@ -48,7 +48,7 @@ RSpec.describe TeamBusinessSettingForm, type: :model do
       expect(form).to be_invalid
       expect(form.errors[:cancellation_deadline_hours_before]).to include("を入力してください")
     end
-  
+
     it 'is invalid if cancellation_deadline_hours_before is not greater than equal to 0' do
       form.cancellation_deadline_hours_before = -1
       expect(form).to be_invalid
@@ -64,7 +64,7 @@ RSpec.describe TeamBusinessSettingForm, type: :model do
           reservation_start_delay_days: 3,
           cancellation_deadline_hours_before: 24,
           weekly_business_hours_params: {
-            "0" => { "wday" => "sun", "working_day" => "1", "open" => "10:00", "close" => "20:00" },
+            "0" => { "wday" => "sun", "working_day" => "1", "open" => "10:00", "close" => "20:00" }
           }
         }
       end
@@ -92,7 +92,7 @@ RSpec.describe TeamBusinessSettingForm, type: :model do
 
       it 'does not save the team business setting' do
         form.assign_attributes(params)
- 
+
         expect(form.save).to be_falsey
         expect(form.errors[:max_reservation_month]).to be_present
       end

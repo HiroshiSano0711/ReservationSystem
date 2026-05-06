@@ -19,7 +19,7 @@ RSpec.describe Reservations::ReservationFactory do
   let(:team) { create(:team) }
   let(:service_menu1) { create(:service_menu, team: team, price: 5000, duration: 60, required_staff_count: 1) }
   let(:service_menu2) { create(:service_menu, team: team, price: 7000, duration: 90, required_staff_count: 2) }
-  let(:service_menus) { [service_menu1, service_menu2] }
+  let(:service_menus) { [ service_menu1, service_menu2 ] }
   let(:staff) { create(:staff, team: team) }
   let!(:staff_profile) { create(:staff_profile, staff: staff, nick_name: "山田 太郎") }
   let(:start_time) { Time.zone.local(2025, 5, 1, 10, 0, 0) }
@@ -33,7 +33,7 @@ RSpec.describe Reservations::ReservationFactory do
 
       it "builds a reservation correctly" do
         reservation = factory.build
-        
+
         expect_common_reservation_attributes(reservation)
         expect(reservation.customer).to be_nil
         expect(reservation.customer_name).to eq("ゲスト太郎")

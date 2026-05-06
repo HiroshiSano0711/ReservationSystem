@@ -41,8 +41,8 @@ RSpec.describe FormObjectHelper, type: :helper do
         result = helper.enum_options_for_select(form_builder, :statuses)
 
         expect(result).to eq([
-          ['Active', :active],
-          ['Inactive', :inactive]
+          [ 'Active', :active ],
+          [ 'Inactive', :inactive ]
         ])
       end
     end

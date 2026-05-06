@@ -18,7 +18,7 @@ RSpec.describe "Reservations", type: :request do
     it "redirects to select_slots when valid" do
       post reservations_menu_select_path(permalink: team.permalink), params: {
         reservations_select_menu_and_staff_form: {
-          single_menu_ids: [service_menu.id],
+          single_menu_ids: [ service_menu.id ],
           selected_staff: staff.id
         }
       }
@@ -48,7 +48,7 @@ RSpec.describe "Reservations", type: :request do
   describe "GET /reservations/select_slots" do
     it "renders select_slots page" do
       session_data = instance_double(Reservations::SessionData,
-        selected_service_menu_ids: [service_menu.id],
+        selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id
       )
       allow(Reservations::SessionData).to receive(:new).and_return(session_data)
@@ -63,7 +63,7 @@ RSpec.describe "Reservations", type: :request do
   describe "POST /reservations/save_slot_selection" do
     it "redirects to prior_confirmation when slot selected" do
       session_data = instance_double(Reservations::SessionData,
-        selected_service_menu_ids: [service_menu.id],
+        selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id
       )
       allow(Reservations::SessionData).to receive(:new).and_return(session_data)
@@ -78,7 +78,7 @@ RSpec.describe "Reservations", type: :request do
 
     it "redirects back when no slot selected" do
       session_data = instance_double(Reservations::SessionData,
-        selected_service_menu_ids: [service_menu.id],
+        selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id
       )
       allow(Reservations::SessionData).to receive(:new).and_return(session_data)
@@ -92,7 +92,7 @@ RSpec.describe "Reservations", type: :request do
   describe "GET /reservations/prior_confirmation" do
     it "shows prior confirmation page" do
       session_data = instance_double(Reservations::SessionData,
-        selected_service_menu_ids: [service_menu.id],
+        selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-04-01 10:00"
       )
@@ -107,7 +107,7 @@ RSpec.describe "Reservations", type: :request do
   describe "POST /reservations/finalize" do
     it "creates reservation successfully" do
       session_data = instance_double(Reservations::SessionData,
-        selected_service_menu_ids: [service_menu.id],
+        selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-04-01 10:00",
         clear_selection: nil
@@ -131,7 +131,7 @@ RSpec.describe "Reservations", type: :request do
 
     it "shows errors when finalization form is invalid" do
       session_data = instance_double(Reservations::SessionData,
-        selected_service_menu_ids: [service_menu.id],
+        selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-05-01 10:00"
       )
@@ -147,7 +147,7 @@ RSpec.describe "Reservations", type: :request do
 
     it "shows errors when business logic fails" do
       session_data = instance_double(Reservations::SessionData,
-        selected_service_menu_ids: [service_menu.id],
+        selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-05-01 10:00"
       )

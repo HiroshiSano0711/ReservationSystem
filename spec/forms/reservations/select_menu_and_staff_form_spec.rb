@@ -49,7 +49,7 @@ RSpec.describe Reservations::SelectMenuAndStaffForm, type: :model do
         single_menu = create(:service_menu, team: team, required_staff_count: 1, available_from: FIXED_TIME.call)
         multi_menu = create(:service_menu, team: team, required_staff_count: 2, available_from: FIXED_TIME.call)
 
-        form.single_menu_ids = [single_menu.id]
+        form.single_menu_ids = [ single_menu.id ]
         form.multi_staff_menu_id = multi_menu.id
 
         expect(form).to be_invalid
@@ -60,7 +60,7 @@ RSpec.describe Reservations::SelectMenuAndStaffForm, type: :model do
     context 'when only single staff menu is selected' do
       it 'is valid' do
         single_menu = create(:service_menu, team: team, required_staff_count: 1, available_from: FIXED_TIME.call)
-        form.single_menu_ids = [single_menu.id]
+        form.single_menu_ids = [ single_menu.id ]
         form.multi_staff_menu_id = nil
 
         expect(form).to be_valid
@@ -83,7 +83,7 @@ RSpec.describe Reservations::SelectMenuAndStaffForm, type: :model do
       single_menu = create(:service_menu, team: team, required_staff_count: 1, available_from: FIXED_TIME.call)
       create(:service_menu, team: team, required_staff_count: 2, available_from: FIXED_TIME.call)
 
-      expect(form.single_staff_menus).to match_array([single_menu])
+      expect(form.single_staff_menus).to match_array([ single_menu ])
     end
   end
 
@@ -92,7 +92,7 @@ RSpec.describe Reservations::SelectMenuAndStaffForm, type: :model do
       create(:service_menu, team: team, required_staff_count: 1, available_from: FIXED_TIME.call)
       multi_menu = create(:service_menu, team: team, required_staff_count: 2, available_from: FIXED_TIME.call)
 
-      expect(form.multi_staff_menus).to match_array([multi_menu])
+      expect(form.multi_staff_menus).to match_array([ multi_menu ])
     end
   end
 end

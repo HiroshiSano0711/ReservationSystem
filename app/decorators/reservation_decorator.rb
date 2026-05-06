@@ -2,7 +2,7 @@ class ReservationDecorator < Draper::Decorator
   delegate_all
 
   def reserve_date
-    object.date.strftime('%Y年%m月%d日')
+    object.date.strftime("%Y年%m月%d日")
   end
 
   def reserve_time

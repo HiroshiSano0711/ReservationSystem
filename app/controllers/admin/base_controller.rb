@@ -12,7 +12,7 @@ module Admin
 
     def check_admin
       unless current_staff.admin_staff?
-        return redirect_to root_path, alert: "管理者権限がありません。"
+        redirect_to root_path, alert: "管理者権限がありません。"
       end
     end
 

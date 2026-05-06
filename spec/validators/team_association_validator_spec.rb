@@ -11,7 +11,7 @@ RSpec.describe TeamAssociationValidator, type: :validator do
       expect {
         TeamAssociationValidator.new(
           team: team,
-          objects: [service_menu_1, service_menu_2, staff]
+          objects: [ service_menu_1, service_menu_2, staff ]
         ).validate!
       }.not_to raise_error
     end
@@ -26,7 +26,7 @@ RSpec.describe TeamAssociationValidator, type: :validator do
       expect {
         TeamAssociationValidator.new(
           team: team,
-          objects: [service_menu_1, service_menu_2, staff]
+          objects: [ service_menu_1, service_menu_2, staff ]
         ).validate!
       }.to raise_error(TeamAssociationValidator::InvalidTeamAssociationError, "ServiceMenuの所属チームが一致していません")
     end
@@ -41,7 +41,7 @@ RSpec.describe TeamAssociationValidator, type: :validator do
       expect {
         TeamAssociationValidator.new(
           team: team,
-          objects: [service_menu_1, service_menu_2, staff]
+          objects: [ service_menu_1, service_menu_2, staff ]
         ).validate!
       }.to raise_error(TeamAssociationValidator::InvalidTeamAssociationError, "Staffの所属チームが一致していません")
     end

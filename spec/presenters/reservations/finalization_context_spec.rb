@@ -10,7 +10,7 @@ RSpec.describe Reservations::FinalizationContext, type: :model do
 
   let(:session) do
     OpenStruct.new(
-      selected_service_menu_ids: [service_menu1.id, service_menu2.id],
+      selected_service_menu_ids: [ service_menu1.id, service_menu2.id ],
       selected_staff_id: staff.id,
       selected_slot: start_time.to_s
     )

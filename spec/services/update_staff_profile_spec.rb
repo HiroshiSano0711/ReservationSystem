@@ -9,7 +9,7 @@ RSpec.describe UpdateStaffProfile, type: :model do
     it 'is invalid with an invalid service_menu_id' do
       other_team = create(:team)
       other_team_service_menu = create(:service_menu, team: other_team)
-      form.selected_service_menu_ids = [other_team_service_menu.id]
+      form.selected_service_menu_ids = [ other_team_service_menu.id ]
 
       result = described_class.new(form).call
       expect(result.success?).to be false
