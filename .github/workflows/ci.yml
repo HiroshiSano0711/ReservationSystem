@@ -70,6 +70,9 @@ jobs:
       - name: Bundle Install
         run: bundle install
 
+      - name: Build assets
+        run: bin/rails dartsass:build
+
       - name: Run tests
         env:
           RAILS_ENV: test
