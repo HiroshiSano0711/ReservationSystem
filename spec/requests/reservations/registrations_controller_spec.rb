@@ -41,7 +41,7 @@ RSpec.describe Reservations::RegistrationsController, type: :request do
           }
         }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(flash[:alert]).to be_present
       end
     end
@@ -55,7 +55,7 @@ RSpec.describe Reservations::RegistrationsController, type: :request do
           }
         }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(flash[:alert]).to be_present
       end
     end

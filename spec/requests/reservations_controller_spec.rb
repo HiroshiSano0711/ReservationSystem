@@ -141,7 +141,7 @@ RSpec.describe "Reservations", type: :request do
         reservations_finalization_form: { customer_name: "", customer_phone_number: "" }
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response).to render_template(:prior_confirmation)
     end
 
@@ -160,7 +160,7 @@ RSpec.describe "Reservations", type: :request do
         }
       }
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response).to render_template(:prior_confirmation)
     end
   end

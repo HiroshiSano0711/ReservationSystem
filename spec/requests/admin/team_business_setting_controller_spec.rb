@@ -87,7 +87,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
 
           patch admin_team_business_setting_path(team), params: invalid_params
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(flash[:alert]).to be_present
         end
       end

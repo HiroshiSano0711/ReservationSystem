@@ -10,7 +10,7 @@ class CustomersController < ApplicationController
     else
       @customer = Customer.new(email: customer_params[:email])
       flash[:alert] = "メールアドレスの形式ではありません。入力内容をご確認ください"
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

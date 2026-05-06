@@ -14,7 +14,7 @@ module Admin
         redirect_to admin_service_menus_path, notice: "サービスメニューを作成しました。"
       else
         flash.now[:alert] = "登録に失敗しました。入力内容を確認してください。"
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -28,7 +28,7 @@ module Admin
         redirect_to admin_service_menus_path, notice: "サービスメニューを更新しました。"
       else
         flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

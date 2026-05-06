@@ -66,7 +66,7 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
           staff.reload
           expect(staff.staff_profile.working_status).to_not eq('')
           expect(staff.staff_profile.nick_name).to_not eq('')
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template(:edit)
           expect(flash[:alert]).to be_present
         end

@@ -104,7 +104,7 @@ RSpec.describe Admin::ServiceMenusController, type: :request do
 
           expect(service_menu.name).to_not eq("")
           expect(service_menu.price).to_not eq(-1)
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template(:edit)
           expect(flash[:alert]).to be_present
         end

@@ -64,7 +64,7 @@ RSpec.describe Admin::TeamsController, type: :request do
         it "does not update the team and re-renders edit" do
           patch admin_team_path(admin.team.id), params: { team: invalid_params }
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template(:edit)
           expect(flash[:alert]).to be_present
         end

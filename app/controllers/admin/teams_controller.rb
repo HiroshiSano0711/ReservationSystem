@@ -11,7 +11,7 @@ module Admin
         redirect_to admin_team_path(@team), notice: "チーム情報を更新しました。"
       else
         flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

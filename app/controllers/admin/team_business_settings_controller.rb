@@ -17,7 +17,7 @@ module Admin
         redirect_to admin_team_business_setting_path(@team), notice: "保存しました"
       else
         flash.now[:alert] = "更新に失敗しました。入力内容をご確認ください"
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

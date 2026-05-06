@@ -12,7 +12,7 @@ module Reservations
         redirect_to root_path, notice: "招待メールを送信しました。メールに記載されているURLから登録してください。"
       else
         flash.now[:alert] = "電話番号が一致しないかメールアドレスの形式が間違えています。入力内容をご確認ください。"
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 

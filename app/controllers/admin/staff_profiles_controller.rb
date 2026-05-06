@@ -13,7 +13,7 @@ module Admin
       @form.assign_attributes(form_params)
       if @form.invalid?
         flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
-        return render :edit, status: :unprocessable_entity
+        return render :edit, status: :unprocessable_content
       end
 
       result = UpdateStaffProfile.new(@form).call
@@ -22,7 +22,7 @@ module Admin
       else
         flash.now[:alert] = "更新に失敗しました。入力内容を確認してください。"
         @form = result.data
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

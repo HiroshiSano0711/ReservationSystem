@@ -17,7 +17,7 @@ module Admin
         redirect_to admin_staffs_path, notice: "メールアドレスへ招待しました。"
       else
         flash[:alert] = "無効なメールアドレスです。"
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
