@@ -2,7 +2,7 @@ class StaffProfileForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  PERMITED_PARAMS = [
+  PERMITTED_PARAMS = [
     :image,
     :working_status,
     :nick_name,

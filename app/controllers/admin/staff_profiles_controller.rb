@@ -29,7 +29,7 @@ module Admin
 
     def form_params
       params.require(StaffProfileForm.model_name.param_key.to_sym)
-            .permit(StaffProfileForm::PERMITED_PARAMS)
+            .permit(StaffProfileForm::PERMITTED_PARAMS)
     end
   end
 end
