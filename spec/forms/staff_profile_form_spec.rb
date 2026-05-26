@@ -12,7 +12,7 @@ RSpec.describe StaffProfileForm, type: :model do
   end
 
   describe '#valid?' do
-    it 'is valid with valid attributes' do
+    it 'is valid with correct input' do
       form.nick_name = 'Test Nickname'
       form.selected_service_menu_ids = service_menus.map(&:id)
 
@@ -24,6 +24,15 @@ RSpec.describe StaffProfileForm, type: :model do
 
       expect(form.valid?).to be false
       expect(form.errors[:nick_name]).to be_present
+    end
+
+    it 'service_menus_belong_to_team' do
+      other_team = create(:team)
+      other_team_service_menu = create(:service_menu, team: other_team)
+      form.selected_service_menu_ids = [ other_team_service_menu.id ]
+
+      expect(form.valid?).to be false
+      expect(form.errors[:selected_service_menu_ids]).to include('サービスメニューに無効な選択肢があります')
     end
   end
 end

@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   def index
-    # TODO: ページネーションにする　10件ずつくらい
-    @teams = Team.all
+    @teams = Team.includes([:image_attachment]).all
   end
 end

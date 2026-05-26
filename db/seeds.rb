@@ -1,7 +1,12 @@
 team = Team.create!(
-  name: 'サンプルのサロン',
-  permalink: 'sample-salon',
-  description: '開発環境用'
+  name: "サンプルのサロン",
+  permalink: "sample-salon",
+  description: '都会の喧騒を忘れられる、落ち着いた雰囲気のプライベートサロン。 丁寧なカウンセリングを大切にし、一人ひとりの髪質やライフスタイルに合わせたスタイルをご提案します。 ナチュラルからトレンドスタイルまで幅広く対応しています。'
+)
+team.image.attach(
+  io: File.open(Rails.root.join('app/assets/images/sample_salon.jpg')),
+  filename: 'salon.jpg',
+  content_type: 'image/jpeg'
 )
 puts "Created Team: #{team.name}"
 
@@ -49,7 +54,7 @@ admin_staff = Staff.create!(
 
 admin_staff.create_staff_profile!(
   working_status: 'active',
-  nick_name: '管理者スタッフ',
+  nick_name: '店長',
   accepts_direct_booking: true
 )
 
@@ -88,3 +93,28 @@ ServiceMenu.all.each do |menu|
   staff.service_menu_staffs.create!(service_menu: menu)
   staff_2.service_menu_staffs.create!(service_menu: menu)
 end
+
+
+team = Team.create!(
+  name: "サンプルのサロン2",
+  permalink: "sample-salon-2",
+  description: '都会の喧騒を忘れられる、落ち着いた雰囲気のプライベートサロン。 丁寧なカウンセリングを大切にし、一人ひとりの髪質やライフスタイルに合わせたスタイルをご提案します。 ナチュラルからトレンドスタイルまで幅広く対応しています。'
+)
+team.image.attach(
+  io: File.open(Rails.root.join('app/assets/images/sample_salon.jpg')),
+  filename: 'salon.jpg',
+  content_type: 'image/jpeg'
+)
+puts "Created Team: #{team.name}"
+
+team = Team.create!(
+  name: "サンプルのサロン3",
+  permalink: "sample-salon-3",
+  description: '都会の喧騒を忘れられる、落ち着いた雰囲気のプライベートサロン。 丁寧なカウンセリングを大切にし、一人ひとりの髪質やライフスタイルに合わせたスタイルをご提案します。 ナチュラルからトレンドスタイルまで幅広く対応しています。'
+)
+team.image.attach(
+  io: File.open(Rails.root.join('app/assets/images/sample_salon.jpg')),
+  filename: 'salon.jpg',
+  content_type: 'image/jpeg'
+)
+puts "Created Team: #{team.name}"
