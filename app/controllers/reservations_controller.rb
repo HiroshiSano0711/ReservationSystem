@@ -66,14 +66,14 @@ class ReservationsController < ApplicationController
 
       if result.success?
         reservation_session.clear_selection
-        reservation_session.public_id = result.data.public_id
+        reservation_session.public_id = result.resource.public_id
         NotificationSender.new(
           team: @team,
-          reservation: result.data,
+          reservation: result.resource,
           notification_type: :reservation_created
         ).call
 
-        redirect_to reservations_complete_path(@team.permalink, result.data.public_id)
+        redirect_to reservations_complete_path(@team.permalink, result.resource.public_id)
       else
         flash.now[:alert] = result.message
         render :prior_confirmation, status: :unprocessable_content

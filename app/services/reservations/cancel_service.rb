@@ -25,8 +25,8 @@ module Reservations
       @reservation.cancelable?
     end
 
-    def success(data = nil)
-      ::ServiceResult.new(success: true, data: data)
+    def success(resource = nil)
+      ::ServiceResult.new(success: true, resource: resource)
     end
 
     def failure(message)

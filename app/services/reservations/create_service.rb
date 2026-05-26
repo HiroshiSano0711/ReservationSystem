@@ -24,7 +24,7 @@ module Reservations
         reservation.save!
         create_reservation_details!(reservation)
 
-        ::ServiceResult.new(success: true, data: reservation)
+        ::ServiceResult.new(success: true, resource: reservation)
       end
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.warn("予約バリデーションエラー: #{e.message}")

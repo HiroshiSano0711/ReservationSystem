@@ -18,8 +18,8 @@ module Mypage
 
       if result.success?
         NotificationSender.new(
-          team: result.data.team,
-          reservation: result.data,
+          team: result.resource.team,
+          reservation: result.resource,
           notification_type: :reservation_canceled
         ).call
 

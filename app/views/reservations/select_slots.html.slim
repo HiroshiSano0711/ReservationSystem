@@ -15,7 +15,7 @@
       .l-main-form
         .l-flex-slot
           - if @result.success?
-            - @result.data.each_with_index do |slot, date_index|
+            - @result.resource.each_with_index do |slot, date_index|
               = next if slot[:slots].blank?
 
               .l-flex-slot__item

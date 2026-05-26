@@ -3,24 +3,18 @@ module Admin
     before_action :set_staff_and_service_menus
 
     def edit
-      @form = StaffProfileForm.new(
-        staff_profile: @staff.staff_profile,
-        service_menus: @service_menus
-      )
+      @form = StaffProfileForm.new(staff_profile: @staff.staff_profile)
     end
 
     def update
-      @form = StaffProfileForm.new(
-        staff_profile: @staff.staff_profile,
-        service_menus: @service_menus
-      )
+      @form = StaffProfileForm.new(staff_profile: @staff.staff_profile)
       @form.assign_attributes(form_params)
 
-      result = UpdateStaffProfile.new(@staff, @form).call
+      result = UpdateStaffProfile.new(@staff, @form, @service_menus).call
       if result.success?
         redirect_to admin_staffs_path, notice: result.message
       else
-        @form = result.data
+        @form = result.resource
         flash.now[:alert] = result.message
         render :edit, status: :unprocessable_content
       end
@@ -35,7 +29,7 @@ module Admin
 
     def form_params
       params.require(StaffProfileForm.model_name.param_key.to_sym)
-            .permit(StaffProfileForm::INPUT_FORMS)
+            .permit(StaffProfileForm::PERMITED_PARAMS)
     end
   end
 end

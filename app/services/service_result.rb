@@ -1,9 +1,9 @@
 class ServiceResult
-  attr_reader :data, :message
+  attr_reader :resource, :message
 
-  def initialize(success:, data: nil, message: nil)
+  def initialize(success:, resource: nil, message: nil)
     @success = success
-    @data = data
+    @resource = resource
     @message = message
   end
 
