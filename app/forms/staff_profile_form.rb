@@ -11,8 +11,8 @@ class StaffProfileForm
     { selected_service_menu_ids: [] }
   ].freeze
 
-  attr_accessor :staff_profile,
-                :image,
+  attr_reader :staff_profile
+  attr_accessor :image,
                 :selected_service_menu_ids
 
   attribute :working_status, :string
@@ -26,10 +26,10 @@ class StaffProfileForm
     @staff_profile = staff_profile
 
     super(
-      working_status: staff_profile.working_status,
-      nick_name: staff_profile.nick_name,
-      accepts_direct_booking: staff_profile.accepts_direct_booking,
-      bio: staff_profile.bio
+      working_status: @staff_profile.working_status,
+      nick_name: @staff_profile.nick_name,
+      accepts_direct_booking: @staff_profile.accepts_direct_booking,
+      bio: @staff_profile.bio
     )
   end
 

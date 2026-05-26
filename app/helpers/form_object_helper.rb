@@ -3,7 +3,6 @@ module FormObjectHelper
     form_obj = form_builder.object
     model_class = form_obj.model_class_for(attr)
     label_text = model_class.human_attribute_name(attr, default: attr.to_s.humanize)
-
     form_builder.label(attr, label_text, options)
   end
 
