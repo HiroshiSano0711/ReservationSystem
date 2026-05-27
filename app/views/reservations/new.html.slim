@@ -11,6 +11,7 @@
 
     - if @form.multi_staff_menus.present?
       p.p-txt-sub 複数人対応メニュー(1回の予約につき1つしか選択できません)
+
       - @form.multi_staff_menus.each do |menu|
         label
           = f.radio_button :multi_staff_menu_id, menu.id

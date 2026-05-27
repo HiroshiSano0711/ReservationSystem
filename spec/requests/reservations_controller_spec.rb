@@ -47,11 +47,12 @@ RSpec.describe "Reservations", type: :request do
 
   describe "GET /reservations/select_slots" do
     it "renders select_slots page" do
-      session_data = instance_double(Reservations::SessionWrapper,
+      session_wrapper = instance_double(Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id
       )
-      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_data)
+      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
+      allow(session_wrapper).to receive(:selected_staff)
 
       get reservations_select_slots_path(permalink: team.permalink)
 
@@ -62,12 +63,12 @@ RSpec.describe "Reservations", type: :request do
 
   describe "POST /reservations/save_slot_selection" do
     it "redirects to prior_confirmation when slot selected" do
-      session_data = instance_double(Reservations::SessionWrapper,
+      session_wrapper = instance_double(Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id
       )
-      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_data)
-      allow(session_data).to receive(:save_slot)
+      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
+      allow(session_wrapper).to receive(:save_slot)
 
       post reservations_save_slot_selection_path(permalink: team.permalink), params: {
         selected_slot: "2025-04-01 10:00"
@@ -77,11 +78,11 @@ RSpec.describe "Reservations", type: :request do
     end
 
     it "redirects back when no slot selected" do
-      session_data = instance_double(Reservations::SessionWrapper,
+      session_wrapper = instance_double(Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id
       )
-      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_data)
+      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
 
       post reservations_save_slot_selection_path(permalink: team.permalink), params: { selected_slot: nil }
       expect(response).to redirect_to(reservations_select_slots_path)
@@ -91,12 +92,12 @@ RSpec.describe "Reservations", type: :request do
 
   describe "GET /reservations/prior_confirmation" do
     it "shows prior confirmation page" do
-      session_data = instance_double(Reservations::SessionWrapper,
+      session_wrapper = instance_double(Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-04-01 10:00"
       )
-      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_data)
+      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
 
       get reservations_prior_confirmation_path(permalink: team.permalink)
 
@@ -106,15 +107,15 @@ RSpec.describe "Reservations", type: :request do
 
   describe "POST /reservations/finalize" do
     it "creates reservation successfully" do
-      session_data = instance_double(Reservations::SessionWrapper,
+      session_wrapper = instance_double(Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-04-01 10:00",
         clear_selection: nil
       )
 
-      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_data)
-      allow(session_data).to receive(:save_public_id)
+      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
+      allow(session_wrapper).to receive(:save_public_id)
 
       expect {
         post reservations_finalize_path(permalink: team.permalink), params: {
@@ -130,12 +131,12 @@ RSpec.describe "Reservations", type: :request do
     end
 
     it "shows errors when finalization form is invalid" do
-      session_data = instance_double(Reservations::SessionWrapper,
+      session_wrapper = instance_double(Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-05-01 10:00"
       )
-      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_data)
+      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
 
       post reservations_finalize_path(permalink: team.permalink), params: {
         reservations_finalization_form: { customer_name: "", customer_phone_number: "" }
@@ -146,12 +147,12 @@ RSpec.describe "Reservations", type: :request do
     end
 
     it "shows errors when business logic fails" do
-      session_data = instance_double(Reservations::SessionWrapper,
+      session_wrapper = instance_double(Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-05-01 10:00"
       )
-      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_data)
+      allow(Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
 
       post reservations_finalize_path(permalink: team.permalink), params: {
         reservations_finalization_form: {

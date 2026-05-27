@@ -7,24 +7,23 @@ class ReservationsController < ApplicationController
 
   def menu_select
     form = Reservations::SelectMenuAndStaffForm.new(menu_select_params.merge(team: @team))
+    return redirect_to reservations_path, alert: form.errors.full_messages.join(",") if form.invalid?
 
-    if form.valid?
-      reservation_session.save_menu_select(form)
-      redirect_to reservations_select_slots_path
-    else
-      redirect_to reservations_path, alert: form.errors.full_messages.join(",")
-    end
+    reservation_session.save_menu_select(form)
+    redirect_to reservations_select_slots_path
   end
 
   def select_slots
     @service_menus = @team.service_menus.available.find(reservation_session.selected_service_menu_ids)
     @selected_staff = reservation_session.selected_staff
 
+    # TODO: できればこの処理も予約スロット生成の一部なのでまとめたい。
     @week_range = Reservations::WeekRangeCalculator.new(
       start_date_str: params[:start_date],
       max_reservation_month: @team.team_business_setting.max_reservation_month
     ).calc
 
+    # TODO: アルゴリズムごと書き換えるよ。O(n logn)ぐらいが理想。
     @result = ::SlotsGenerator.new(
       team: @team,
       service_menus: @service_menus,
@@ -47,14 +46,17 @@ class ReservationsController < ApplicationController
   end
 
   def finalize
+    # TODO: コントローラーが知りすぎなので、責務を分けたい
     @context = Reservations::FinalizationContext.new(team: @team, session: reservation_session)
     @form = Reservations::FinalizationForm.new(finalization_form_params)
 
+    # TODO: バリデーションはServiceにまとめたいかな
     if @form.invalid?
       flash.now[:alert] = "入力内容に誤りがあります。"
       return render :prior_confirmation, status: :unprocessable_content
     end
 
+    # TODO: 引数が多すぎるのが気になる
     result = Reservations::CreateService.new(
       team: @context.team,
       service_menus: @context.service_menus,
