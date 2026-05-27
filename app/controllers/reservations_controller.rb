@@ -18,7 +18,7 @@ class ReservationsController < ApplicationController
 
   def select_slots
     @service_menus = @team.service_menus.available.find(reservation_session.selected_service_menu_ids)
-    @selected_staff = Staff.find_by(id: reservation_session.selected_staff_id)
+    @selected_staff = reservation_session.selected_staff
 
     @week_range = Reservations::WeekRangeCalculator.new(
       start_date_str: params[:start_date],
@@ -50,31 +50,31 @@ class ReservationsController < ApplicationController
     @context = Reservations::FinalizationContext.new(team: @team, session: reservation_session)
     @form = Reservations::FinalizationForm.new(finalization_form_params)
 
-    if @form.valid?
-      result = Reservations::CreateService.new(
-        team: @context.team,
-        service_menus: @context.service_menus,
-        staff: @context.selected_staff,
-        start_time: @context.start_time,
-        form: @form,
-        customer: current_customer
+    if @form.invalid?
+      flash.now[:alert] = "入力内容に誤りがあります。"
+      return render :prior_confirmation, status: :unprocessable_content
+    end
+
+    result = Reservations::CreateService.new(
+      team: @context.team,
+      service_menus: @context.service_menus,
+      staff: @context.selected_staff,
+      start_time: @context.start_time,
+      form: @form,
+      customer: current_customer
+    ).call
+
+    if result.success?
+      reservation_session.save_public_id(result.resource.public_id)
+      NotificationSender.new(
+        team: @team,
+        reservation: result.resource,
+        notification_type: :reservation_created
       ).call
 
-      if result.success?
-        reservation_session.save_public_id(result.resource.public_id)
-        NotificationSender.new(
-          team: @team,
-          reservation: result.resource,
-          notification_type: :reservation_created
-        ).call
-
-        redirect_to reservations_complete_path(@team.permalink, result.resource.public_id)
-      else
-        flash.now[:alert] = result.message
-        render :prior_confirmation, status: :unprocessable_content
-      end
+      redirect_to reservations_complete_path(@team.permalink, result.resource.public_id)
     else
-      flash.now[:alert] = "入力内容に誤りがあります。"
+      flash.now[:alert] = result.message
       render :prior_confirmation, status: :unprocessable_content
     end
   end

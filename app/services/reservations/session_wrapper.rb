@@ -11,6 +11,10 @@ module Reservations
       self[:selected_staff_id] = form.selected_staff
     end
 
+    def selected_staff
+      Staff.find_by(id: self[:selected_staff_id])
+    end
+
     def save_slot(selected_slot)
       self[:selected_slot] = selected_slot
     end
