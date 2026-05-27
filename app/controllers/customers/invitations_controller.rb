@@ -9,7 +9,7 @@ class Customers::InvitationsController < Devise::InvitationsController
     yield resource if block_given?
 
     if invitation_accepted
-      reservation_session = Reservations::SessionData.new(session)
+      reservation_session = Reservations::SessionWrapper.new(session)
       if reservation_session.public_id.present?
         ReservationLinker.new(customer: resource, public_id: reservation_session.public_id).link_reservation
         reservation_session.clear_public_id

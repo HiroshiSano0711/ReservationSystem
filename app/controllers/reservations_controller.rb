@@ -6,11 +6,10 @@ class ReservationsController < ApplicationController
   end
 
   def menu_select
-    form = Reservations::SelectMenuAndStaffForm.new(select_menu_and_staff_form_params.merge(team: @team))
-    if form.valid?
-      reservation_session.selected_service_menu_ids = form.single_menu_ids || [ form.multi_staff_menu_id ]
-      reservation_session.selected_staff_id = form.selected_staff
+    form = Reservations::SelectMenuAndStaffForm.new(menu_select_params.merge(team: @team))
 
+    if form.valid?
+      reservation_session.save_menu_select(form)
       redirect_to reservations_select_slots_path
     else
       redirect_to reservations_path, alert: form.errors.full_messages.join(",")
@@ -19,21 +18,18 @@ class ReservationsController < ApplicationController
 
   def select_slots
     @service_menus = @team.service_menus.available.find(reservation_session.selected_service_menu_ids)
-    @selected_staff = Staff.find_by(id: reservation_session.selected_staff_id) if reservation_session.selected_staff_id.present?
+    @selected_staff = Staff.find_by(id: reservation_session.selected_staff_id)
 
-    calculator = Reservations::WeekRangeCalculator.new(
+    @week_range = Reservations::WeekRangeCalculator.new(
       start_date_str: params[:start_date],
       max_reservation_month: @team.team_business_setting.max_reservation_month
-    )
-    @start_date, @end_date = calculator.call
-    @can_go_to_previous_week = calculator.previous_week_available?
-    @can_go_to_next_week = calculator.next_week_available?
+    ).calc
 
     @result = ::SlotsGenerator.new(
       team: @team,
       service_menus: @service_menus,
-      start_date: @start_date,
-      end_date: @end_date,
+      start_date: @week_range.start_date,
+      end_date: @week_range.end_date,
       selected_staff: @selected_staff
     ).call
   end
@@ -41,7 +37,7 @@ class ReservationsController < ApplicationController
   def save_slot_selection
     return redirect_to reservations_select_slots_path, alert: "空き時間を1つ選択してください。" if params[:selected_slot].blank?
 
-    reservation_session.selected_slot = params[:selected_slot]
+    reservation_session.save_slot(params[:selected_slot])
     redirect_to reservations_prior_confirmation_path
   end
 
@@ -65,8 +61,7 @@ class ReservationsController < ApplicationController
       ).call
 
       if result.success?
-        reservation_session.clear_selection
-        reservation_session.public_id = result.resource.public_id
+        reservation_session.save_public_id(result.resource.public_id)
         NotificationSender.new(
           team: @team,
           reservation: result.resource,
@@ -94,15 +89,17 @@ class ReservationsController < ApplicationController
     @team = Team.find_by!(permalink: params[:permalink])
   end
 
-  def select_menu_and_staff_form_params
-    params.require(:reservations_select_menu_and_staff_form).permit(:selected_staff, :multi_staff_menu_id, single_menu_ids: [])
+  def reservation_session
+    @reservation_session ||= Reservations::SessionWrapper.new(session)
+  end
+
+  def menu_select_params
+    params.require(:reservations_select_menu_and_staff_form)
+          .permit(:selected_staff, :multi_staff_menu_id, single_menu_ids: [])
   end
 
   def finalization_form_params
-    params.require(:reservations_finalization_form).permit(:customer_name, :customer_phone_number)
-  end
-
-  def reservation_session
-    @reservation_session ||= Reservations::SessionData.new(session)
+    params.require(:reservations_finalization_form)
+          .permit(:customer_name, :customer_phone_number)
   end
 end
