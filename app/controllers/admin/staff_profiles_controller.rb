@@ -7,10 +7,10 @@ module Admin
     end
 
     def update
-      @form = StaffProfileForm.new(staff_profile: @staff.staff_profile)
-      @form.assign_attributes(form_params)
+      form = StaffProfileForm.new(staff_profile: @staff.staff_profile)
+      form.assign_attributes(form_params)
 
-      result = UpdateStaffProfile.new(@staff, @form, @service_menus).call
+      result = UpdateStaffProfileService.new(staff: @staff, form: form, service_menus: @service_menus).call
       if result.success?
         redirect_to admin_staffs_path, notice: result.message
       else

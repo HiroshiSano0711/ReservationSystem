@@ -1,0 +1,5 @@
+ja:
+  services:
+    update_team_business_setting_service:
+      success: "営業設定を更新しました。"
+      failure: "更新に失敗しました。入力内容を確認してください。"

@@ -7,7 +7,7 @@ module Reservations
     end
 
     def save_menu_select(form)
-      self[:selected_service_menu_ids] = form.single_menu_ids || [form.multi_staff_menu_id]
+      self[:selected_service_menu_ids] = form.single_menu_ids || [ form.multi_staff_menu_id ]
       self[:selected_staff_id] = form.selected_staff
     end
 

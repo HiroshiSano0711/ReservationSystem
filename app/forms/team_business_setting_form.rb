@@ -2,7 +2,19 @@ class TeamBusinessSettingForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attr_accessor :weekly_business_hours, :weekly_business_hours_params
+  PERMITTED_PARAMS = [
+    :max_reservation_month,
+    :reservation_start_delay_days,
+    :cancellation_deadline_hours_before,
+    {
+      weekly_business_hours_params: [
+        :id, :wday, :working_day, :open, :close
+      ]
+    }
+  ].freeze
+
+  attr_accessor :weekly_business_hours,
+                :weekly_business_hours_params
 
   attribute :max_reservation_month, :integer
   attribute :reservation_start_delay_days, :integer
@@ -13,14 +25,14 @@ class TeamBusinessSettingForm
             :cancellation_deadline_hours_before,
             presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  def initialize(team_business_setting)
+  def initialize(team_business_setting:)
     @team_business_setting = team_business_setting
-    @weekly_business_hours = team_business_setting.weekly_business_hours
+    @weekly_business_hours = @team_business_setting.weekly_business_hours
 
     super(
-      max_reservation_month: team_business_setting.max_reservation_month,
-      reservation_start_delay_days: team_business_setting.reservation_start_delay_days,
-      cancellation_deadline_hours_before: team_business_setting.cancellation_deadline_hours_before
+      max_reservation_month: @team_business_setting.max_reservation_month,
+      reservation_start_delay_days: @team_business_setting.reservation_start_delay_days,
+      cancellation_deadline_hours_before: @team_business_setting.cancellation_deadline_hours_before
     )
   end
 
@@ -41,42 +53,12 @@ class TeamBusinessSettingForm
     "#{model_name.param_key}[weekly_business_hours_params]"
   end
 
-  def save
-    return false unless valid?
-
-    ActiveRecord::Base.transaction do
-      save_team_business_setting!
-      save_weekly_business_hours!
-    end
-
-    true
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation, ActiveRecord::RecordNotUnique => e
-    Rails.logger.error("#{self.model_name} save failed: #{e.message}")
-    errors.add(:base, e.message)
-
-    false
-  end
-
-  private
-
-  def save_team_business_setting!
-    @team_business_setting.update!(
+  def to_service_params
+    {
       max_reservation_month: max_reservation_month,
       reservation_start_delay_days: reservation_start_delay_days,
-      cancellation_deadline_hours_before: cancellation_deadline_hours_before
-    )
-  end
-
-  def save_weekly_business_hours!
-    return if weekly_business_hours_params.blank?
-
-    weekly_business_hours_params.each do |_, hour_param|
-      weekly_business_hour = @weekly_business_hours.find { |wbh| wbh.wday === hour_param["wday"] }
-      weekly_business_hour.update!(
-        working_day: hour_param["working_day"].to_s === "1",
-        open: hour_param["open"],
-        close: hour_param["close"]
-      )
-    end
+      cancellation_deadline_hours_before: cancellation_deadline_hours_before,
+      weekly_business_hours_params: weekly_business_hours_params
+    }
   end
 end

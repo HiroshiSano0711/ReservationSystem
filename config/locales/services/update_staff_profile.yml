@@ -1,5 +1,5 @@
 ja:
   services:
-    staff_profile_update:
+    staff_profile_update_service:
       success: "スタッフのプロフィール情報を更新しました。"
       failure: "更新に失敗しました。入力内容を確認してください。"

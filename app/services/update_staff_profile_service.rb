@@ -1,5 +1,5 @@
-class UpdateStaffProfile
-  def initialize(staff, form, service_menus)
+class UpdateStaffProfileService
+  def initialize(staff:, form:, service_menus:)
     @staff = staff
     @form = form
     @service_menus = service_menus
@@ -22,10 +22,11 @@ class UpdateStaffProfile
       @staff.save!
     end
 
-    ServiceResult.new(success: true, resource: @form, message: I18n.t("services.staff_profile_update.success"))
+    ServiceResult.new(success: true, resource: @form, message: I18n.t("services.staff_profile_update_service.success"))
   rescue ActiveRecord::RecordInvalid,
          ActiveRecord::NotNullViolation,
          ActiveRecord::RecordNotUnique => e
+    Rails.logger.error("#{self.class} save failed: #{e.message}")
     @form.errors.add(:base, e.message)
 
     failure_result
@@ -42,6 +43,6 @@ class UpdateStaffProfile
   end
 
   def failure_result
-    ServiceResult.new(success: false, resource: @form, message: I18n.t("services.staff_profile_update.failure"))
+    ServiceResult.new(success: false, resource: @form, message: I18n.t("services.staff_profile_update_service.failure"))
   end
 end
