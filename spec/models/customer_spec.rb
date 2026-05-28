@@ -14,7 +14,7 @@ RSpec.describe Customer, type: :model do
   end
 
   describe "associations" do
-    it { should have_one(:customer_profile).dependent(:destroy) }
+    it { should have_one(:profile).dependent(:destroy) }
     it { should have_many(:reservations) }
   end
 

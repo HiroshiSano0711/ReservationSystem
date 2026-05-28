@@ -4,8 +4,8 @@ RSpec.describe Reservation, type: :model do
   describe "associations" do
     it { should belong_to(:team) }
     it { should belong_to(:customer).optional }
-    it { should have_many(:reservation_details).dependent(:destroy) }
-    it { should have_many(:staffs).through(:reservation_details) }
+    it { should have_many(:details).dependent(:destroy) }
+    it { should have_many(:staffs).through(:details) }
   end
 
   describe "enum" do

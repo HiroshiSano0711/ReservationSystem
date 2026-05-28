@@ -3,11 +3,11 @@ module Admin
     before_action :set_staff_and_service_menus
 
     def edit
-      @form = StaffProfileForm.new(staff_profile: @staff.staff_profile)
+      @form = StaffProfileForm.new(staff_profile: @staff.profile)
     end
 
     def update
-      form = StaffProfileForm.new(staff_profile: @staff.staff_profile)
+      form = StaffProfileForm.new(staff_profile: @staff.profile)
       form.assign_attributes(form_params)
 
       result = UpdateStaffProfileService.new(staff: @staff, form: form, service_menus: @service_menus).call

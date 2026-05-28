@@ -14,7 +14,7 @@ RSpec.describe Staff, type: :model do
 
   describe "associations" do
     it { should belong_to(:team) }
-    it { should have_one(:staff_profile).dependent(:destroy) }
+    it { should have_one(:profile).dependent(:destroy) }
     it { should have_many(:service_menu_staffs) }
     it { should have_many(:service_menus).through(:service_menu_staffs) }
     it { should have_many(:reservation_details) }

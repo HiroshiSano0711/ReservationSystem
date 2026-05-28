@@ -10,7 +10,7 @@ module Reservations
     end
 
     def staff_name
-      @selected_staff.present? ? @selected_staff.staff_profile.nick_name : "おまかせ"
+      @selected_staff.present? ? @selected_staff.profile.nick_name : "おまかせ"
     end
 
     def service_menu_list

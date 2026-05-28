@@ -44,7 +44,7 @@ module Reservations
     end
 
     def assigned_staff_name
-      @staff&.staff_profile&.nick_name || "おまかせ"
+      @staff&.profile&.nick_name || "おまかせ"
     end
 
     def generate_unique_public_id
@@ -57,11 +57,11 @@ module Reservations
     end
 
     def customer_name
-      @customer&.customer_profile&.name || @form.customer_name
+      @customer&.profile&.name || @form.customer_name
     end
 
     def customer_phone_number
-      @customer&.customer_profile&.phone_number || @form.customer_phone_number
+      @customer&.profile&.phone_number || @form.customer_phone_number
     end
   end
 end

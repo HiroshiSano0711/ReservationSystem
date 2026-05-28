@@ -17,7 +17,7 @@
       = f.file_field :image
 
     .p-form__fieldset
-      = image_tag @staff.staff_profile.image, class: 'p-img-small' if @staff.staff_profile.image.attached?
+      = image_tag @staff.profile.image, class: 'p-img-small' if @staff.profile.image.attached?
 
     .p-form__fieldset
       = model_label(f, :nick_name, class: 'p-label')

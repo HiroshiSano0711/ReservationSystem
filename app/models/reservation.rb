@@ -1,8 +1,8 @@
 class Reservation < ApplicationRecord
   belongs_to :team
   belongs_to :customer, optional: true
-  has_many :reservation_details, dependent: :destroy
-  has_many :staffs, through: :reservation_details
+  has_many :details, class_name: "ReservationDetail", foreign_key: "reservation_id", dependent: :destroy
+  has_many :staffs, through: :details
 
   enum :status, { finalize: 1, canceled: 99 }
 

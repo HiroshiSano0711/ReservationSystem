@@ -26,10 +26,10 @@
         - @staffs.each do |staff|
           tr.p-table__tr
             td.p-table__td = staff.role
-            td.p-table__td = staff.staff_profile&.nick_name
+            td.p-table__td = staff.profile&.nick_name
             td.p-table__td = staff.email
-            td.p-table__td = staff.staff_profile&.decorate&.human_accepts_direct_booking
-            td.p-table__td = staff.staff_profile&.decorate&.human_enum_working_status
+            td.p-table__td = staff.profile&.decorate&.human_accepts_direct_booking
+            td.p-table__td = staff.profile&.decorate&.human_enum_working_status
             td.p-table__td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
             td.p-table__td
               = link_to edit_admin_staff_profile_path(staff), class: 'p-link' do

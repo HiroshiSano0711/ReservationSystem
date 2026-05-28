@@ -1,7 +1,7 @@
 module Admin
   class StaffsController < Admin::BaseController
     def index
-      @staffs = @team.staffs.includes(:staff_profile)
+      @staffs = @team.staffs.includes(:profile)
     end
 
     def new

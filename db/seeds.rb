@@ -52,7 +52,7 @@ admin_staff = Staff.create!(
   role: 'admin_staff'
 )
 
-admin_staff.create_staff_profile!(
+admin_staff.create_profile!(
   working_status: 'active',
   nick_name: '店長',
   accepts_direct_booking: true

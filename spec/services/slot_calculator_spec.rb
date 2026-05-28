@@ -29,15 +29,21 @@ RSpec.describe SlotCalculator, type: :model do
   end
 
   describe '#generate_slots_for_date' do
+    before do
+      staff.service_menus << service_menu
+    end
+
     context '予約なしの場合' do
       it '営業時間内の全枠を返す' do
         slots = calculator.generate_slots_for_date(date, {})
 
-        expect(slots).not_to be_empty
+        expect(slots).to be_present
         expect(slots.first[:start]).to eq(Time.zone.parse("#{date} 09:00"))
         expect(slots.last[:end]).to eq(Time.zone.parse("#{date} 18:00"))
       end
 
+      # TODO: ユーザーの設定によって10分刻みか15分刻みか変更できる仕様になる。
+      # よって、営業設定によってインターバルが正常であることを確認するテストに書き換える
       it '10分刻みの枠を返す' do
         slots = calculator.generate_slots_for_date(date, {})
 
@@ -49,10 +55,6 @@ RSpec.describe SlotCalculator, type: :model do
     context 'スタッフ関連' do
       let(:reservations_by_date) do
         Reservation.where(date: date, status: :finalize).group_by(&:date)
-      end
-
-      before do
-        staff.service_menus << service_menu
       end
 
       context 'スタッフが1人で予約が1件ある場合' do

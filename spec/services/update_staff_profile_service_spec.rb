@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe UpdateStaffProfileService, type: :model do
   let(:staff) { create(:staff, :with_profile) }
   let(:service_menus) { create_list(:service_menu, 3, team: staff.team) }
-  let(:form) { StaffProfileForm.new(staff_profile: staff.staff_profile) }
+  let(:form) { StaffProfileForm.new(staff_profile: staff.profile) }
 
   describe 'validate' do
     it 'service_menus_belong_to_team' do
@@ -41,7 +41,7 @@ RSpec.describe UpdateStaffProfileService, type: :model do
 
         expect {
           result = described_class.new(staff: staff, form: form, service_menus: service_menus).call
-        }.to change { staff.reload.staff_profile.nick_name }.to('Updated Nickname')
+        }.to change { staff.reload.profile.nick_name }.to('Updated Nickname')
          .and change { staff.service_menus.count }.to(service_menus.count)
       end
 

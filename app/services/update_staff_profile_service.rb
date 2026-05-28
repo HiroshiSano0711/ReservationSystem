@@ -11,7 +11,7 @@ class UpdateStaffProfileService
     return failure_result if @form.errors.any?
 
     ActiveRecord::Base.transaction do
-      @staff.staff_profile.update!(
+      @staff.profile.update!(
         image: @form.image,
         working_status: @form.working_status,
         nick_name: @form.nick_name,

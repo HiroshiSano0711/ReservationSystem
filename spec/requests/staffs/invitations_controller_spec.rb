@@ -15,7 +15,7 @@ RSpec.describe Staffs::InvitationsController, type: :request do
       }
 
       expect(response).to redirect_to(root_path)
-      expect(staff.reload.staff_profile).to be_present
+      expect(staff.reload.profile).to be_present
     end
   end
 end

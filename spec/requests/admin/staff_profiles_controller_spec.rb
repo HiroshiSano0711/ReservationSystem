@@ -49,9 +49,9 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
           patch admin_staff_profile_path(team_id: team.id, staff_id: staff_profile.staff.id), params: { staff_profile_form: staff_profile_form_params }
 
           staff.reload
-          expect(staff.staff_profile.working_status).to eq('active')
-          expect(staff.staff_profile.nick_name).to eq('Ruby Man')
-          expect(staff.staff_profile.bio).to eq('A dedicated staff member.')
+          expect(staff.profile.working_status).to eq('active')
+          expect(staff.profile.nick_name).to eq('Ruby Man')
+          expect(staff.profile.bio).to eq('A dedicated staff member.')
           expect(response).to redirect_to(admin_staffs_path)
           expect(flash[:notice]).to be_present
         end
@@ -64,8 +64,8 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
           patch admin_staff_profile_path(team_id: team.id, staff_id: staff_profile.staff.id), params: invalid_params
 
           staff.reload
-          expect(staff.staff_profile.working_status).to_not eq('')
-          expect(staff.staff_profile.nick_name).to_not eq('')
+          expect(staff.profile.working_status).to_not eq('')
+          expect(staff.profile.nick_name).to_not eq('')
           expect(response).to have_http_status(:unprocessable_content)
           expect(response).to render_template(:edit)
           expect(flash[:alert]).to be_present

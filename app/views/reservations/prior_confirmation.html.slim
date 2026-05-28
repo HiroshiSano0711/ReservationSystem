@@ -20,15 +20,15 @@
       dd = number_to_currency(@context.total_price, locale: 'ja')
 
   = form_with model: @form, url: reservations_finalize_path(@team.permalink), local: true do |f|
-    - if current_customer.present? && current_customer.customer_profile.present?
-      = f.hidden_field :customer_name, value: current_customer.customer_profile.name
-      = f.hidden_field :customer_phone_number, value: current_customer.customer_profile.phone_number
+    - if current_customer.present? && current_customer.profile.present?
+      = f.hidden_field :customer_name, value: current_customer.profile.name
+      = f.hidden_field :customer_phone_number, value: current_customer.profile.phone_number
       dl
         dt お名前
-        dd = current_customer.customer_profile.name
+        dd = current_customer.profile.name
 
         dt 電話番号
-        dd  = current_customer.customer_profile.phone_number
+        dd  = current_customer.profile.phone_number
 
     - else
       p

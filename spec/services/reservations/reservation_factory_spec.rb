@@ -44,7 +44,6 @@ RSpec.describe Reservations::ReservationFactory do
     context "when logged-in customer" do
       let(:form) { double("Form", customer_name: "鈴木 太郎", customer_phone_number: "090-1111-2222") }
       let(:customer) { create(:customer) }
-      let!(:customer_profile) { create(:customer_profile, customer: customer, name: "鈴木 太郎", phone_number: "090-1111-2222") }
       let(:factory) {
         described_class.new(team: team, service_menus: service_menus, staff: staff, start_time: start_time, form: form, customer: customer)
       }
