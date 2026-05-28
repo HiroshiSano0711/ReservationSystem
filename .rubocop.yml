@@ -3,3 +3,9 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: double_quotes
+
+Rails/TimeZone:
+  Enabled: true
+
+Rails/Date:
+  Enabled: true

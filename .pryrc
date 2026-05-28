@@ -4,3 +4,5 @@ if defined?(PryByebug)
   Pry.commands.alias_command 'n', 'next'
   Pry.commands.alias_command 'f', 'finish'
 end
+
+Pry.config.pager = false

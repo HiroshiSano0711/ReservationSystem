@@ -28,9 +28,6 @@ class SlotsGenerator
     end
 
     ServiceResult.new(success: true, resource: slots)
-  rescue => e
-    Rails.logger.error("スロット生成エラー: #{e.class} - #{e.message}")
-    ServiceResult.new(success: false, message: "空き時間の取得中にエラーが発生しました。")
   end
 
   private
