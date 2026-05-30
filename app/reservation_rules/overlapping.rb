@@ -7,7 +7,7 @@ module ReservationRules
     def validate
       result = Result.new
       result.add_error(overlapping)
-      result.errors
+      result
     end
 
     private

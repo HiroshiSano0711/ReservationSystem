@@ -9,10 +9,10 @@ module Services
 
       def call
         result = ::ReservationRules::TeamBusinessSetting.new(@reservation).validate
-        return Result.new(success: false, message: result.join(", ")) if result.any?
+        return Result.new(success: false, message: result.messages) if result.invalid?
 
         result = ::ReservationRules::Overlapping.new(@reservation).validate
-        return Result.new(success: false, message: result.join(", ")) if result.any?
+        return Result.new(success: false, message: result.messages) if result.invalid?
 
         Reservation.transaction do
           @reservation.save!

@@ -9,7 +9,7 @@ module ReservationRules
       result = Result.new
       result.add_error(validate_start_time)
       result.add_error(validate_end_date)
-      result.errors
+      result
     end
 
     private

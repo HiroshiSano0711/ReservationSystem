@@ -6,12 +6,12 @@ module ReservationRules
       @errors = []
     end
 
-    def valid?
-      @errors.blank?
+    def invalid?
+      @errors.present?
     end
 
     def add_error(error)
-      @errors << error
+      @errors << error if error.present?
     end
 
     def messages
