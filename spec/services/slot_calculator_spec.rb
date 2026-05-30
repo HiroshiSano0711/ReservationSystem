@@ -10,7 +10,8 @@ RSpec.describe Services::SlotCalculator, type: :model do
   end
   let(:service_menu) { create(:service_menu, team: team, duration: 80, required_staff_count: 1) }
   let(:staff) { create(:staff, team: team) }
-  let(:date) { FIXED_TIME.call.to_date }  # 2025-01-01 (水曜日)
+  let(:time_curernt) { Time.zone.local(2025, 1, 1, 9, 0, 0) }
+  let(:date) { time_curernt.to_date }  # 2025-01-01 (水曜日)
 
   subject(:calculator) do
     described_class.new(
@@ -22,10 +23,10 @@ RSpec.describe Services::SlotCalculator, type: :model do
   end
 
   before do
-    allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call)
-    allow(Time.zone).to receive(:now).and_return(FIXED_TIME.call)
-    allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
-    allow(Time).to receive(:current).and_return(FIXED_TIME.call)
+    allow(Time.zone).to receive(:today).and_return(time_curernt)
+    allow(Time.zone).to receive(:now).and_return(time_curernt)
+    allow(Time.zone).to receive(:today).and_return(time_curernt.to_date)
+    allow(Time).to receive(:current).and_return(time_curernt)
   end
 
   describe '#generate_slots_for_date' do
@@ -54,7 +55,7 @@ RSpec.describe Services::SlotCalculator, type: :model do
 
     context 'スタッフ関連' do
       let(:reservations_by_date) do
-        Reservation.where(start_time: FIXED_TIME.call, status: :finalized)
+        Reservation.where(start_time: time_curernt, status: :finalized)
                    .group_by { |r| r.start_time.to_date }
       end
 
@@ -62,16 +63,16 @@ RSpec.describe Services::SlotCalculator, type: :model do
         before do
           create(:reservation,
             team: team,
-            start_time: FIXED_TIME.call + 1.hour,
-            end_time: FIXED_TIME.call + 2.hours,
+            start_time: time_curernt + 1.hour,
+            end_time: time_curernt + 2.hours,
             required_staff_count: 1
           )
         end
 
         it '予約と重複する枠が除外される' do
           slots = calculator.generate_slots_for_date(date, reservations_by_date)
-          r_start_time = FIXED_TIME.call + 1.hour
-          r_end_time = FIXED_TIME.call + 2.hour
+          r_start_time = time_curernt + 1.hour
+          r_end_time = time_curernt + 2.hour
 
           # 10:00~11:00に予約が入っている状態
 
@@ -89,8 +90,8 @@ RSpec.describe Services::SlotCalculator, type: :model do
         it '予約と重複しない枠は含まれる' do
           slots = calculator.generate_slots_for_date(date, reservations_by_date)
 
-          r_start_time = FIXED_TIME.call + 1.hour
-          r_end_time = FIXED_TIME.call + 2.hour
+          r_start_time = time_curernt + 1.hour
+          r_end_time = time_curernt + 2.hour
 
           # 10:00~11:00に予約が入っている状態
 

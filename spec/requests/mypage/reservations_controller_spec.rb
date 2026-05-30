@@ -2,18 +2,19 @@ require "rails_helper"
 
 RSpec.describe Mypage::ReservationsController, type: :request do
   let(:customer) { create(:customer) }
+  let(:time_curernt) { Time.zone.local(2025, 1, 1, 9, 0, 0) }
   let(:reservation) { create(:reservation,
                               customer: customer,
                               public_id: "abc123",
-                              start_time: Time.zone.local(2025, 1, 3, 10, 0, 0),
-                              end_time: Time.zone.local(2025, 1, 3, 10, 30, 0)
+                              start_time: time_curernt + 2.days + 1.hour,
+                              end_time: time_curernt + 2.days + 1.hour + 30.minutes
                             )
   }
 
   before do
     sign_in customer
-    allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call)
-    allow(Time.zone).to receive(:now).and_return(FIXED_TIME.call)
+    allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0))
+    allow(Time.zone).to receive(:now).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0))
   end
 
   describe "GET /mypage/reservations" do

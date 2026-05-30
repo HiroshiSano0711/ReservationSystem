@@ -15,7 +15,7 @@ RSpec.describe Notification, type: :model do
   end
 
   describe "validations" do
-    before { allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date) }
+    before { allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date) }
 
     it "is valid with valid attributes" do
       reservation = create(:reservation)

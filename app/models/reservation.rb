@@ -23,13 +23,8 @@ class Reservation < ApplicationRecord
   # 不変条件
   validates :total_price, :total_duration, :required_staff_count, numericality: { greater_than: 0 }
   validate :start_time_must_be_before_end_time
-  validate :validate_reservation_rules, on: :create
 
   private
-
-  def validate_reservation_rules
-    ReservationValidator.new(self).validate
-  end
 
   def start_time_must_be_before_end_time
     return if start_time.blank? || end_time.blank?

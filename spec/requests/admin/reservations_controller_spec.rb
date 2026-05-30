@@ -5,7 +5,7 @@ RSpec.describe Admin::ReservationsController, type: :request do
 
   describe "admin access" do
     before do
-      allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
+      allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date)
     end
 
     let(:reservation) { create(:reservation, team: team) }
@@ -22,8 +22,8 @@ RSpec.describe Admin::ReservationsController, type: :request do
   describe "action" do
     before do
       sign_in admin, scope: :staff
-      allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
-      allow(Time.zone).to receive(:now).and_return(FIXED_TIME.call.to_date)
+      allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date)
+      allow(Time.zone).to receive(:now).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date)
     end
 
     describe "GET /admin/reservations" do

@@ -20,21 +20,24 @@ module Services
             form: @form,
             customer: @customer
           ).build
+          ::ReservationRules::TeamBusinessSetting.new(@team.team_business_setting, reservation).validate
+          ::ReservationRules::Overlapping.new(reservation).validate
+
           reservation.save!
           create_reservation_details!(reservation)
 
           Result.new(success: true, resource: reservation)
         end
       rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.warn("予約バリデーションエラー: #{e.message}")
+        ::Rails.logger.warn("予約バリデーションエラー: #{e.message}")
         Result.new(success: false, message: "予約内容に誤りがあります。")
 
       rescue ActiveRecord::NotNullViolation => e
-        Rails.logger.error("システムエラー: NotNullViolation - #{e.message}")
+        ::Rails.logger.error("システムエラー: NotNullViolation - #{e.message}")
         Result.new(success: false, message: "予約の処理中にエラーが発生しました。お手数ですが、もう一度お試しください。")
 
       rescue => e
-        Rails.logger.fatal("予期せぬエラー: #{e.class} - #{e.message}")
+        ::Rails.logger.fatal("予期せぬエラー: #{e.class} - #{e.message}")
         Result.new(success: false, message: "システムエラーが発生しました。原因を調査いたします。ご迷惑をおかけし申し訳ありません。")
       end
 
@@ -42,7 +45,7 @@ module Services
 
       def create_reservation_details!(reservation)
         @service_menus.each do |menu|
-          reservation_detail = ReservationDetail.create!(
+          reservation_detail = ::ReservationDetail.create!(
             reservation: reservation,
             service_menu: menu,
             price: menu.price,

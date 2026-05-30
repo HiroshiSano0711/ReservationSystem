@@ -13,8 +13,6 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 
-FIXED_TIME = -> { Time.zone.local(2025, 1, 1, 9, 0, 0) }
-
 RSpec.configure do |config|
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')

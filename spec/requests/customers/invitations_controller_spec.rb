@@ -4,7 +4,7 @@ describe Customers::InvitationsController, type: :request do
   describe "PATCH /customers/invitation" do
     let(:customer) { Customer.invite!(email: 'test@example.com') }
 
-    before { allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date) }
+    before { allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date) }
 
     context "when invitation is accepted successfully" do
       it "accepts the invitation and redirects to the appropriate page" do

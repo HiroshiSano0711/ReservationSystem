@@ -5,7 +5,7 @@ RSpec.describe "Reservations", type: :request do
   let(:staff) { create(:staff, :admin, :with_profile, team: team) }
   let(:service_menu) { create(:service_menu, team: team) }
 
-  before { allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date) }
+  before { allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date) }
 
   describe "GET /reservations/new" do
     it "renders the new template" do
@@ -146,13 +146,15 @@ RSpec.describe "Reservations", type: :request do
       expect(response).to render_template(:prior_confirmation)
     end
 
-    it "shows errors when business logic fails" do
+    it "shows errors when fails" do
       session_wrapper = instance_double(Services::Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
         selected_slot: "2025-05-01 10:00"
       )
       allow(Services::Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
+      allow(session_wrapper).to receive(:save_public_id)
+      allow_any_instance_of(Services::Result).to receive(:success?).and_return(false)
 
       post reservations_finalize_path(permalink: team.permalink), params: {
         reservations_finalization_form: {

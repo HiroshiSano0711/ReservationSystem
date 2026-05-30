@@ -28,7 +28,7 @@ RSpec.describe Admin::NotificationsController, type: :request do
 
     describe "PATCH /admin/notifications/:id/mark_as_read" do
       it "marks the notification as read and redirects to the action URL" do
-        allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
+        allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date)
 
         reservation = create(:reservation, team: team)
         notification = create(:notification, team: team, reservation: reservation, is_read: false, action_url: "http://localhost:3000/admin/reservations/#{reservation.id}")

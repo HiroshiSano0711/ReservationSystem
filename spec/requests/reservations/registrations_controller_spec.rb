@@ -5,7 +5,7 @@ RSpec.describe Reservations::RegistrationsController, type: :request do
   let(:customer) { create(:customer) }
   let(:reservation) { create(:reservation, team: team, customer: customer, customer_phone_number: "09012345678") }
 
-  before { allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date) }
+  before { allow(Time.zone).to receive(:today).and_return(Time.zone.local(2025, 1, 1, 9, 0, 0).to_date) }
 
   describe "GET /reservations/:public_id/registration/new" do
     it "renders the registration form" do
