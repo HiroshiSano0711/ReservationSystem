@@ -12,8 +12,6 @@ module Services
 
       def call
         Reservation.transaction do
-          ReservationRules::TeamAssociation.new(team: @team, objects: [ @service_menus, @staff ]).validate!
-
           reservation = ReservationFactory.new(
             team: @team,
             service_menus: @service_menus,

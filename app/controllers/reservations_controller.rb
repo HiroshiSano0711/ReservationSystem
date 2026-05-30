@@ -56,6 +56,13 @@ class ReservationsController < ApplicationController
       return render :prior_confirmation, status: :unprocessable_content
     end
 
+    # TODO: 例外を発生させるべきバリデーションなので、一旦分離してる。
+    # チーム設定のバリデーションとか予約ポリシーとは違うので設計を考えてから移行する。
+    ReservationRules::TeamAssociation.new(
+      team: @context.team,
+      objects: [ @context.service_menus, @context.selected_staff ]
+    ).validate!
+
     # TODO: 引数が多すぎるのが気になる
     result = Services::Reservations::Create.new(
       team: @context.team,
