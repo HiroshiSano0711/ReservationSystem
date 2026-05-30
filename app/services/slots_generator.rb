@@ -17,7 +17,7 @@ module Services
     end
 
     def call
-      reservations_by_date = Queries::Reservation.new(@team).by_date_range(@start_date, @end_date)
+      reservations_by_date = Queries::Reservations::ByDateRange.new(@team).call(@start_date, @end_date)
 
       slots = (@start_date..@end_date).map do |date|
         if @business_setting.working_day?(date)
