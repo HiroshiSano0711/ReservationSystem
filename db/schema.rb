@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_30_024250) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -90,7 +90,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
 
   create_table "reservation_details", force: :cascade do |t|
     t.bigint "reservation_id", null: false
-    t.bigint "staff_id"
     t.bigint "service_menu_id", null: false
     t.string "menu_name", default: "", null: false, comment: "メニュー名"
     t.integer "price", null: false, comment: "価格"
@@ -100,7 +99,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.datetime "updated_at", null: false
     t.index ["reservation_id"], name: "index_reservation_details_on_reservation_id"
     t.index ["service_menu_id"], name: "index_reservation_details_on_service_menu_id"
-    t.index ["staff_id"], name: "index_reservation_details_on_staff_id"
+  end
+
+  create_table "reservation_staff_assignments", force: :cascade do |t|
+    t.bigint "reservation_detail_id", null: false
+    t.bigint "staff_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_detail_id"], name: "index_reservation_staff_assignments_on_reservation_detail_id"
+    t.index ["staff_id"], name: "index_reservation_staff_assignments_on_staff_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -225,7 +232,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
   add_foreign_key "notifications", "teams"
   add_foreign_key "reservation_details", "reservations"
   add_foreign_key "reservation_details", "service_menus"
-  add_foreign_key "reservation_details", "staffs"
+  add_foreign_key "reservation_staff_assignments", "reservation_details"
+  add_foreign_key "reservation_staff_assignments", "staffs"
   add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "teams"
   add_foreign_key "service_menu_staffs", "service_menus"

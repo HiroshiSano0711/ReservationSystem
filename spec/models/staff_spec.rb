@@ -14,11 +14,12 @@ RSpec.describe Staff, type: :model do
 
   describe "associations" do
     it { should belong_to(:team) }
-    it { should have_one(:profile).dependent(:destroy) }
     it { should have_many(:service_menu_staffs) }
     it { should have_many(:service_menus).through(:service_menu_staffs) }
-    it { should have_many(:reservation_details) }
+    it { should have_many(:staff_assignments) }
+    it { should have_many(:reservation_details).through(:staff_assignments) }
     it { should have_many(:reservations).through(:reservation_details) }
+    it { should have_one(:profile).dependent(:destroy) }
   end
 
   describe "validations" do

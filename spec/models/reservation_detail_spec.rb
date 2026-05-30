@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe ReservationDetail, type: :model do
   describe "associations" do
     it { should belong_to(:reservation) }
-    it { should belong_to(:staff).optional }
+    it { should have_many(:staffs).through(:staff_assignments) }
     it { should belong_to(:service_menu) }
   end
 

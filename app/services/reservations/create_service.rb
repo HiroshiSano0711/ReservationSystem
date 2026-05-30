@@ -41,14 +41,15 @@ module Reservations
 
     def create_reservation_details!(reservation)
       @service_menus.each do |menu|
-        ReservationDetail.create!(
+        reservation_detail = ReservationDetail.create!(
           reservation: reservation,
           service_menu: menu,
-          staff: @staff,
           price: menu.price,
           duration: menu.duration,
           required_staff_count: menu.required_staff_count
         )
+
+        reservation_detail.staff_assignments.create!(staff: @staff) if @staff.present?
       end
     end
   end
