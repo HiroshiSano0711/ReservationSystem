@@ -26,8 +26,7 @@ module Reservations
     private
 
     def preload_staff_profile
-      StaffProfile.includes(:staff)
-                  .where(staff_id: team.staffs.ids, accepts_direct_booking: true)
+      StaffProfile.includes(:staff).where(staff_id: team.staffs.ids)
     end
 
     def available_menus

@@ -23,7 +23,6 @@ RSpec.describe UpdateStaffProfileService, type: :model do
       {
         nick_name: 'Updated Nickname',
         working_status: 'active',
-        accepts_direct_booking: true,
         bio: 'New bio',
         selected_service_menu_ids: service_menus.map(&:id)
       }

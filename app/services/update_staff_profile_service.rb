@@ -15,7 +15,6 @@ class UpdateStaffProfileService
         image: @form.image,
         working_status: @form.working_status,
         nick_name: @form.nick_name,
-        accepts_direct_booking: @form.accepts_direct_booking,
         bio: @form.bio
       )
       @staff.service_menu_ids = @form.selected_service_menu_ids.map(&:to_i)

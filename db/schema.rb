@@ -127,7 +127,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
   create_table "service_menu_staffs", force: :cascade do |t|
     t.bigint "service_menu_id", null: false
     t.bigint "staff_id", null: false
-    t.integer "priority", default: 0, null: false, comment: "優先度"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["service_menu_id"], name: "index_service_menu_staffs_on_service_menu_id"
@@ -153,7 +152,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.bigint "staff_id", null: false
     t.integer "working_status", default: 0, null: false, comment: "勤務状況"
     t.string "nick_name", default: "", null: false, comment: "ニックネーム"
-    t.boolean "accepts_direct_booking", default: false, null: false, comment: "指名受付"
     t.text "bio", default: "", null: false, comment: "自己紹介"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

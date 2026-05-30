@@ -6,7 +6,6 @@ ja:
       staff_profile:
         image: 画像
         nick_name: ニックネーム
-        accepts_direct_booking: 指名受付
         bio: 自己紹介/PR
         working_status: 勤務状況
     enums:

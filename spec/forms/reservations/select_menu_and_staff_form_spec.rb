@@ -4,20 +4,6 @@ RSpec.describe Reservations::SelectMenuAndStaffForm, type: :model do
   let(:team) { create(:team) }
   let(:form) { described_class.new(team: team) }
 
-  describe '#initialize' do
-    it 'loads only staff_profiles where accepts_direct_booking is true' do
-      staff_1 = create(:staff, team: team)
-      staff_2 = create(:staff, team: team)
-      should_include_profile = create(:staff_profile, staff: staff_1, accepts_direct_booking: true)
-      should_not_include_profile = create(:staff_profile, staff: staff_2, accepts_direct_booking: false)
-
-      new_form = described_class.new(team: team)
-
-      expect(new_form.staff_profiles).to include(should_include_profile)
-      expect(new_form.staff_profiles).to_not include(should_not_include_profile)
-    end
-  end
-
   describe '#persisted?' do
     it 'returns false' do
       expect(form.persisted?).to eq(false)

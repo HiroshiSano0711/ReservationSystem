@@ -6,7 +6,6 @@ class StaffProfileForm
     :image,
     :working_status,
     :nick_name,
-    :accepts_direct_booking,
     :bio,
     { selected_service_menu_ids: [] }
   ].freeze
@@ -17,7 +16,6 @@ class StaffProfileForm
 
   attribute :working_status, :string
   attribute :nick_name, :string
-  attribute :accepts_direct_booking, :boolean
   attribute :bio, :string
 
   validates :nick_name, presence: true
@@ -28,7 +26,6 @@ class StaffProfileForm
     super(
       working_status: @staff_profile.working_status,
       nick_name: @staff_profile.nick_name,
-      accepts_direct_booking: @staff_profile.accepts_direct_booking,
       bio: @staff_profile.bio
     )
   end

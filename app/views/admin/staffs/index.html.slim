@@ -18,7 +18,6 @@
           th.p-table__th ロール
           th.p-table__th ニックネーム
           th.p-table__th メールアドレス
-          th.p-table__th 指名受付
           th.p-table__th 勤務状況
           th.p-table__th 招待状況
           th.p-table__th 操作
@@ -28,7 +27,6 @@
             td.p-table__td = staff.role
             td.p-table__td = staff.profile&.nick_name
             td.p-table__td = staff.email
-            td.p-table__td = staff.profile&.decorate&.human_accepts_direct_booking
             td.p-table__td = staff.profile&.decorate&.human_enum_working_status
             td.p-table__td = staff.invitation_accepted_at.blank? ? '招待中' : '招待承認済み'
             td.p-table__td

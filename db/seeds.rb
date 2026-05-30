@@ -54,8 +54,7 @@ admin_staff = Staff.create!(
 
 admin_staff.create_profile!(
   working_status: 'active',
-  nick_name: '店長',
-  accepts_direct_booking: true
+  nick_name: '店長'
 )
 
 staff = Staff.create!(
@@ -70,7 +69,6 @@ staff = Staff.create!(
 staff.create_profile!(
   working_status: 'active',
   nick_name: 'スタッフ1',
-  accepts_direct_booking: true
 )
 
 staff_2 = Staff.create!(
@@ -84,8 +82,7 @@ staff_2 = Staff.create!(
 
 staff_2.create_profile!(
   working_status: 'active',
-  nick_name: 'スタッフ2',
-  accepts_direct_booking: true
+  nick_name: 'スタッフ2'
 )
 
 ServiceMenu.all.each do |menu|

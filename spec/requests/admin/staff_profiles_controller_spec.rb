@@ -25,7 +25,6 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
         image: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'fixtures', 'image', 'sample.png'), 'image/png'),
         working_status: 'active',
         nick_name: 'Ruby Man',
-        accepts_direct_booking: true,
         bio: 'A dedicated staff member.',
         selected_service_menu_ids: service_menus.map(&:id)
       }
