@@ -35,10 +35,6 @@ module Services
       rescue ActiveRecord::NotNullViolation => e
         ::Rails.logger.error("システムエラー: NotNullViolation - #{e.message}")
         Result.new(success: false, message: "予約の処理中にエラーが発生しました。お手数ですが、もう一度お試しください。")
-
-      rescue => e
-        ::Rails.logger.fatal("予期せぬエラー: #{e.class} - #{e.message}")
-        Result.new(success: false, message: "システムエラーが発生しました。原因を調査いたします。ご迷惑をおかけし申し訳ありません。")
       end
 
       private
