@@ -2,17 +2,18 @@
 module Services
   module Reservations
     class ReservationFactory
-      def initialize(team:, service_menus:, staff:, start_time:, form:, customer:)
+      def initialize(team:, service_menus:, staff:, start_time:, customer_name:, customer_phone_number:, customer:)
         @team = team
         @service_menus = service_menus
         @staff = staff
         @start_time = start_time
-        @form = form
+        @customer_name = customer_name
+        @customer_phone_number = customer_phone_number
         @customer = customer
       end
 
       def build
-        Reservation.new(base_attributes.merge(summary_attributes))
+        ::Reservation.new(base_attributes.merge(summary_attributes))
       end
 
       def base_attributes
@@ -23,8 +24,8 @@ module Services
           end_time: end_time,
           status: :finalized,
           public_id: generate_unique_public_id,
-          customer_name: customer_name,
-          customer_phone_number: customer_phone_number
+          customer_name: @customer_name,
+          customer_phone_number: @customer_phone_number
         }
       end
 
@@ -55,14 +56,6 @@ module Services
           return public_id unless Reservation.exists?(public_id: public_id)
         end
         raise "Failed to generate unique public_id after #{max_retries} attempts"
-      end
-
-      def customer_name
-        @customer&.profile&.name || @form.customer_name
-      end
-
-      def customer_phone_number
-        @customer&.profile&.phone_number || @form.customer_phone_number
       end
     end
   end

@@ -63,14 +63,20 @@ class ReservationsController < ApplicationController
       objects: [ @context.service_menus, @context.selected_staff ]
     ).validate!
 
-    # TODO: 引数が多すぎるのが気になる
-    result = Services::Reservations::Create.new(
-      team: @context.team,
+    reservation = Services::Reservations::ReservationFactory.new(
+      team: @team,
       service_menus: @context.service_menus,
       staff: @context.selected_staff,
       start_time: @context.start_time,
-      form: @form,
-      customer: current_customer
+      customer_name: @customer&.profile&.name || @form.customer_name,
+      customer_phone_number: @customer&.profile&.phone_number || @form.customer_phone_number,
+      customer: @customer
+    ).build
+
+    result = Services::Reservations::Create.new(
+      reservation: reservation,
+      service_menus: @context.service_menus,
+      staff: @context.selected_staff,
     ).call
 
     if result.success?

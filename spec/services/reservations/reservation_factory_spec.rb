@@ -27,7 +27,15 @@ RSpec.describe Services::Reservations::ReservationFactory do
     context "when guest customer" do
       let(:form) { double("Form", customer_name: "ゲスト太郎", customer_phone_number: "090-1234-5678") }
       let(:factory) {
-        described_class.new(team: team, service_menus: service_menus, staff: staff, start_time: start_time, form: form, customer: nil)
+        described_class.new(
+          team: team,
+          service_menus: service_menus,
+          staff: staff,
+          start_time: start_time,
+          customer_name: form.customer_name,
+          customer_phone_number: form.customer_phone_number,
+          customer: nil
+        )
       }
 
       it "builds a reservation correctly" do
@@ -44,7 +52,15 @@ RSpec.describe Services::Reservations::ReservationFactory do
       let(:form) { double("Form", customer_name: "鈴木 太郎", customer_phone_number: "090-1111-2222") }
       let(:customer) { create(:customer) }
       let(:factory) {
-        described_class.new(team: team, service_menus: service_menus, staff: staff, start_time: start_time, form: form, customer: customer)
+        described_class.new(
+          team: team,
+          service_menus: service_menus,
+          staff: staff,
+          start_time: start_time,
+          customer_name: form.customer_name,
+          customer_phone_number: form.customer_phone_number,
+          customer: customer
+        )
       }
 
       it "builds a reservation correctly" do

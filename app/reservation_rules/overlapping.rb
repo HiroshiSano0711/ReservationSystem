@@ -5,18 +5,20 @@ module ReservationRules
     end
 
     def validate
-      validate_overlapping_reservations
+      result = Result.new
+      result.add_error(overlapping)
+      result.errors
     end
 
     private
 
-    def validate_overlapping_reservations
+    def overlapping
       return unless @reservation.customer_id.present?
 
       overlapping = Queries::Reservations::OverlappingForCustomer.new.call(@reservation)
 
       if overlapping
-        @reservation.errors.add(:overlapp, "すでに予約している時間帯と重複しています")
+        "すでに予約している時間帯と重複しています"
       end
     end
   end
