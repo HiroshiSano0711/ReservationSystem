@@ -16,7 +16,7 @@ class SlotsGenerator
   end
 
   def call
-    reservations_by_date = preload_reservations
+    reservations_by_date = ReservationQuery.new(@team).by_date_range(@start_date, @end_date)
 
     slots = (@start_date..@end_date).map do |date|
       if @business_setting.working_day?(date)
@@ -28,14 +28,5 @@ class SlotsGenerator
     end
 
     ServiceResult.new(success: true, resource: slots)
-  end
-
-  private
-
-  def preload_reservations
-    @team.reservations
-         .select(:id, :date, :start_time, :end_time, :required_staff_count)
-         .where(date: @start_date..@end_date, status: :finalize)
-         .group_by(&:date)
   end
 end

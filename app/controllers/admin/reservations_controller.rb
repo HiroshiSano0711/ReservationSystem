@@ -1,7 +1,7 @@
 module Admin
   class ReservationsController < Admin::BaseController
     def index
-      @reservations = @team.reservations.order(:date, :start_time)
+      @reservations = @team.reservations.order(:start_time)
     end
 
     def show

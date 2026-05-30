@@ -107,9 +107,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.bigint "team_id", null: false
     t.bigint "customer_id"
     t.string "public_id", null: false, comment: "予約ID（公開用）"
-    t.date "date", null: false, comment: "予約日"
-    t.time "start_time", null: false, comment: "開始時間"
-    t.time "end_time", null: false, comment: "終了時間"
+    t.datetime "start_time", null: false, comment: "開始時間"
+    t.datetime "end_time", null: false, comment: "終了時間"
+    t.integer "status", default: 0, null: false, comment: "ステータス"
     t.string "customer_name", default: "", null: false, comment: "顧客名"
     t.string "customer_phone_number", default: "", null: false, comment: "電話番号"
     t.integer "total_price", null: false, comment: "合計価格"
@@ -117,7 +117,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_17_164239) do
     t.integer "required_staff_count", null: false, comment: "合計所要人数"
     t.text "menu_summary", default: "", null: false, comment: "メニュー"
     t.string "assigned_staff_name", default: "", null: false, comment: "担当者名"
-    t.integer "status", default: 0, null: false, comment: "ステータス"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_reservations_on_customer_id"

@@ -14,7 +14,6 @@ RSpec.describe Reservation, type: :model do
 
   describe "validations" do
     it { should validate_presence_of(:public_id) }
-    it { should validate_presence_of(:date) }
     it { should validate_presence_of(:start_time) }
     it { should validate_presence_of(:end_time) }
     it { should validate_presence_of(:customer_name) }
@@ -39,7 +38,10 @@ RSpec.describe Reservation, type: :model do
         it "returns false" do
           allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 12:00:00"))
 
-          reservation = create(:reservation, team: team, date: FIXED_TIME.call.to_date, start_time: "12:00", end_time: "13:00")
+          reservation = create(:reservation, team: team,
+            start_time: FIXED_TIME.call + 3.hours,
+            end_time: FIXED_TIME.call + 4.hours
+          )
           expect(reservation.cancelable?).to be_falsey
         end
       end
@@ -48,7 +50,10 @@ RSpec.describe Reservation, type: :model do
         it "returns false" do
           allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 11:59:59"))
 
-          reservation = create(:reservation, team: team, date: FIXED_TIME.call.to_date, start_time: "12:00", end_time: "13:00")
+          reservation = create(:reservation, team: team,
+            start_time: FIXED_TIME.call + 3.hours,
+            end_time: FIXED_TIME.call + 4.hours
+          )
           expect(reservation.cancelable?).to be_truthy
         end
       end

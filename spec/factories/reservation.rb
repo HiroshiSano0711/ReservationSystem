@@ -4,9 +4,8 @@ FactoryBot.define do
     customer_id { nil }
 
     sequence(:public_id) { |n| "public-id-#{n}" }
-    date { FIXED_TIME.call.to_date }
-    start_time { "09:00" }
-    end_time { "09:30" }
+    start_time { Time.zone.local(2025, 1, 1, 9, 0, 0) }
+    end_time { Time.zone.local(2025, 1, 1, 9, 30, 0) }
 
     customer_name { "山田太郎" }
     customer_phone_number { "09012345678" }

@@ -30,14 +30,8 @@ class SlotCalculator
 
   private
 
-  # TODO: Queryオブジェクトに委譲したい。変更理由はアルゴリズムのみにする。
   def preload_available_staff
-    @team.staffs
-         .joins(:service_menus)
-         .where(service_menus: { id: @service_menus.map(&:id) })
-         .group("staffs.id")
-         .having("COUNT(service_menus.id) = ?", @service_menus.size)
-         .distinct
+    AvailableStaffQuery.new(@team).by_service_menus(@service_menus)
   end
 
   # 差分配列 → 累積和で各時間帯の空きスタッフ数を算出
@@ -45,10 +39,8 @@ class SlotCalculator
     diff = Hash.new(0)
 
     reservations.each do |r|
-      r_start = Time.zone.parse("#{r.date} #{r.start_time}")
-      r_end   = Time.zone.parse("#{r.date} #{r.end_time}")
-      diff[r_start] -= r.required_staff_count || 1
-      diff[r_end]   += r.required_staff_count || 1
+      diff[r.start_time] -= r.required_staff_count || 1
+      diff[r.end_time]   += r.required_staff_count || 1
     end
 
     # 累積和

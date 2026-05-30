@@ -3,7 +3,6 @@ require "rails_helper"
 RSpec.describe Reservations::ReservationFactory do
   def expect_common_reservation_attributes(reservation)
     expect(reservation.team).to eq(team)
-    expect(reservation.date).to eq(start_time.to_date)
     expect(reservation.start_time.hour).to eq(10)
     expect(reservation.start_time.min).to eq(0)
     expect(reservation.end_time.hour).to eq(12)

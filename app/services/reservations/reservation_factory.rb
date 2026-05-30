@@ -17,9 +17,8 @@ module Reservations
       {
         team: @team,
         customer: @customer,
-        date: @start_time.to_date,
-        start_time: @start_time.strftime("%H:%M"),
-        end_time: end_time.strftime("%H:%M"),
+        start_time: @start_time,
+        end_time: end_time,
         status: :finalize,
         public_id: generate_unique_public_id,
         customer_name: customer_name,

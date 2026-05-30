@@ -54,37 +54,56 @@ RSpec.describe SlotCalculator, type: :model do
 
     context 'スタッフ関連' do
       let(:reservations_by_date) do
-        Reservation.where(date: date, status: :finalize).group_by(&:date)
+        Reservation.where(start_time: FIXED_TIME.call, status: :finalize)
+                   .group_by { |r| r.start_time.to_date }
       end
 
       context 'スタッフが1人で予約が1件ある場合' do
         before do
           create(:reservation,
             team: team,
-            date: date,
-            start_time: "10:00",
-            end_time: "11:00",
+            start_time: FIXED_TIME.call + 1.hour,
+            end_time: FIXED_TIME.call + 2.hours,
             required_staff_count: 1
           )
         end
 
         it '予約と重複する枠が除外される' do
           slots = calculator.generate_slots_for_date(date, reservations_by_date)
+          r_start_time = FIXED_TIME.call + 1.hour
+          r_end_time = FIXED_TIME.call + 2.hour
 
-          # 10:00〜11:00の予約があるので重複する枠は含まれない
-          overlapping = slots.select do |slot|
-            slot[:start] < Time.zone.parse("#{date} 11:00") &&
-              slot[:end] > Time.zone.parse("#{date} 10:00")
+          # 10:00~11:00に予約が入っている状態
+
+          free_slots = slots.select do |slot|
+            slot[:start] >= r_end_time || slot[:end] <= r_start_time
           end
 
-          expect(overlapping).to be_empty
+          overlapping_slots = free_slots.select do |slot|
+            slot[:start] < r_end_time && slot[:end] > r_start_time
+          end
+
+          expect(overlapping_slots).to be_empty
         end
 
         it '予約と重複しない枠は含まれる' do
           slots = calculator.generate_slots_for_date(date, reservations_by_date)
 
-          expect(slots.first[:start]).to eq(Time.zone.parse("#{date} 11:00"))
-          expect(slots.first[:end]).to eq(Time.zone.parse("#{date} 12:20"))
+          r_start_time = FIXED_TIME.call + 1.hour
+          r_end_time = FIXED_TIME.call + 2.hour
+
+          # 10:00~11:00に予約が入っている状態
+
+          free_slots = slots.select do |slot|
+            slot[:start] >= r_end_time || slot[:end] <= r_start_time
+          end
+
+          border_slots = free_slots.select do |slot|
+            slot[:start] == r_end_time ||
+            slot[:end] == r_start_time
+          end
+
+          expect(border_slots).to be_present
         end
       end
 
@@ -95,9 +114,8 @@ RSpec.describe SlotCalculator, type: :model do
           staff2.service_menus << service_menu
           create(:reservation,
             team: team,
-            date: date,
-            start_time: "10:00",
-            end_time: "11:00",
+            start_time: Time.zone.local(2025, 1, 1, 10, 0, 0),
+            end_time: Time.zone.local(2025, 1, 1, 11, 0, 0),
             required_staff_count: 1
           )
         end

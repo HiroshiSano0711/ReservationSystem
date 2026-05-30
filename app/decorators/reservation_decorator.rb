@@ -2,7 +2,7 @@ class ReservationDecorator < Draper::Decorator
   delegate_all
 
   def reserve_date
-    object.date.strftime("%Y年%m月%d日")
+    object.start_time.strftime("%Y年%m月%d日")
   end
 
   def reserve_time
@@ -10,7 +10,7 @@ class ReservationDecorator < Draper::Decorator
   end
 
   def reserve_datetime
-    "#{object.date.strftime('%Y年%m月%d日')} #{object.start_time.strftime("%H:%M")}~#{object.end_time.strftime("%H:%M")}"
+    "#{object.start_time.strftime('%Y年%m月%d日')} #{object.start_time.strftime("%H:%M")}~#{object.end_time.strftime("%H:%M")}"
   end
 
   def total_duration_with_unit

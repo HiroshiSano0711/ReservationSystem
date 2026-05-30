@@ -67,7 +67,7 @@ staff = Staff.create!(
   role: 'general'
 )
 
-staff.create_staff_profile!(
+staff.create_profile!(
   working_status: 'active',
   nick_name: 'スタッフ1',
   accepts_direct_booking: true
@@ -82,7 +82,7 @@ staff_2 = Staff.create!(
   role: 'general'
 )
 
-staff_2.create_staff_profile!(
+staff_2.create_profile!(
   working_status: 'active',
   nick_name: 'スタッフ2',
   accepts_direct_booking: true
