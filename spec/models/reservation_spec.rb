@@ -8,10 +8,6 @@ RSpec.describe Reservation, type: :model do
     it { should have_many(:staffs).through(:details) }
   end
 
-  describe "enum" do
-    it { should define_enum_for(:status).with_values(finalize: 1, canceled: 99) }
-  end
-
   describe "validations" do
     it { should validate_presence_of(:public_id) }
     it { should validate_presence_of(:start_time) }

@@ -29,7 +29,7 @@
     dt 所要時間
     dd = @reservation.decorate.total_duration_with_unit
 
-    - if @reservation.finalize? && @reservation.cancelable?
+    - if @reservation.finalized? && @reservation.cancelable?
       = button_to "キャンセルする", cancel_mypage_reservation_path(public_id: @reservation.public_id), method: :patch, data: { confirm: "本当にキャンセルしますか？" }
 
   = link_to "マイページに戻る", mypage_reservations_path

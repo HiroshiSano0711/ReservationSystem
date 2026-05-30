@@ -4,7 +4,7 @@ class Reservation < ApplicationRecord
   has_many :details, class_name: "ReservationDetail", foreign_key: "reservation_id", dependent: :destroy
   has_many :staffs, through: :details
 
-  enum :status, { finalize: 1, canceled: 99 }
+  enum :status, { finalized: 1, canceled: 99 }
 
   validates :public_id, presence: true, uniqueness: true
   validates :start_time, :end_time, :status,

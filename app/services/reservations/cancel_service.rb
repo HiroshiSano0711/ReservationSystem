@@ -10,6 +10,12 @@ module Reservations
       return failure("キャンセル期限を過ぎています") unless admin || cancelable?
 
       @reservation.update!(status: :canceled)
+      ReservationStatusLog.create!(
+        reservation: @reservation,
+        from_status: :finalized,
+        to_status: :canceled,
+        changed_by: admin ? :admin : :customer
+      )
       success(@reservation)
     rescue => e
       failure("システムエラーが発生しました: #{e.message}")

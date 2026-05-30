@@ -19,7 +19,7 @@ module Reservations
         customer: @customer,
         start_time: @start_time,
         end_time: end_time,
-        status: :finalize,
+        status: :finalized,
         public_id: generate_unique_public_id,
         customer_name: customer_name,
         customer_phone_number: customer_phone_number

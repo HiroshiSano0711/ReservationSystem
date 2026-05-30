@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_05_30_024250) do
+ActiveRecord::Schema[8.0].define(version: 2026_05_30_100128) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -108,6 +108,16 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_30_024250) do
     t.datetime "updated_at", null: false
     t.index ["reservation_detail_id"], name: "index_reservation_staff_assignments_on_reservation_detail_id"
     t.index ["staff_id"], name: "index_reservation_staff_assignments_on_staff_id"
+  end
+
+  create_table "reservation_status_logs", force: :cascade do |t|
+    t.bigint "reservation_id", null: false
+    t.integer "from_status", null: false, comment: "変更前ステータス"
+    t.integer "to_status", null: false, comment: "変更後ステータス"
+    t.integer "changed_by", null: false, comment: "変更者の種別"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_id"], name: "index_reservation_status_logs_on_reservation_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -234,6 +244,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_05_30_024250) do
   add_foreign_key "reservation_details", "service_menus"
   add_foreign_key "reservation_staff_assignments", "reservation_details"
   add_foreign_key "reservation_staff_assignments", "staffs"
+  add_foreign_key "reservation_status_logs", "reservations"
   add_foreign_key "reservations", "customers"
   add_foreign_key "reservations", "teams"
   add_foreign_key "service_menu_staffs", "service_menus"

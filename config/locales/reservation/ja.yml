@@ -22,6 +22,5 @@ ja:
     enums:
       reservation:
         status:
-          temporary: 仮予約
-          finalize: 確定
+          finalized: 確定
           canceled: キャンセル

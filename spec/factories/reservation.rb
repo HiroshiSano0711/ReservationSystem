@@ -14,6 +14,6 @@ FactoryBot.define do
     required_staff_count { 1 }
     menu_summary { "カラー, カット" }
     assigned_staff_name { "おまかせ" }
-    status { "finalize" }
+    status { :finalized }
   end
 end

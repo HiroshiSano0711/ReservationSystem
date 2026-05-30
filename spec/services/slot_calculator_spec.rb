@@ -54,7 +54,7 @@ RSpec.describe SlotCalculator, type: :model do
 
     context 'スタッフ関連' do
       let(:reservations_by_date) do
-        Reservation.where(start_time: FIXED_TIME.call, status: :finalize)
+        Reservation.where(start_time: FIXED_TIME.call, status: :finalized)
                    .group_by { |r| r.start_time.to_date }
       end
 
