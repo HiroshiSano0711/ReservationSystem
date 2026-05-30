@@ -9,50 +9,18 @@ RSpec.describe Reservation, type: :model do
   end
 
   describe "validations" do
-    it { should validate_presence_of(:public_id) }
-    it { should validate_presence_of(:start_time) }
-    it { should validate_presence_of(:end_time) }
-    it { should validate_presence_of(:customer_name) }
-    it { should validate_presence_of(:customer_phone_number) }
-    it { should validate_presence_of(:total_price) }
-    it { should validate_presence_of(:total_duration) }
-    it { should validate_presence_of(:required_staff_count) }
-    it { should validate_presence_of(:menu_summary) }
-    it { should validate_presence_of(:assigned_staff_name) }
-    it { should validate_presence_of(:status) }
-  end
-
-  describe "public method" do
-    before do
-      allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
-    end
-
-    let(:team) { create(:team) }
-
-    describe "#cancelable?" do
-      context "when the cancellation deadline has passed" do
-        it "returns false" do
-          allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 12:00:00"))
-
-          reservation = create(:reservation, team: team,
-            start_time: FIXED_TIME.call + 3.hours,
-            end_time: FIXED_TIME.call + 4.hours
-          )
-          expect(reservation.cancelable?).to be_falsey
-        end
-      end
-
-      context "when the cancellation deadline has not passed" do
-        it "returns false" do
-          allow(Time.zone).to receive(:now).and_return(Time.zone.parse("2024-12-31 11:59:59"))
-
-          reservation = create(:reservation, team: team,
-            start_time: FIXED_TIME.call + 3.hours,
-            end_time: FIXED_TIME.call + 4.hours
-          )
-          expect(reservation.cancelable?).to be_truthy
-        end
-      end
+    context "for consistency" do
+      it { should validate_presence_of(:public_id) }
+      it { should validate_presence_of(:start_time) }
+      it { should validate_presence_of(:end_time) }
+      it { should validate_presence_of(:status) }
+      it { should validate_presence_of(:customer_name) }
+      it { should validate_presence_of(:customer_phone_number) }
+      it { should validate_presence_of(:total_price) }
+      it { should validate_presence_of(:total_duration) }
+      it { should validate_presence_of(:required_staff_count) }
+      it { should validate_presence_of(:menu_summary) }
+      it { should validate_presence_of(:assigned_staff_name) }
     end
   end
 end

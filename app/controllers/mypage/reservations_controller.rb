@@ -9,14 +9,23 @@ module Mypage
 
     def show
       @reservation = current_customer.reservations.find_by(public_id: params[:public_id])
+      @cancellable = ReservationRules::CancelPolicy.new(@reservation).valid?
     end
 
     def cancel
       reservation = current_customer.reservations.find_by(public_id: params[:public_id])
-      service = Services::Reservations::Cancel.new(reservation: reservation, customer: current_customer)
-      result = service.call
+      result = Services::Reservations::Cancel.new(
+        reservation: reservation,
+        customer: current_customer
+      ).call
 
       if result.success?
+        ReservationStatusLog.create!(
+          reservation: reservation,
+          from_status: :finalized,
+          to_status: :canceled,
+          changed_by: :customer
+        )
         NotificationSender.new(
           team: result.resource.team,
           reservation: result.resource,

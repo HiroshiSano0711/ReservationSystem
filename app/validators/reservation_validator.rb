@@ -32,7 +32,7 @@ class ReservationValidator
   def validate_overlapping_reservations
     return unless @reservation.customer_id.present?
 
-    overlapping = Queries::Reservations::OverlappingForCustomer.call(@reservation)
+    overlapping = Queries::Reservations::OverlappingForCustomer.new.call(@reservation)
 
     if overlapping
       @reservation.errors.add(:overlapp, "すでに予約している時間帯と重複しています")

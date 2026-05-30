@@ -2,7 +2,13 @@ require "rails_helper"
 
 RSpec.describe Mypage::ReservationsController, type: :request do
   let(:customer) { create(:customer) }
-  let(:reservation) { create(:reservation, customer: customer, public_id: "abc123", start_time: Time.zone.local(2025, 1, 3, 10, 0, 0)) }
+  let(:reservation) { create(:reservation,
+                              customer: customer,
+                              public_id: "abc123",
+                              start_time: Time.zone.local(2025, 1, 3, 10, 0, 0),
+                              end_time: Time.zone.local(2025, 1, 3, 10, 30, 0)
+                            )
+  }
 
   before do
     sign_in customer
@@ -38,7 +44,7 @@ RSpec.describe Mypage::ReservationsController, type: :request do
 
     context "when cancellation fails" do
       it "redirects to reservation page with alert" do
-        allow_any_instance_of(Reservation).to receive(:cancelable?).and_return(false)
+        allow_any_instance_of(ReservationRules::CancelPolicy).to receive(:valid?).and_return(false)
 
         patch cancel_mypage_reservation_path(public_id: reservation.public_id)
 

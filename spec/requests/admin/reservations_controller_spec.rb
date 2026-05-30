@@ -23,6 +23,7 @@ RSpec.describe Admin::ReservationsController, type: :request do
     before do
       sign_in admin, scope: :staff
       allow(Time.zone).to receive(:today).and_return(FIXED_TIME.call.to_date)
+      allow(Time.zone).to receive(:now).and_return(FIXED_TIME.call.to_date)
     end
 
     describe "GET /admin/reservations" do
@@ -51,6 +52,7 @@ RSpec.describe Admin::ReservationsController, type: :request do
 
     describe "PATCH /admin/reservations/:public_id/cancel" do
       it "cancels the reservation and redirects to the reservation show page with a notice" do
+        allow_any_instance_of(ReservationRules::CancelPolicy).to receive(:valid?).and_return(true)
         reservation = create(:reservation, team: team)
 
         patch cancel_admin_reservation_path(public_id: reservation.public_id)

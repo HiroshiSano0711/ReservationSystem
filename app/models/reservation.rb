@@ -6,21 +6,34 @@ class Reservation < ApplicationRecord
 
   enum :status, { finalized: 1, canceled: 99 }
 
+  # 整合性のための条件
   validates :public_id, presence: true, uniqueness: true
-  validates :start_time, :end_time, :status,
-            :customer_name, :customer_phone_number, :total_price, :total_duration, :required_staff_count, :menu_summary, :assigned_staff_name,
+  validates :start_time, :end_time, :status, presence: true
+
+  # 整合性のための条件（スナップショット）
+  validates :customer_name,
+            :customer_phone_number,
+            :total_price,
+            :total_duration,
+            :required_staff_count,
+            :menu_summary,
+            :assigned_staff_name,
             presence: true
 
+  # 不変条件
+  validates :total_price, :total_duration, :required_staff_count, numericality: { greater_than: 0 }
+  validate :start_time_must_be_before_end_time
   validate :validate_reservation_rules, on: :create
-
-  def cancelable?
-    cacel_deadline_time = Time.zone.now + team.team_business_setting.cancellation_deadline_hours_before.hours
-    cacel_deadline_time < start_time
-  end
 
   private
 
   def validate_reservation_rules
     ReservationValidator.new(self).validate
+  end
+
+  def start_time_must_be_before_end_time
+    return if start_time.blank? || end_time.blank?
+
+    errors.add(:start_time, "は終了時間より前でなければなりません") if start_time >= end_time
   end
 end

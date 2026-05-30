@@ -6,18 +6,10 @@ module Services
         @customer = customer
       end
 
-      def call(admin: false)
-        # TODO: adminという引数渡して処理してるのは責務と関係ないので分離したい。
-        return failure("不正な操作です") unless admin || owned_by_customer?
-        return failure("キャンセル期限を過ぎています") unless admin || cancelable?
+      def call
+        return failure("キャンセル期限を過ぎています") unless cancelable?
 
         @reservation.update!(status: :canceled)
-        ReservationStatusLog.create!(
-          reservation: @reservation,
-          from_status: :finalized,
-          to_status: :canceled,
-          changed_by: admin ? :admin : :customer
-        )
         success(@reservation)
       rescue => e
         failure("システムエラーが発生しました: #{e.message}")
@@ -25,12 +17,8 @@ module Services
 
       private
 
-      def owned_by_customer?
-        @reservation.customer == @customer
-      end
-
       def cancelable?
-        @reservation.cancelable?
+        ::ReservationRules::CancelPolicy.new(@reservation).valid?
       end
 
       def success(resource = nil)
