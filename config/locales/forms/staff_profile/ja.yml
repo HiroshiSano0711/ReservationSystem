@@ -1,0 +1,18 @@
+ja:
+  activerecord:
+    models:
+      forms:
+        staff_profile: スタッフプロフィール
+    attributes:
+      forms:
+        staff_profile:
+          image: 画像
+          nick_name: ニックネーム
+          bio: 自己紹介/PR
+          working_status: 勤務状況
+        enums:
+          staff_profile:
+            working_status:
+              active: 勤続中
+              leave_on: 休職中
+              retire: 退職済み

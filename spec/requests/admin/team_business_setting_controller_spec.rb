@@ -40,11 +40,12 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
 
     describe "PATCH #update" do
       let(:team_business_setting) { team.team_business_setting }
+      let(:params_name) { Forms::TeamBusinessSetting.model_name.param_key.to_s }
 
       context "with valid params" do
         let(:valid_params) do
           {
-            team_business_setting_form: {
+            "#{params_name}": {
               max_reservation_month: 2,
               reservation_start_delay_days: 1,
               cancellation_deadline_hours_before: 12,
@@ -73,7 +74,7 @@ RSpec.describe Admin::TeamBusinessSettingsController, type: :request do
       context "with invalid params" do
         let(:invalid_params) do
           {
-            team_business_setting_form: {
+            "#{params_name}": {
               max_reservation_month: nil,
               reservation_start_delay_days: nil,
               cancellation_deadline_hours_before: nil,

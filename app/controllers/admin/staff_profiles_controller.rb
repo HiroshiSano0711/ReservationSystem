@@ -3,14 +3,13 @@ module Admin
     before_action :set_staff_and_service_menus
 
     def edit
-      @form = StaffProfileForm.new(staff_profile: @staff.profile)
+      @form = Forms::StaffProfile.new(staff_profile: @staff.profile)
     end
 
     def update
-      form = StaffProfileForm.new(staff_profile: @staff.profile)
+      form = Forms::StaffProfile.new(staff_profile: @staff.profile)
       form.assign_attributes(form_params)
-
-      result = UpdateStaffProfileService.new(staff: @staff, form: form, service_menus: @service_menus).call
+      result = Services::UpdateStaffProfile.new(staff: @staff, form: form, service_menus: @service_menus).call
       if result.success?
         redirect_to admin_staffs_path, notice: result.message
       else
@@ -28,8 +27,8 @@ module Admin
     end
 
     def form_params
-      params.require(StaffProfileForm.model_name.param_key.to_sym)
-            .permit(StaffProfileForm::PERMITTED_PARAMS)
+      params.require(Forms::StaffProfile.model_name.param_key.to_sym)
+            .permit(Forms::StaffProfile::PERMITTED_PARAMS)
     end
   end
 end

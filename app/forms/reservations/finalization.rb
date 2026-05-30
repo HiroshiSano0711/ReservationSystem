@@ -1,0 +1,17 @@
+module Forms
+  module Reservations
+    class Finalization
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+
+      attribute :customer_name, :string
+      attribute :customer_phone_number, :string
+
+      validates :customer_name, :customer_phone_number, presence: true
+
+      def persisted?
+        false
+      end
+    end
+  end
+end

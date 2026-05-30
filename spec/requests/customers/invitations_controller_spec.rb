@@ -9,7 +9,7 @@ describe Customers::InvitationsController, type: :request do
     context "when invitation is accepted successfully" do
       it "accepts the invitation and redirects to the appropriate page" do
         reservation = create(:reservation, customer: nil)
-        allow_any_instance_of(Reservations::SessionWrapper).to receive(:public_id).and_return(reservation.public_id)
+        allow_any_instance_of(Services::Reservations::SessionWrapper).to receive(:public_id).and_return(reservation.public_id)
 
         patch customer_invitation_path, params: {
           customer: {
@@ -29,7 +29,7 @@ describe Customers::InvitationsController, type: :request do
       it "does not fail the invitation process" do
         allow_any_instance_of(Reservation).to receive(:update!).and_raise(StandardError.new("Reservation linking failed"))
         reservation = create(:reservation, customer: nil)
-        allow_any_instance_of(Reservations::SessionWrapper).to receive(:public_id).and_return(reservation.public_id)
+        allow_any_instance_of(Services::Reservations::SessionWrapper).to receive(:public_id).and_return(reservation.public_id)
 
         patch customer_invitation_path, params: {
           customer: {

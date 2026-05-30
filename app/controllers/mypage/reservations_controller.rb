@@ -13,7 +13,7 @@ module Mypage
 
     def cancel
       reservation = current_customer.reservations.find_by(public_id: params[:public_id])
-      service = Reservations::CancelService.new(reservation: reservation, customer: current_customer)
+      service = Services::Reservations::Cancel.new(reservation: reservation, customer: current_customer)
       result = service.call
 
       if result.success?

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe StaffProfileForm, type: :model do
+RSpec.describe Forms::StaffProfile, type: :model do
   let(:staff) { create(:staff, :with_profile) }
   let(:service_menus) { create_list(:service_menu, 3, team: staff.team) }
   let(:form) { described_class.new(staff_profile: staff.profile) }

@@ -9,9 +9,9 @@ class Customers::InvitationsController < Devise::InvitationsController
     yield resource if block_given?
 
     if invitation_accepted
-      reservation_session = Reservations::SessionWrapper.new(session)
+      reservation_session = Services::Reservations::SessionWrapper.new(session)
       if reservation_session.public_id.present?
-        ReservationLinker.new(customer: resource, public_id: reservation_session.public_id).link_reservation
+        Services::ReservationLinker.new(customer: resource, public_id: reservation_session.public_id).link_reservation
         reservation_session.clear_public_id
       end
       if resource.class.allow_insecure_sign_in_after_accept

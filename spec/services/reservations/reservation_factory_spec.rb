@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Reservations::ReservationFactory do
+RSpec.describe Services::Reservations::ReservationFactory do
   def expect_common_reservation_attributes(reservation)
     expect(reservation.team).to eq(team)
     expect(reservation.start_time.hour).to eq(10)

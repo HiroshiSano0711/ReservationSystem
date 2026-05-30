@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe UpdateStaffProfileService, type: :model do
+RSpec.describe Services::UpdateStaffProfile, type: :model do
   let(:staff) { create(:staff, :with_profile) }
   let(:service_menus) { create_list(:service_menu, 3, team: staff.team) }
-  let(:form) { StaffProfileForm.new(staff_profile: staff.profile) }
+  let(:form) { Forms::StaffProfile.new(staff_profile: staff.profile) }
 
   describe 'validate' do
     it 'service_menus_belong_to_team' do

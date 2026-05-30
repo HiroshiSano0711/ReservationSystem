@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SlotCalculator, type: :model do
+RSpec.describe Services::SlotCalculator, type: :model do
   let(:team) { create(:team) }
   let(:team_business_setting) do
     create(:team_business_setting, :with_weekly_business_hours,

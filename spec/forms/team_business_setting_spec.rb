@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe TeamBusinessSettingForm, type: :model do
+RSpec.describe Forms::TeamBusinessSetting, type: :model do
   let(:team_business_setting) { create(:team_business_setting, :with_weekly_business_hours) }
-  let(:form) { TeamBusinessSettingForm.new(team_business_setting: team_business_setting) }
+  let(:form) { Forms::TeamBusinessSetting.new(team_business_setting: team_business_setting) }
 
   describe '#model_class_for' do
     it 'returns TeamBusinessSetting for team business setting attributes' do

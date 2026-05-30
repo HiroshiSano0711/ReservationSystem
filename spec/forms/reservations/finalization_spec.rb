@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Reservations::FinalizationForm, type: :model do
+RSpec.describe Forms::Reservations::Finalization, type: :model do
   describe '#persisted?' do
     it 'returns false' do
       expect(described_class.new.persisted?).to eq(false)

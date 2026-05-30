@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpdateTeamBusinessSettingService, type: :model do
+RSpec.describe Services::UpdateTeamBusinessSetting, type: :model do
   let(:team) { create(:team) }
   let(:team_business_setting) { create(:team_business_setting, :with_weekly_business_hours, team: team) }
 

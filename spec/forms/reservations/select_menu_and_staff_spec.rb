@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Reservations::SelectMenuAndStaffForm, type: :model do
+RSpec.describe Forms::Reservations::SelectMenuAndStaff, type: :model do
   let(:team) { create(:team) }
   let(:form) { described_class.new(team: team) }
 

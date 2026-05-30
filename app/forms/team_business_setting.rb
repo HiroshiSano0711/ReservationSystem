@@ -1,0 +1,66 @@
+module Forms
+  class TeamBusinessSetting
+    include ActiveModel::Model
+    include ActiveModel::Attributes
+
+    PERMITTED_PARAMS = [
+      :max_reservation_month,
+      :reservation_start_delay_days,
+      :cancellation_deadline_hours_before,
+      {
+        weekly_business_hours_params: [
+          :id, :wday, :working_day, :open, :close
+        ]
+      }
+    ].freeze
+
+    attr_accessor :weekly_business_hours,
+                  :weekly_business_hours_params
+
+    attribute :max_reservation_month, :integer
+    attribute :reservation_start_delay_days, :integer
+    attribute :cancellation_deadline_hours_before, :integer
+
+    validates :max_reservation_month, presence: true, numericality: { only_integer: true, greater_than: 0 }
+    validates :reservation_start_delay_days,
+              :cancellation_deadline_hours_before,
+              presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+    def initialize(team_business_setting:)
+      @team_business_setting = team_business_setting
+      @weekly_business_hours = @team_business_setting.weekly_business_hours
+
+      super(
+        max_reservation_month: @team_business_setting.max_reservation_month,
+        reservation_start_delay_days: @team_business_setting.reservation_start_delay_days,
+        cancellation_deadline_hours_before: @team_business_setting.cancellation_deadline_hours_before
+      )
+    end
+
+    def persisted?
+      true
+    end
+
+    def model_class_for(attr)
+      case attr
+      when :max_reservation_month, :reservation_start_delay_days, :cancellation_deadline_hours_before
+        ::TeamBusinessSetting
+      when :open, :close, :working_day
+        ::WeeklyBusinessHour
+      end
+    end
+
+    def nested_param_key
+      "#{model_name.param_key}[weekly_business_hours_params]"
+    end
+
+    def to_service_params
+      {
+        max_reservation_month: max_reservation_month,
+        reservation_start_delay_days: reservation_start_delay_days,
+        cancellation_deadline_hours_before: cancellation_deadline_hours_before,
+        weekly_business_hours_params: weekly_business_hours_params
+      }
+    end
+  end
+end

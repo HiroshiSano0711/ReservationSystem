@@ -2,11 +2,11 @@ class ReservationsController < ApplicationController
   before_action :set_team
 
   def new
-    @form = Reservations::SelectMenuAndStaffForm.new(team: @team)
+    @form = Forms::Reservations::SelectMenuAndStaff.new(team: @team)
   end
 
   def menu_select
-    form = Reservations::SelectMenuAndStaffForm.new(menu_select_params.merge(team: @team))
+    form = Forms::Reservations::SelectMenuAndStaff.new(menu_select_params.merge(team: @team))
     return redirect_to reservations_path, alert: form.errors.full_messages.join(",") if form.invalid?
 
     reservation_session.save_menu_select(form)
@@ -18,13 +18,13 @@ class ReservationsController < ApplicationController
     @selected_staff = reservation_session.selected_staff
 
     # TODO: できればこの処理も予約スロット生成の一部なのでまとめたい。
-    @week_range = Reservations::WeekRangeCalculator.new(
+    @week_range = Presenters::Reservations::WeekRangeCalculator.new(
       start_date_str: params[:start_date],
       max_reservation_month: @team.team_business_setting.max_reservation_month
     ).calc
 
     # TODO: アルゴリズムごと書き換えるよ。O(n logn)ぐらいが理想。
-    @result = ::SlotsGenerator.new(
+    @result = Services::SlotsGenerator.new(
       team: @team,
       service_menus: @service_menus,
       start_date: @week_range.start_date,
@@ -41,14 +41,14 @@ class ReservationsController < ApplicationController
   end
 
   def prior_confirmation
-    @context = Reservations::FinalizationContext.new(team: @team, session: reservation_session)
-    @form = Reservations::FinalizationForm.new
+    @context = Presenters::Reservations::FinalizationContext.new(team: @team, session: reservation_session)
+    @form = Forms::Reservations::Finalization.new
   end
 
   def finalize
     # TODO: コントローラーが知りすぎなので、責務を分けたい
-    @context = Reservations::FinalizationContext.new(team: @team, session: reservation_session)
-    @form = Reservations::FinalizationForm.new(finalization_form_params)
+    @context = Presenters::Reservations::FinalizationContext.new(team: @team, session: reservation_session)
+    @form = Forms::Reservations::Finalization.new(finalization_form_params)
 
     # TODO: バリデーションはServiceにまとめたいかな
     if @form.invalid?
@@ -57,7 +57,7 @@ class ReservationsController < ApplicationController
     end
 
     # TODO: 引数が多すぎるのが気になる
-    result = Reservations::CreateService.new(
+    result = Services::Reservations::Create.new(
       team: @context.team,
       service_menus: @context.service_menus,
       staff: @context.selected_staff,
@@ -92,7 +92,7 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_session
-    @reservation_session ||= Reservations::SessionWrapper.new(session)
+    @reservation_session ||= Services::Reservations::SessionWrapper.new(session)
   end
 
   def menu_select_params

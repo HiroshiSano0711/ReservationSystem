@@ -1,7 +1,7 @@
 require "rails_helper"
 require "ostruct"
 
-RSpec.describe Reservations::FinalizationContext, type: :model do
+RSpec.describe Presenters::Reservations::FinalizationContext, type: :model do
   let(:team) { create(:team) }
   let(:staff) { create(:staff, team: team) }
   let(:service_menu1) { create(:service_menu, team: team, name: "メニューA", price: 3000, duration: 60) }

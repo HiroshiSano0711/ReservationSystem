@@ -10,7 +10,7 @@ module Admin
 
     def cancel
       reservation = Reservation.find_by!(public_id: params[:public_id])
-      service = Reservations::CancelService.new(
+      service = Services::Reservations::Cancel.new(
         reservation: reservation,
         customer: nil
       )

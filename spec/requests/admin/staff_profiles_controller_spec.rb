@@ -20,6 +20,7 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
     let(:staff) { create(:staff, team: team) }
     let(:staff_profile) { create(:staff_profile, staff: staff) }
     let(:service_menus) { create_list(:service_menu, 3, team: team) }
+    let(:params_name) { Forms::StaffProfile.model_name.param_key.to_s }
     let(:staff_profile_form_params) do
       {
         image: Rack::Test::UploadedFile.new(Rails.root.join('spec', 'fixtures', 'image', 'sample.png'), 'image/png'),
@@ -45,7 +46,7 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
     describe 'PATCH #update' do
       context '有効なパラメータの場合' do
         it 'スタッフプロフィールが更新され、リダイレクトされる' do
-          patch admin_staff_profile_path(team_id: team.id, staff_id: staff_profile.staff.id), params: { staff_profile_form: staff_profile_form_params }
+          patch admin_staff_profile_path(team_id: team.id, staff_id: staff_profile.staff.id), params: { "#{params_name}": staff_profile_form_params }
 
           staff.reload
           expect(staff.profile.working_status).to eq('active')
@@ -58,7 +59,7 @@ RSpec.describe Admin::StaffProfilesController, type: :request do
 
       context '無効なパラメータの場合' do
         it 'スタッフプロフィールの更新に失敗し、エラーメッセージが表示される' do
-          invalid_params = { staff_profile_form: { working_status: '', nick_name: '' } }
+          invalid_params = { "#{params_name}": { working_status: '', nick_name: '' } }
 
           patch admin_staff_profile_path(team_id: team.id, staff_id: staff_profile.staff.id), params: invalid_params
 

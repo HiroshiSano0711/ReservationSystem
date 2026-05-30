@@ -6,19 +6,19 @@ module Admin
     end
 
     def edit
-      @form = TeamBusinessSettingForm.new(team_business_setting: @team.team_business_setting)
+      @form = Forms::TeamBusinessSetting.new(team_business_setting: @team.team_business_setting)
     end
 
     def update
       @team_business_setting = @team.team_business_setting
-      @form = TeamBusinessSettingForm.new(team_business_setting: @team_business_setting)
+      @form = Forms::TeamBusinessSetting.new(team_business_setting: @team_business_setting)
       @form.assign_attributes(form_params)
       if @form.invalid?
         flash.now[:alert] = "更新に失敗しました。"
         return render :edit, status: :unprocessable_content
       end
 
-      result = UpdateTeamBusinessSettingService.new(
+      result = Services::UpdateTeamBusinessSetting.new(
         team_business_setting: @team_business_setting,
         attributes: @form.to_service_params
       ).call
@@ -35,8 +35,8 @@ module Admin
     private
 
     def form_params
-      params.require(TeamBusinessSettingForm.model_name.param_key.to_sym)
-            .permit(TeamBusinessSettingForm::PERMITTED_PARAMS)
+      params.require(Forms::TeamBusinessSetting.model_name.param_key.to_sym)
+            .permit(Forms::TeamBusinessSetting::PERMITTED_PARAMS)
     end
   end
 end
