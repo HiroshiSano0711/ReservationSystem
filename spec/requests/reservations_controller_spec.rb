@@ -17,7 +17,7 @@ RSpec.describe "Reservations", type: :request do
   describe "POST /reservations/menu_select" do
     it "redirects to select_slots when valid" do
       post reservations_menu_select_path(permalink: team.permalink), params: {
-        reservations_select_menu_and_staff_form: {
+        forms_reservations_select_menu_and_staff: {
           single_menu_ids: [ service_menu.id ],
           selected_staff: staff.id
         }
@@ -28,7 +28,7 @@ RSpec.describe "Reservations", type: :request do
 
     it "redirects back with errors when invalid" do
       post reservations_menu_select_path(permalink: team.permalink), params: {
-        reservations_select_menu_and_staff_form: { single_menu_ids: [], selected_staff: nil }
+        forms_reservations_select_menu_and_staff: { single_menu_ids: [], selected_staff: nil }
       }
 
       expect(response).to redirect_to(reservations_path)
@@ -37,7 +37,7 @@ RSpec.describe "Reservations", type: :request do
 
     it "redirects back with errors when no-params key" do
       post reservations_menu_select_path(permalink: team.permalink), params: {
-        reservations_select_menu_and_staff_form: { invalid_key: nil }
+        forms_reservations_select_menu_and_staff: { invalid_key: nil }
       }
 
       expect(response).to redirect_to(reservations_path)
@@ -119,7 +119,7 @@ RSpec.describe "Reservations", type: :request do
 
       expect {
         post reservations_finalize_path(permalink: team.permalink), params: {
-          reservations_finalization_form: {
+          forms_reservations_finalization: {
             customer_name: "テストユーザー",
             customer_phone_number: "09012345678"
           }
@@ -139,7 +139,7 @@ RSpec.describe "Reservations", type: :request do
       allow(Services::Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
 
       post reservations_finalize_path(permalink: team.permalink), params: {
-        reservations_finalization_form: { customer_name: "", customer_phone_number: "" }
+        forms_reservations_finalization: { customer_name: "", customer_phone_number: "" }
       }
 
       expect(response).to have_http_status(:unprocessable_content)
@@ -157,7 +157,7 @@ RSpec.describe "Reservations", type: :request do
       allow_any_instance_of(Services::Result).to receive(:success?).and_return(false)
 
       post reservations_finalize_path(permalink: team.permalink), params: {
-        reservations_finalization_form: {
+        forms_reservations_finalization: {
           customer_name: "テストユーザー",
           customer_phone_number: "09012345678"
         }

@@ -50,28 +50,19 @@ class ReservationsController < ApplicationController
     @context = Presenters::Reservations::FinalizationContext.new(team: @team, session: reservation_session)
     @form = Forms::Reservations::Finalization.new(finalization_form_params)
 
-    # TODO: バリデーションはServiceにまとめたいかな
     if @form.invalid?
       flash.now[:alert] = "入力内容に誤りがあります。"
       return render :prior_confirmation, status: :unprocessable_content
     end
 
-    # TODO: 例外を発生させるべきバリデーションなので、一旦分離してる。
-    # チーム設定のバリデーションとか予約ポリシーとは違うので設計を考えてから移行する。
-    ReservationRules::TeamAssociation.new(
-      team: @context.team,
-      objects: [ @context.service_menus, @context.selected_staff ]
-    ).validate!
-
-    reservation = Services::Reservations::ReservationFactory.new(
+    reservation = ::Reservation.new(
       team: @team,
-      service_menus: @context.service_menus,
-      staff: @context.selected_staff,
+      customer: @customer,
       start_time: @context.start_time,
-      customer_name: @customer&.profile&.name || @form.customer_name,
-      customer_phone_number: @customer&.profile&.phone_number || @form.customer_phone_number,
-      customer: @customer
-    ).build
+      status: :finalized,
+      customer_name: @form.customer_name,
+      customer_phone_number: @form.customer_phone_number
+    )
 
     result = Services::Reservations::Create.new(
       reservation: reservation,
@@ -109,12 +100,12 @@ class ReservationsController < ApplicationController
   end
 
   def menu_select_params
-    params.require(:reservations_select_menu_and_staff_form)
+    params.require(:forms_reservations_select_menu_and_staff)
           .permit(:selected_staff, :multi_staff_menu_id, single_menu_ids: [])
   end
 
   def finalization_form_params
-    params.require(:reservations_finalization_form)
+    params.require(:forms_reservations_finalization)
           .permit(:customer_name, :customer_phone_number)
   end
 end

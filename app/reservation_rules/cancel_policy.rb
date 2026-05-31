@@ -4,9 +4,19 @@ module ReservationRules
       @reservation = reservation
     end
 
-    def valid?
+    def validate
+      result = Result.new
+      result.add_error(validate_cancellable)
+      result
+    end
+
+    private
+
+    def validate_cancellable
       border_line_time = Time.zone.now + @reservation.team.team_business_setting.cancellation_deadline_hours_before.hours
-      @reservation.start_time > border_line_time
+      return if @reservation.start_time > border_line_time
+
+      "キャンセル可能期限が過ぎているためキャンセルできません。"
     end
   end
 end

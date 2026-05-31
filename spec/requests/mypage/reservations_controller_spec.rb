@@ -45,7 +45,7 @@ RSpec.describe Mypage::ReservationsController, type: :request do
 
     context "when cancellation fails" do
       it "redirects to reservation page with alert" do
-        allow_any_instance_of(ReservationRules::CancelPolicy).to receive(:valid?).and_return(false)
+        allow_any_instance_of(ReservationRules::Result).to receive(:valid?).and_return(false)
 
         patch cancel_mypage_reservation_path(public_id: reservation.public_id)
 

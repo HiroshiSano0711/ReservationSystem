@@ -52,7 +52,9 @@ RSpec.describe Admin::ReservationsController, type: :request do
 
     describe "PATCH /admin/reservations/:public_id/cancel" do
       it "cancels the reservation and redirects to the reservation show page with a notice" do
-        allow_any_instance_of(ReservationRules::CancelPolicy).to receive(:valid?).and_return(true)
+        allow_any_instance_of(ReservationRules::Result).to receive(:valid?).and_return(true)
+        allow_any_instance_of(Services::Reservations::Cancel).to receive(:call).and_return(Services::Result.new(success: true))
+
         reservation = create(:reservation, team: team)
 
         patch cancel_admin_reservation_path(public_id: reservation.public_id)
@@ -62,9 +64,9 @@ RSpec.describe Admin::ReservationsController, type: :request do
       end
 
       it "cancels the reservation and redirects to the reservation show page with a notice" do
-        cancel_service = instance_double(Services::Reservations::Cancel)
-        allow(Services::Reservations::Cancel).to receive(:new).and_return(cancel_service)
-        allow(cancel_service).to receive(:call).and_return(Services::Result.new(success: false, message: "システムエラーが発生しました"))
+        allow_any_instance_of(ReservationRules::Result).to receive(:valid?).and_return(true)
+        allow_any_instance_of(Services::Reservations::Cancel).to receive(:call).and_return(Services::Result.new(success: false))
+
         reservation = create(:reservation, team: team)
 
         patch cancel_admin_reservation_path(public_id: reservation.public_id)

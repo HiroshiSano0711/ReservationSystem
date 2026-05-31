@@ -8,6 +8,11 @@ module Services
       end
 
       def call
+        ::ReservationRules::TeamAssociation.new(
+          team: @reservation.team,
+          objects: [ @service_menus, @staff ]
+        ).validate!
+
         result = ::ReservationRules::TeamBusinessSetting.new(@reservation).validate
         return Result.new(success: false, message: result.messages) if result.invalid?
 
@@ -15,17 +20,26 @@ module Services
         return Result.new(success: false, message: result.messages) if result.invalid?
 
         Reservation.transaction do
+          @reservation.build_snapshot(
+            service_menus: @service_menus,
+            staff: @staff
+          )
+          @reservation.public_id = issue_unique_id
           @reservation.save!
           create_reservation_details!
 
           Result.new(success: true, resource: @reservation)
         end
       rescue ActiveRecord::RecordInvalid, ActiveRecord::NotNullViolation => e
-        ::Rails.logger.error("システムエラー: NotNullViolation - #{e.message}")
-        Result.new(success: false, message: "予約の処理中にエラーが発生しました。お手数ですが、もう一度お試しください。")
+        ::Rails.logger.error("システムエラー: #{e.message}")
+        Result.new(success: false, message: "システムエラーが発生しました。お手数ですが管理者へお問い合わせください。")
       end
 
       private
+
+      def issue_unique_id
+        Nanoid.generate
+      end
 
       def create_reservation_details!
         @service_menus.each do |menu|
