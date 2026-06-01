@@ -5,19 +5,19 @@
   .reservation-summary
     dl
       dt メニュー
-      dd = @context.service_menu_list
+      dd = @draft.service_menus.map(&:name).join(", ")
 
       dt 担当者:
-      dd  = @context.staff_name
+      dd  = @draft.selected_staff.present? ? @draft.selected_staff.profile.nick_name : "おまかせ"
 
       dt 予約日時:
-      dd = @context.reservation_time_str
+      dd = "#{@draft.start_time.strftime('%Y年%m月%d日') } #{@draft.start_time.strftime("%H:%M")}~#{@draft.end_time.strftime("%H:%M")}"
 
       dt 所要時間
-      dd = "#{@context.total_duration}分"
+      dd = "#{@draft.service_menus.sum(&:duration)}分"
 
       dt 価格:
-      dd = number_to_currency(@context.total_price, locale: 'ja')
+      dd = number_to_currency(@draft.service_menus.sum(&:price), locale: 'ja')
 
   = form_with model: @form, url: reservations_finalize_path(@team.permalink), local: true do |f|
     - if current_customer.present? && current_customer.profile.present?

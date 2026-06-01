@@ -9,6 +9,7 @@ class ReservationsController < ApplicationController
     form = Forms::Reservations::SelectMenuAndStaff.new(menu_select_params.merge(team: @team))
     return redirect_to reservations_path, alert: form.errors.full_messages.join(",") if form.invalid?
 
+
     reservation_session.save_menu_select(form)
     redirect_to reservations_select_slots_path
   end
@@ -18,7 +19,7 @@ class ReservationsController < ApplicationController
     @selected_staff = reservation_session.selected_staff
 
     # TODO: できればこの処理も予約スロット生成の一部なのでまとめたい。
-    @week_range = Presenters::Reservations::WeekRangeCalculator.new(
+    @week_range = Presenters::WeekRangeCalculator.new(
       start_date_str: params[:start_date],
       max_reservation_month: @team.team_business_setting.max_reservation_month
     ).calc
@@ -41,32 +42,64 @@ class ReservationsController < ApplicationController
   end
 
   def prior_confirmation
-    @context = Presenters::Reservations::FinalizationContext.new(team: @team, session: reservation_session)
+    service_menus = @team.service_menus.find(reservation_session.selected_service_menu_ids)
+    selected_staff = Staff.find_by(id: reservation_session.selected_staff_id)
+    start_time = Time.zone.parse(reservation_session.selected_slot)
+    @draft = Reservations::Draft.new(
+      service_menus: service_menus,
+      selected_staff: selected_staff,
+      start_time: start_time
+    )
     @form = Forms::Reservations::Finalization.new
   end
 
   def finalize
-    flow = Reservations::Flow.new(
+    service_menus = @team.service_menus.find(reservation_session.selected_service_menu_ids)
+    selected_staff = Staff.find_by(id: reservation_session.selected_staff_id)
+    start_time = Time.zone.parse(reservation_session.selected_slot)
+    @draft = Reservations::Draft.new(
+      service_menus: service_menus,
+      selected_staff: selected_staff,
+      start_time: start_time
+    )
+    @form = Forms::Reservations::Finalization.new(finalization_form_params)
+
+    if @form.invalid?
+      flash.now[:alert] = "入力内容に誤りがあります"
+      return render :prior_confirmation, status: :unprocessable_content
+    end
+
+    @draft.add_profile(
+      customer_name: @form.customer_name,
+      customer_phone_number: @form.customer_phone_number
+    )
+    reservation = ::Reservation.new(
       team: @team,
-      form_params: finalization_form_params,
-      reservation_session: reservation_session,
-      customer: current_customer
+      start_time: @draft.start_time,
+      status: :finalized,
+      customer: current_customer,
+      customer_name: @draft.customer_name,
+      customer_phone_number: @draft.customer_phone_number
     )
 
-    result = flow.finalize
+    result = Services::Reservations::Create.new(
+      reservation: reservation,
+      service_menus: @draft.service_menus,
+      staff: @draft.selected_staff
+    ).call
 
     if result.success?
+      reservation_session.save_public_id(result.resource.public_id)
+
       NotificationSender.new(
         team: @team,
-        reservation: result.reservation,
+        reservation: result.resource,
         notification_type: :reservation_created
       ).call
 
-      redirect_to reservations_complete_path(@team.permalink, result.reservation.public_id)
+      redirect_to reservations_complete_path(@team.permalink, result.resource.public_id)
     else
       flash.now[:alert] = result.message
-      @form = flow.form
-      @context = flow.context
       render :prior_confirmation, status: :unprocessable_content
     end
   end
