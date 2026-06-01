@@ -46,41 +46,27 @@ class ReservationsController < ApplicationController
   end
 
   def finalize
-    # TODO: コントローラーが知りすぎなので、責務を分けたい
-    @context = Presenters::Reservations::FinalizationContext.new(team: @team, session: reservation_session)
-    @form = Forms::Reservations::Finalization.new(finalization_form_params)
-
-    if @form.invalid?
-      flash.now[:alert] = "入力内容に誤りがあります。"
-      return render :prior_confirmation, status: :unprocessable_content
-    end
-
-    reservation = ::Reservation.new(
+    flow = Reservations::Flow.new(
       team: @team,
-      customer: @customer,
-      start_time: @context.start_time,
-      status: :finalized,
-      customer_name: @form.customer_name,
-      customer_phone_number: @form.customer_phone_number
+      form_params: finalization_form_params,
+      reservation_session: reservation_session,
+      customer: current_customer
     )
 
-    result = Services::Reservations::Create.new(
-      reservation: reservation,
-      service_menus: @context.service_menus,
-      staff: @context.selected_staff,
-    ).call
+    result = flow.finalize
 
     if result.success?
-      reservation_session.save_public_id(result.resource.public_id)
       NotificationSender.new(
         team: @team,
-        reservation: result.resource,
+        reservation: result.reservation,
         notification_type: :reservation_created
       ).call
 
-      redirect_to reservations_complete_path(@team.permalink, result.resource.public_id)
+      redirect_to reservations_complete_path(@team.permalink, result.reservation.public_id)
     else
       flash.now[:alert] = result.message
+      @form = flow.form
+      @context = flow.context
       render :prior_confirmation, status: :unprocessable_content
     end
   end
