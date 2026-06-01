@@ -1,7 +1,6 @@
 module Services
   module Reservations
     class Cancel
-
       # @actorの値に何を渡すかはReservationStatusLogのenum :changed_byを確認
       def initialize(reservation:, actor:)
         @reservation = reservation
