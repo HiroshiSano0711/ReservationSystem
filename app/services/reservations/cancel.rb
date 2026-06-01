@@ -8,7 +8,7 @@ module Services
       end
 
       def call
-        result = ::ReservationRules::CancelPolicy.new(@reservation).validate
+        result = ::Reservations::Rules::CancelPolicy.new(@reservation).validate
         return Result.new(success: false, message: result.messages) if result.invalid?
 
         ActiveRecord::Base.transaction do

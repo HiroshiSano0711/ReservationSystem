@@ -2,7 +2,7 @@ module Services; end
 module Queries; end
 module Forms; end
 module Presenters; end
-module ReservationRules; end
+module Reservations; end
 
 Rails.autoloaders.main.push_dir(
   "#{Rails.root}/app/services",
@@ -25,6 +25,6 @@ Rails.autoloaders.main.push_dir(
 )
 
 Rails.autoloaders.main.push_dir(
-  "#{Rails.root}/app/reservation_rules",
-  namespace: ReservationRules
+  "#{Rails.root}/app/reservations",
+  namespace: Reservations
 )

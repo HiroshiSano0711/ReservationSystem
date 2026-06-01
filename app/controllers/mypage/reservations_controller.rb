@@ -9,7 +9,7 @@ module Mypage
 
     def show
       @reservation = current_customer.reservations.find_by(public_id: params[:public_id])
-      @cancellable = ReservationRules::CancelPolicy.new(@reservation).validate.valid?
+      @cancellable = Reservations::Rules::CancelPolicy.new(@reservation).validate.valid?
     end
 
     def cancel

@@ -8,15 +8,15 @@ module Services
       end
 
       def call
-        ::ReservationRules::TeamAssociation.new(
+        ::Reservations::Rules::TeamAssociation.new(
           team: @reservation.team,
           objects: [ @service_menus, @staff ]
         ).validate!
 
-        result = ::ReservationRules::TeamBusinessSetting.new(@reservation).validate
+        result = ::Reservations::Rules::TeamBusinessSetting.new(@reservation).validate
         return Result.new(success: false, message: result.messages) if result.invalid?
 
-        result = ::ReservationRules::Overlapping.new(@reservation).validate
+        result = ::Reservations::Rules::Overlapping.new(@reservation).validate
         return Result.new(success: false, message: result.messages) if result.invalid?
 
         Reservation.transaction do

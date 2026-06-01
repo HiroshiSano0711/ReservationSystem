@@ -52,7 +52,7 @@ RSpec.describe Admin::ReservationsController, type: :request do
 
     describe "PATCH /admin/reservations/:public_id/cancel" do
       it "cancels the reservation and redirects to the reservation show page with a notice" do
-        allow_any_instance_of(ReservationRules::Result).to receive(:valid?).and_return(true)
+        allow_any_instance_of(Reservations::Rules::Result).to receive(:valid?).and_return(true)
         allow_any_instance_of(Services::Reservations::Cancel).to receive(:call).and_return(Services::Result.new(success: true))
 
         reservation = create(:reservation, team: team)
@@ -64,7 +64,7 @@ RSpec.describe Admin::ReservationsController, type: :request do
       end
 
       it "cancels the reservation and redirects to the reservation show page with a notice" do
-        allow_any_instance_of(ReservationRules::Result).to receive(:valid?).and_return(true)
+        allow_any_instance_of(Reservations::Rules::Result).to receive(:valid?).and_return(true)
         allow_any_instance_of(Services::Reservations::Cancel).to receive(:call).and_return(Services::Result.new(success: false))
 
         reservation = create(:reservation, team: team)

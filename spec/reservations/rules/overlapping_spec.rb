@@ -2,7 +2,6 @@ require "rails_helper"
 
 # TODO: 引数、返り値のインターフェースまで統一して変えたので書き換えた方が早い
 # そのため、一旦pendingにしておく
-
-RSpec.describe ReservationRules::TeamBusinessSetting, type: :model do
+RSpec.describe Reservations::Rules::Overlapping, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
