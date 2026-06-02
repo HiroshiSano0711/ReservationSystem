@@ -11,7 +11,6 @@ module Services
       @duration = service_menus.sum(&:duration).minutes
       @required_staff_count = service_menus.map(&:required_staff_count).max
       @available_staff_list = selected_staff.present? ? [ selected_staff ] : preload_available_staff.to_a
-      @sparse_table = []
     end
 
     def generate_slots_for_date(date, reservations_by_date)
@@ -26,8 +25,8 @@ module Services
       close_time = opening_hours[:close]
 
       diff_array = build_available_counts_diff_array(open_time, close_time, reservations_for_day)
-      build_sparser_table(diff_array)
-      extract_slots(open_time, close_time, diff_array)
+      sparse_table = build_sparse_table(diff_array)
+      extract_slots(open_time, close_time, sparse_table)
     end
 
     private
@@ -57,41 +56,31 @@ module Services
       counts
     end
 
-    def build_sparser_table(diff_array)
+    def build_sparse_table(diff_array)
       total_slots = diff_array.size
       return if total_slots == 0
 
       max_power_exponent = Math.log2(total_slots).to_i
-      @sparse_table = Array.new(total_slots) { Array.new(max_power_exponent + 1) }
+      sparse_table = Array.new(total_slots) { Array.new(max_power_exponent + 1) }
 
-      total_slots.times { |i| @sparse_table[i][0] = diff_array[i] }
+      total_slots.times { |i| sparse_table[i][0] = diff_array[i] }
 
       (1..max_power_exponent).each do |exponent|
         current_length = 2**exponent
         half_length    = 2**(exponent - 1)
 
         (0..(total_slots - current_length)).each do |start_index|
-          @sparse_table[start_index][exponent] = [
-            @sparse_table[start_index][exponent - 1],
-            @sparse_table[start_index + half_length][exponent - 1]
+          sparse_table[start_index][exponent] = [
+            sparse_table[start_index][exponent - 1],
+            sparse_table[start_index + half_length][exponent - 1]
           ].min
         end
       end
+
+      sparse_table
     end
 
-    def range_min_query(left_index, right_index)
-      return 0 if left_index > right_index
-
-      len = right_index - left_index + 1
-      exponent = Math.log2(len).to_i
-
-      [
-        @sparse_table[left_index][exponent],
-        @sparse_table[right_index - (1 << exponent) + 1][exponent]
-      ].min
-    end
-
-    def extract_slots(open_time, close_time, available_counts)
+    def extract_slots(open_time, close_time, sparse_table)
       slots = []
       current = open_time
 
@@ -102,7 +91,7 @@ module Services
         left = index
         right_index = index + slot_length - 1
 
-        min_available_staff = range_min_query(left, right_index)
+        min_available_staff = range_min_query(left, right_index, sparse_table)
 
         if min_available_staff >= @required_staff_count
           slots << { start: current, end: current + @duration }
@@ -113,6 +102,18 @@ module Services
       end
 
       slots
+    end
+
+    def range_min_query(left_index, right_index, sparse_table)
+      return 0 if left_index > right_index
+
+      len = right_index - left_index + 1
+      exponent = Math.log2(len).to_i
+
+      [
+        sparse_table[left_index][exponent],
+        sparse_table[right_index - (1 << exponent) + 1][exponent]
+      ].min
     end
   end
 end
