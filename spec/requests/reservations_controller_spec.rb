@@ -52,7 +52,7 @@ RSpec.describe "Reservations", type: :request do
         selected_staff_id: staff.id
       )
       allow(Services::Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
-      allow(session_wrapper).to receive(:selected_staff)
+      allow(session_wrapper).to receive(:selected_staff_id)
 
       get reservations_select_slots_path(permalink: team.permalink)
 

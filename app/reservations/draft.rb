@@ -18,7 +18,7 @@ module Reservations
       raise ArgumentError if service_menus.blank?
 
       start_time = Reservations::TimeResolver.parse_with_user_time_zone!(time_str: params[:start_time_str])
-      staff = team.staffs.find_by!(id: params[:staff_id])
+      staff = team.staffs.find_by(id: params[:staff_id])
 
       new(
         team: team,

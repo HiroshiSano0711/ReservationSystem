@@ -18,15 +18,15 @@
 
     .p-form__fieldset
       = f.label :duration, class: 'p-label'
-      = f.number_field :duration
+      = f.number_field :duration, step: 5, min: 5
 
     .p-form__fieldset
       = f.label :price, class: 'p-label'
-      = f.number_field :price
+      = f.number_field :price, step: 10, min: 100
 
     .p-form__fieldset
       = f.label :required_staff_count, class: 'p-label'
-      = f.number_field :required_staff_count
+      = f.number_field :required_staff_count, step: 1, min: 1
 
     .p-form__fieldset
       = f.label :available_from, class: 'p-label'

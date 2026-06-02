@@ -32,5 +32,10 @@ module Reservations
       parsed_time = parse_with_user_time_zone!(time_zone: time_zone, time_str: time_str)
       parsed_time.utc.iso8601
     end
+
+    def self.parse_from_unix_time(time_zone: nil, unix_time:)
+      time_zone ||= "Tokyo"
+      ActiveSupport::TimeZone[time_zone].at(unix_time)
+    end
   end
 end

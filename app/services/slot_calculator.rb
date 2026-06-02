@@ -1,9 +1,8 @@
 module Services
   class SlotCalculator
-    # TODO:ユーザーの設定によって10分刻み、15分刻みかを変更できるようにしたい
-    INTERVAL = 10.minutes
+    INTERNAL_STEP = 5.minutes.freeze
 
-    # TODO: インスタンス変数をDraftからの読み出しに修正する。
+    # TODO: インスタンス変数をReservations::Draftからの読み出しに修正する。
     def initialize(team:, business_setting:, service_menus:, selected_staff:)
       @team = team
       @business_setting = business_setting
@@ -27,7 +26,7 @@ module Services
       close_time = opening_hours[:close]
 
       diff_array = build_available_counts_diff_array(open_time, close_time, reservations_for_day)
-      build_sparse_table(diff_array)
+      build_sparser_table(diff_array)
       extract_slots(open_time, close_time, diff_array)
     end
 
@@ -42,7 +41,7 @@ module Services
 
       reservations.each do |r|
         diff[r.start_time] -= r.required_staff_count || 1
-        diff[r.end_time]   += r.required_staff_count || 1
+        diff[r.end_time] += r.required_staff_count || 1
       end
 
       available = @available_staff_list.size
@@ -52,13 +51,13 @@ module Services
       while current < close_time
         available += diff[current]
         counts << available
-        current += INTERVAL
+        current += INTERNAL_STEP
       end
 
       counts
     end
 
-    def build_sparse_table(diff_array)
+    def build_sparser_table(diff_array)
       total_slots = diff_array.size
       return if total_slots == 0
 
@@ -96,7 +95,7 @@ module Services
       slots = []
       current = open_time
 
-      slot_length = (@duration / INTERVAL).to_i
+      slot_length = (@duration / INTERNAL_STEP).to_i
       index = 0
 
       while current + @duration <= close_time
@@ -109,7 +108,7 @@ module Services
           slots << { start: current, end: current + @duration }
         end
 
-        current += INTERVAL
+        current += INTERNAL_STEP
         index += 1
       end
 

@@ -9,11 +9,11 @@ module Services
 
       @slot_calculator = Services::SlotCalculator.new(
         team: @team,
-        business_setting: @business_setting,
+        business_setting: team.team_business_setting,
         service_menus: @service_menus,
         selected_staff: selected_staff
       )
-      @slot_summarizer = Services::SlotSummarizer.new(service_menus: service_menus)
+      @slot_summarizer = Services::SlotSummarizer.new
     end
 
     def call

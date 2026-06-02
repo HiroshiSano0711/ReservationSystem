@@ -43,7 +43,9 @@ module Forms
 
     def model_class_for(attr)
       case attr
-      when :max_reservation_month, :reservation_start_delay_days, :cancellation_deadline_hours_before
+      when :max_reservation_month,
+           :reservation_start_delay_days,
+           :cancellation_deadline_hours_before
         ::TeamBusinessSetting
       when :open, :close, :working_day
         ::WeeklyBusinessHour

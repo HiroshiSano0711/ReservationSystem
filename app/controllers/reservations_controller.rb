@@ -3,6 +3,7 @@ class ReservationsController < ApplicationController
   before_action :load_draft_params, only: %i[prior_confirmation finalize]
 
   def new
+    reservation_session.clear_selection
     @form = Forms::Reservations::SelectMenuAndStaff.new(team: @team)
   end
 
@@ -16,7 +17,7 @@ class ReservationsController < ApplicationController
 
   def select_slots
     @service_menus = @team.service_menus.available.find(reservation_session.selected_service_menu_ids)
-    @selected_staff = reservation_session.selected_staff
+    @selected_staff = @team.staffs.find_by(id: reservation_session.selected_staff_id)
 
     # TODO: できればこの処理も予約スロット生成の一部なのでまとめたい。
     @week_range = Presenters::WeekRangeCalculator.new(

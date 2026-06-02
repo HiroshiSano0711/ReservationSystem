@@ -43,13 +43,11 @@ RSpec.describe Services::SlotCalculator, type: :model do
         expect(slots.last[:end]).to eq(Time.zone.parse("#{date} 18:00"))
       end
 
-      # TODO: ユーザーの設定によって10分刻みか15分刻みか変更できる仕様になる。
-      # よって、営業設定によってインターバルが正常であることを確認するテストに書き換える
-      it '10分刻みの枠を返す' do
+      it '5分刻みの枠を返す' do
         slots = calculator.generate_slots_for_date(date, {})
 
         expect(slots[0][:start]).to eq(Time.zone.parse("#{date} 09:00"))
-        expect(slots[1][:start]).to eq(Time.zone.parse("#{date} 09:10"))
+        expect(slots[1][:start]).to eq(Time.zone.parse("#{date} 09:05"))
       end
     end
 

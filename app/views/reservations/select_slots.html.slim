@@ -22,7 +22,7 @@
                 = slot[:date].strftime('%m月%d日')
                 - slot[:slots].each_with_index do |slot, index|
                   .l-slot-radio
-                    = f.radio_button :selected_slot, slot[:start].to_s, id: "slot_#{date_index}_#{index}"
+                    = f.radio_button :selected_slot, slot[:start].iso8601, id: "slot_#{date_index}_#{index}"
                     = label_tag "slot_#{date_index}_#{index}", "#{slot[:start].strftime('%H:%M')} ~ #{slot[:end].strftime('%H:%M')}"
           - else
             p = @result.message
