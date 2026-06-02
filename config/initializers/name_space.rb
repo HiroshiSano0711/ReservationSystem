@@ -3,6 +3,7 @@ module Queries; end
 module Forms; end
 module Presenters; end
 module Reservations; end
+module UseCases; end
 
 Rails.autoloaders.main.push_dir(
   "#{Rails.root}/app/services",
@@ -27,4 +28,9 @@ Rails.autoloaders.main.push_dir(
 Rails.autoloaders.main.push_dir(
   "#{Rails.root}/app/reservations",
   namespace: Reservations
+)
+
+Rails.autoloaders.main.push_dir(
+  "#{Rails.root}/app/use_cases",
+  namespace: UseCases
 )

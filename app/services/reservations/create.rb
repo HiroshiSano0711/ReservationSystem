@@ -8,25 +8,12 @@ module Services
       end
 
       def call
-        ::Reservations::Rules::TeamAssociation.new(
-          team: @reservation.team,
-          objects: [ @service_menus, @staff ]
-        ).validate!
-
-        result = ::Reservations::Rules::TeamBusinessSetting.new(@reservation).validate
-        return Result.new(success: false, message: result.messages) if result.invalid?
-
-        result = ::Reservations::Rules::Overlapping.new(@reservation).validate
-        return Result.new(success: false, message: result.messages) if result.invalid?
+        errors = validate_rules
+        return Result.new(success: false, message: errors.join(", ")) if errors.any?
 
         Reservation.transaction do
-          @reservation.build_snapshot(
-            service_menus: @service_menus,
-            staff: @staff
-          )
-          @reservation.public_id = issue_unique_id
-          @reservation.save!
-          create_reservation_details!
+          insert_reservation_with_public_id
+          insert_reservation_details_and_assign_staff!
 
           Result.new(success: true, resource: @reservation)
         end
@@ -37,11 +24,16 @@ module Services
 
       private
 
-      def issue_unique_id
-        Nanoid.generate
+      def validate_rules
+        ::Reservations::CreateRule.new(reservation: @reservation).call
       end
 
-      def create_reservation_details!
+      def insert_reservation_with_public_id
+        @reservation.public_id = Nanoid.generate
+        @reservation.save!
+      end
+
+      def insert_reservation_details_and_assign_staff!
         @service_menus.each do |menu|
           reservation_detail = ::ReservationDetail.create!(
             reservation: @reservation,

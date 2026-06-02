@@ -54,7 +54,7 @@ RSpec.describe Services::Reservations::Cancel, type: :model do
         before do
           allow_any_instance_of(Reservations::Rules::CancelPolicy)
             .to receive(:validate)
-            .and_return(double(invalid?: true, messages: ["キャンセル不可"]))
+            .and_return(double(invalid?: true, errors: [ "キャンセル不可" ]))
         end
 
         it "FailureのResultを返す" do

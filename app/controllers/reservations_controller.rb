@@ -9,7 +9,6 @@ class ReservationsController < ApplicationController
     form = Forms::Reservations::SelectMenuAndStaff.new(menu_select_params.merge(team: @team))
     return redirect_to reservations_path, alert: form.errors.full_messages.join(",") if form.invalid?
 
-
     reservation_session.save_menu_select(form)
     redirect_to reservations_select_slots_path
   end
@@ -37,31 +36,29 @@ class ReservationsController < ApplicationController
   def save_slot_selection
     return redirect_to reservations_select_slots_path, alert: "空き時間を1つ選択してください。" if params[:selected_slot].blank?
 
-    reservation_session.save_slot(params[:selected_slot])
+    reservation_session.save_slot(
+      Reservations::TimeResolver.parse_str_utc_format(time_str: params[:selected_slot])
+    )
     redirect_to reservations_prior_confirmation_path
   end
 
   def prior_confirmation
-    service_menus = @team.service_menus.find(reservation_session.selected_service_menu_ids)
-    selected_staff = Staff.find_by(id: reservation_session.selected_staff_id)
-    start_time = Time.zone.parse(reservation_session.selected_slot)
-    @draft = Reservations::Draft.new(
-      service_menus: service_menus,
-      selected_staff: selected_staff,
-      start_time: start_time
-    )
+    draft_params = {
+      service_menu_ids: reservation_session.selected_service_menu_ids,
+      staff_id: reservation_session.selected_staff_id,
+      start_time_str: reservation_session.selected_slot
+    }
+    @draft = Reservations::Draft.build_from(team: @team, params: draft_params)
     @form = Forms::Reservations::Finalization.new
   end
 
   def finalize
-    service_menus = @team.service_menus.find(reservation_session.selected_service_menu_ids)
-    selected_staff = Staff.find_by(id: reservation_session.selected_staff_id)
-    start_time = Time.zone.parse(reservation_session.selected_slot)
-    @draft = Reservations::Draft.new(
-      service_menus: service_menus,
-      selected_staff: selected_staff,
-      start_time: start_time
-    )
+    draft_params = {
+      service_menu_ids: reservation_session.selected_service_menu_ids,
+      staff_id: reservation_session.selected_staff_id,
+      start_time_str: reservation_session.selected_slot
+    }
+    @draft = Reservations::Draft.build_from(team: @team, params: draft_params)
     @form = Forms::Reservations::Finalization.new(finalization_form_params)
 
     if @form.invalid?
@@ -69,34 +66,15 @@ class ReservationsController < ApplicationController
       return render :prior_confirmation, status: :unprocessable_content
     end
 
-    @draft.add_profile(
+    result = UseCases::Customer::Reservations::Create.new(
+      draft: @draft,
+      customer: current_customer,
       customer_name: @form.customer_name,
       customer_phone_number: @form.customer_phone_number
-    )
-    reservation = ::Reservation.new(
-      team: @team,
-      start_time: @draft.start_time,
-      status: :finalized,
-      customer: current_customer,
-      customer_name: @draft.customer_name,
-      customer_phone_number: @draft.customer_phone_number
-    )
-
-    result = Services::Reservations::Create.new(
-      reservation: reservation,
-      service_menus: @draft.service_menus,
-      staff: @draft.selected_staff
     ).call
 
     if result.success?
       reservation_session.save_public_id(result.resource.public_id)
-
-      NotificationSender.new(
-        team: @team,
-        reservation: result.resource,
-        notification_type: :reservation_created
-      ).call
-
       redirect_to reservations_complete_path(@team.permalink, result.resource.public_id)
     else
       flash.now[:alert] = result.message

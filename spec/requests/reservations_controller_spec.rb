@@ -71,7 +71,7 @@ RSpec.describe "Reservations", type: :request do
       allow(session_wrapper).to receive(:save_slot)
 
       post reservations_save_slot_selection_path(permalink: team.permalink), params: {
-        selected_slot: "2025-04-01 10:00"
+        selected_slot: "2025-04-01T10:00:00Z"
       }
 
       expect(response).to redirect_to(reservations_prior_confirmation_path)
@@ -95,7 +95,7 @@ RSpec.describe "Reservations", type: :request do
       session_wrapper = instance_double(Services::Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
-        selected_slot: "2025-04-01 10:00"
+        selected_slot: "2025-04-01T10:00:00Z"
       )
       allow(Services::Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
 
@@ -110,7 +110,7 @@ RSpec.describe "Reservations", type: :request do
       session_wrapper = instance_double(Services::Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
-        selected_slot: "2025-04-01 10:00",
+        selected_slot: "2025-04-01T10:00:00Z",
         clear_selection: nil
       )
 
@@ -134,7 +134,7 @@ RSpec.describe "Reservations", type: :request do
       session_wrapper = instance_double(Services::Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
-        selected_slot: "2025-05-01 10:00"
+        selected_slot: "2025-05-01T10:00:00Z"
       )
       allow(Services::Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
 
@@ -150,7 +150,7 @@ RSpec.describe "Reservations", type: :request do
       session_wrapper = instance_double(Services::Reservations::SessionWrapper,
         selected_service_menu_ids: [ service_menu.id ],
         selected_staff_id: staff.id,
-        selected_slot: "2025-05-01 10:00"
+        selected_slot: "2025-05-01T10:00:00Z"
       )
       allow(Services::Reservations::SessionWrapper).to receive(:new).and_return(session_wrapper)
       allow(session_wrapper).to receive(:save_public_id)

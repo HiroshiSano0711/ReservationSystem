@@ -16,7 +16,7 @@ RSpec.describe Services::Reservations::Create, type: :model do
         build(:reservation, team: team, public_id: nil)
       end
 
-      let(:service_menus) { [service_menu] }
+      let(:service_menus) { [ service_menu ] }
 
       subject(:result) do
         described_class.new(
@@ -77,7 +77,7 @@ RSpec.describe Services::Reservations::Create, type: :model do
         build(:reservation, team: team, public_id: nil)
       end
 
-      let(:service_menus) { [service_menu] }
+      let(:service_menus) { [ service_menu ] }
 
       subject(:result) do
         described_class.new(
@@ -91,10 +91,10 @@ RSpec.describe Services::Reservations::Create, type: :model do
         before do
           allow_any_instance_of(Reservations::Rules::TeamBusinessSetting)
             .to receive(:validate)
-            .and_return(double(invalid?: true, messages: ["ルールエラー"]))
+            .and_return(double(invalid?: true, errors: [ "ルールエラー" ]))
           allow_any_instance_of(Reservations::Rules::Overlapping)
             .to receive(:validate)
-            .and_return(double(invalid?: true, messages: ["ルールエラー"]))
+            .and_return(double(invalid?: true, errors: [ "ルールエラー" ]))
         end
 
         it "FailureのResultを返す" do

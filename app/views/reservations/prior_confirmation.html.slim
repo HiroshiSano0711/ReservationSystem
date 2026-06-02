@@ -8,7 +8,7 @@
       dd = @draft.service_menus.map(&:name).join(", ")
 
       dt 担当者:
-      dd  = @draft.selected_staff.present? ? @draft.selected_staff.profile.nick_name : "おまかせ"
+      dd  = @draft.staff.present? ? @draft.staff.profile.nick_name : "おまかせ"
 
       dt 予約日時:
       dd = "#{@draft.start_time.strftime('%Y年%m月%d日') } #{@draft.start_time.strftime("%H:%M")}~#{@draft.end_time.strftime("%H:%M")}"

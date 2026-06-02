@@ -18,10 +18,6 @@ module Reservations
       def add_error(error)
         @errors << error if error.present?
       end
-
-      def messages
-        @errors.join(", ")
-      end
     end
   end
 end

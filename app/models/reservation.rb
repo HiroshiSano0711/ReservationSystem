@@ -24,16 +24,6 @@ class Reservation < ApplicationRecord
   validates :total_price, :total_duration, :required_staff_count, numericality: { greater_than: 0 }
   validate :start_time_must_be_before_end_time
 
-  def build_snapshot(service_menus:, staff:)
-    self.total_price = service_menus.sum(&:price)
-    self.total_duration = service_menus.sum(&:duration)
-    self.required_staff_count = service_menus.map(&:required_staff_count).max
-    self.menu_summary = service_menus.map(&:name).join(",")
-    self.assigned_staff_name = staff&.profile&.nick_name || "おまかせ"
-    self.end_time = start_time + total_duration.minutes
-    self
-  end
-
   private
 
   def start_time_must_be_before_end_time
