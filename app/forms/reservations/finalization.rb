@@ -4,6 +4,8 @@ module Forms
       include ActiveModel::Model
       include ActiveModel::Attributes
 
+      PERMITTED_PARAMS = %i[customer_name customer_phone_number].freeze
+
       attribute :customer_name, :string
       attribute :customer_phone_number, :string
 

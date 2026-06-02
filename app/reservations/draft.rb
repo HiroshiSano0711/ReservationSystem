@@ -16,11 +16,9 @@ module Reservations
 
       service_menus = team.service_menus.find(params[:service_menu_ids])
       raise ArgumentError if service_menus.blank?
-      raise ArgumentError if params[:start_time_str].blank?
-      raise ArgumentError unless params[:start_time_str].match(Reservations::TimeResolver::VALID_TIME_FORMAT)
 
-      start_time = Reservations::TimeResolver.parse_with_user_time_zone(time_str: params[:start_time_str])
-      staff = team.staffs.find_by(id: params[:staff_id])
+      start_time = Reservations::TimeResolver.parse_with_user_time_zone!(time_str: params[:start_time_str])
+      staff = team.staffs.find_by!(id: params[:staff_id])
 
       new(
         team: team,

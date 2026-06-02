@@ -1,5 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :set_team
+  before_action :load_draft_params, only: %i[prior_confirmation finalize]
 
   def new
     @form = Forms::Reservations::SelectMenuAndStaff.new(team: @team)
@@ -37,28 +38,18 @@ class ReservationsController < ApplicationController
     return redirect_to reservations_select_slots_path, alert: "空き時間を1つ選択してください。" if params[:selected_slot].blank?
 
     reservation_session.save_slot(
-      Reservations::TimeResolver.parse_str_utc_format(time_str: params[:selected_slot])
+      Reservations::TimeResolver.parse_str_utc_format!(time_str: params[:selected_slot])
     )
     redirect_to reservations_prior_confirmation_path
   end
 
   def prior_confirmation
-    draft_params = {
-      service_menu_ids: reservation_session.selected_service_menu_ids,
-      staff_id: reservation_session.selected_staff_id,
-      start_time_str: reservation_session.selected_slot
-    }
-    @draft = Reservations::Draft.build_from(team: @team, params: draft_params)
+    @draft = Reservations::Draft.build_from(team: @team, params: @draft_params)
     @form = Forms::Reservations::Finalization.new
   end
 
   def finalize
-    draft_params = {
-      service_menu_ids: reservation_session.selected_service_menu_ids,
-      staff_id: reservation_session.selected_staff_id,
-      start_time_str: reservation_session.selected_slot
-    }
-    @draft = Reservations::Draft.build_from(team: @team, params: draft_params)
+    @draft = Reservations::Draft.build_from(team: @team, params: @draft_params)
     @form = Forms::Reservations::Finalization.new(finalization_form_params)
 
     if @form.invalid?
@@ -96,13 +87,21 @@ class ReservationsController < ApplicationController
     @reservation_session ||= Services::Reservations::SessionWrapper.new(session)
   end
 
+  def load_draft_params
+    @draft_params = {
+      service_menu_ids: reservation_session.selected_service_menu_ids,
+      staff_id: reservation_session.selected_staff_id,
+      start_time_str: reservation_session.selected_slot
+    }
+  end
+
   def menu_select_params
-    params.require(:forms_reservations_select_menu_and_staff)
-          .permit(:selected_staff, :multi_staff_menu_id, single_menu_ids: [])
+    params.require(Forms::Reservations::SelectMenuAndStaff.model_name.param_key.to_sym)
+          .permit(Forms::Reservations::SelectMenuAndStaff::PERMITTED_PARAMS)
   end
 
   def finalization_form_params
-    params.require(:forms_reservations_finalization)
-          .permit(:customer_name, :customer_phone_number)
+    params.require(Forms::Reservations::Finalization.model_name.param_key.to_sym)
+          .permit(Forms::Reservations::Finalization::PERMITTED_PARAMS)
   end
 end

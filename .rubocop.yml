@@ -1,11 +1,18 @@
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
-Style/StringLiterals:
+Metrics/ParameterLists:
   Enabled: true
-  EnforcedStyle: double_quotes
+  Max: 5
+  CountKeywordArgs: true
 
 Rails/TimeZone:
   Enabled: true
+  EnforcedStyle: strict
 
 Rails/Date:
   Enabled: true
+  EnforcedStyle: strict
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes

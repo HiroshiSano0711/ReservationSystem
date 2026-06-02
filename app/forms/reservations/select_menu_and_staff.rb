@@ -3,8 +3,13 @@ module Forms
     class SelectMenuAndStaff
       include ActiveModel::Model
 
-      attr_accessor :team, :staff_profiles, :single_menu_ids, :multi_staff_menu_id, :selected_staff
+      PERMITTED_PARAMS = [
+        :selected_staff,
+        :multi_staff_menu_id,
+        { single_menu_ids: [] }
+      ].freeze
 
+      attr_accessor :team, :staff_profiles, :single_menu_ids, :multi_staff_menu_id, :selected_staff
       validate :validate_service_menus
 
       def initialize(attributes = {})
