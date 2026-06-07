@@ -25,7 +25,6 @@ class ReservationsController < ApplicationController
       max_reservation_month: @team.team_business_setting.max_reservation_month
     ).calc
 
-    # TODO: アルゴリズムごと書き換えるよ。O(n logn)ぐらいが理想。
     @result = Services::SlotsGenerator.new(
       team: @team,
       service_menus: @service_menus,
